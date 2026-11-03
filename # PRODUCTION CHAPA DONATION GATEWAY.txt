@@ -1,0 +1,2504 @@
+# PRODUCTION CHAPA DONATION GATEWAY + FULL CHURCH WEBSITE ARCHITECTURE AUDIT, REMEDIATION, AND IMPLEMENTATION
+
+You are acting as a senior staff/principal engineer specializing in production payment systems, Next.js, Node.js, PostgreSQL, application security, financial data integrity, and cPanel deployments.
+
+You are working on an existing church website.
+
+The website already contains a donation/support feature that is intended to allow people to financially support the church through Chapa.
+
+Current technology stack:
+
+* Next.js
+* Node.js
+* PostgreSQL
+* Existing frontend/backend/database architecture
+* Production deployment target: cPanel
+* Chapa credentials will be supplied through environment variables
+* The system must support local Ethiopian donors and international donors through the payment methods/currencies actually available to the Chapa merchant account.
+* Do not assume undocumented Chapa features.
+* Do not invent API behavior.
+* Do not replace working architecture merely because you personally prefer another architecture.
+
+Your job is NOT to immediately start coding.
+
+Your first responsibility is to audit the existing project deeply, identify architectural defects and payment-system risks, and then implement the required remediation and complete Chapa integration without breaking existing functionality.
+
+Use the CURRENT official Chapa developer documentation as the authoritative payment-provider reference. Read the documentation before implementation and verify every endpoint, request field, response field, webhook behavior, currency, payment method, error behavior, refund behavior, and security requirement against the current documentation.
+
+Official documentation areas that must be reviewed include:
+
+* Documentation home and payment-method catalogue
+* Quick Start
+* Test Mode vs Live Mode
+* Accept Payment
+* Transaction initialization
+* Redirect/hosted checkout
+* Callback behavior
+* Verify Payment
+* Webhooks
+* Currency Supported
+* Payment Receipt
+* Error Codes
+* Cancel Transaction
+* Inline JS / hosted alternatives
+* SDK/plugin documentation where relevant
+* Security Guide
+* Radar/fraud documentation
+* Testing Cards
+* Testing Mobile
+* Refund
+* Relevant transaction documentation
+
+Do not rely on old blog posts, random GitHub snippets, Stack Overflow answers, or outdated tutorials when the official documentation provides the current behavior.
+
+======================================================================
+PHASE 0 — NON-DESTRUCTIVE DISCOVERY
+===================================
+
+Before changing any code, inspect the entire repository.
+
+Do not modify anything during this phase.
+
+Determine:
+
+1. Next.js version.
+2. React version.
+3. Node.js version/engine requirement.
+4. npm/yarn/pnpm/bun usage.
+5. App Router or Pages Router.
+6. Existing API architecture.
+7. Existing authentication system.
+8. Existing authorization/RBAC system.
+9. Existing database ORM/query builder.
+10. Existing PostgreSQL schema.
+11. Existing migration system.
+12. Existing validation library.
+13. Existing logging system.
+14. Existing email/notification system.
+15. Existing admin dashboard.
+16. Existing payment/donation implementation.
+17. Existing environment variable handling.
+18. Existing deployment configuration.
+19. Existing cPanel/Passenger assumptions.
+20. Existing cron/background-job assumptions.
+21. Existing error handling.
+22. Existing security middleware.
+23. Existing rate limiting.
+24. Existing CSRF/CORS protections.
+25. Existing CSP/security headers.
+26. Existing observability.
+27. Existing test suite.
+28. Existing CI/CD configuration.
+29. Existing database backup/recovery approach.
+
+Search the entire codebase for all existing references to:
+
+* donation
+* donate
+* payment
+* chapa
+* transaction
+* tx_ref
+* checkout
+* webhook
+* callback
+* return_url
+* verify
+* refund
+* receipt
+* currency
+* ETB
+* USD
+* payment status
+* payment method
+* donor
+* supporter
+* contribution
+* finance
+* invoice
+* transaction reference
+* payment reference
+* secret key
+* public key
+* API credentials
+
+Trace every path from:
+
+USER → FRONTEND → API → DATABASE → CHAPA → CALLBACK → WEBHOOK → DATABASE → RESULT PAGE → ADMIN
+
+Do not stop at the first obvious implementation.
+
+Find dead code, duplicate implementations, outdated payment logic, hardcoded data, unsafe assumptions, missing constraints, and code paths that bypass the proper backend architecture.
+
+======================================================================
+PHASE 1 — CREATE AN ARCHITECTURE AUDIT REPORT BEFORE PATCHING
+=============================================================
+
+Produce an internal audit covering:
+
+A. FRONTEND ARCHITECTURE
+B. BACKEND/API ARCHITECTURE
+C. DATABASE ARCHITECTURE
+D. PAYMENT ARCHITECTURE
+E. AUTHENTICATION/AUTHORIZATION
+F. SECURITY
+G. ERROR HANDLING
+H. OBSERVABILITY
+I. TESTING
+J. DEPLOYMENT
+K. cPANEL COMPATIBILITY
+L. DATA INTEGRITY
+M. PRIVACY
+N. ADMINISTRATION
+O. RECOVERY/RECONCILIATION
+
+For every problem identify:
+
+* exact file
+* exact function/component/route
+* exact problem
+* why it is dangerous
+* severity
+* business impact
+* recommended fix
+* migration impact
+* regression risk
+* verification method
+
+Classify issues as:
+
+CRITICAL
+HIGH
+MEDIUM
+LOW
+
+Payment correctness, duplicate charging, false-positive payment success, secret exposure, webhook spoofing, amount manipulation, currency manipulation, broken transaction state, and database integrity must be considered CRITICAL/HIGH where applicable.
+
+Do not hide existing defects merely because they are unrelated to Chapa.
+
+Fix the architecture that would make the payment implementation unsafe.
+
+======================================================================
+PHASE 2 — ESTABLISH THE PAYMENT TRUST MODEL
+===========================================
+
+Implement this trust model:
+
+THE FRONTEND IS UNTRUSTED.
+
+The frontend may request a donation.
+
+The frontend may NOT decide that a donation is paid.
+
+The frontend may NOT decide:
+
+* final payment status
+* paid amount
+* paid currency
+* Chapa reference
+* transaction success
+* refund success
+* webhook authenticity
+
+The backend is authoritative for application state.
+
+Chapa is authoritative for provider transaction state.
+
+The database is authoritative for the church application's persisted financial record.
+
+Never trust:
+
+* frontend amount
+* frontend success flags
+* frontend redirect query parameters
+* frontend payment method
+* frontend Chapa reference
+* frontend currency
+* client-side JavaScript callbacks as proof of payment
+
+======================================================================
+PHASE 3 — SELECT THE CORRECT CHAPA INTEGRATION MODEL
+====================================================
+
+Use Chapa's standard/hosted transaction initialization flow unless the existing architecture contains a legitimate reason to use another officially supported method.
+
+Preferred model:
+
+1. User fills donation form.
+2. Backend validates the request.
+3. Backend creates a local donation record.
+4. Backend creates a unique payment attempt and unique Chapa transaction reference.
+5. Backend calls Chapa's transaction initialization API using the server-side secret key.
+6. Backend persists the provider response needed for the payment flow.
+7. Backend returns ONLY the safe checkout information required by the browser.
+8. Browser redirects to the Chapa checkout page.
+9. Chapa processes the payment.
+10. Chapa redirects/callbacks to the application.
+11. Backend verifies the transaction against Chapa.
+12. Chapa webhook is independently verified and processed.
+13. Database state is updated atomically.
+14. Frontend retrieves authoritative status from the backend.
+15. Donor sees the final state.
+
+Do NOT collect raw card credentials in the church website unless there is a compelling, documented requirement and the official Chapa documentation confirms the exact flow.
+
+Do NOT put the Chapa secret key in:
+
+* React components
+* browser JavaScript
+* NEXT_PUBLIC_* variables
+* HTML
+* client bundles
+* source maps
+* logs
+* error responses
+
+Only server-side code may access the secret key.
+
+======================================================================
+PHASE 4 — ENVIRONMENT CONFIGURATION
+===================================
+
+Inspect the existing `.env`, `.env.example`, `.env.local`, production environment configuration, cPanel environment configuration, and deployment scripts.
+
+Never print actual credentials.
+
+Do not commit credentials.
+
+Create a clean environment configuration contract such as:
+
+CHAPA_SECRET_KEY=
+CHAPA_PUBLIC_KEY=
+CHAPA_WEBHOOK_SECRET=
+CHAPA_MODE=
+CHAPA_API_BASE_URL=
+NEXT_PUBLIC_SITE_URL=
+CHAPA_CALLBACK_URL=
+CHAPA_RETURN_URL=
+
+Only create variables that are actually required by the implementation.
+
+Do not blindly copy variable names from an old integration.
+
+Validate required server-side configuration at startup.
+
+Fail safely if production payment credentials are absent or invalid.
+
+Never silently fall back from live to test credentials.
+
+Never silently fall back from test to live credentials.
+
+Detect test/live credentials and ensure configuration consistency.
+
+======================================================================
+PHASE 5 — DONATION DOMAIN MODEL
+===============================
+
+Design the donation system as a real financial domain rather than treating it as a generic contact form.
+
+Do not store payment state in a single loose text field without a proper state model.
+
+At minimum, assess whether the schema needs the following entities.
+
+1. Donation
+
+Suggested conceptual fields:
+
+* id
+* publicId
+* donorName
+* donorEmail
+* donorPhone
+* anonymous
+* message
+* fund/purpose
+* amount
+* currency
+* status
+* createdAt
+* updatedAt
+* paidAt
+* completedAt
+* cancelledAt
+* refundedAt
+
+2. PaymentAttempt
+
+Suggested conceptual fields:
+
+* id
+* donationId
+* provider
+* txRef
+* Chapa reference
+* checkout URL
+* payment method
+* requested amount
+* requested currency
+* provider amount
+* provider currency
+* provider status
+* provider charge
+* failure reason
+* provider mode
+* createdAt
+* updatedAt
+* verifiedAt
+* lastVerificationAttemptAt
+
+3. PaymentStatusHistory
+
+Record every meaningful state transition:
+
+* payment attempt ID
+* old status
+* new status
+* source
+* timestamp
+* relevant provider reference
+* reason/error where appropriate
+
+Sources should distinguish:
+
+* INITIALIZATION
+* CALLBACK
+* WEBHOOK
+* VERIFY
+* RECONCILIATION
+* REFUND
+* ADMIN
+
+4. WebhookEvent
+
+Store enough information to audit incoming webhook events:
+
+* provider
+* event type
+* tx_ref
+* provider reference
+* signature validation result
+* normalized status
+* receivedAt
+* processedAt
+* processing status
+* error
+* deduplication key
+* payload hash
+* relevant normalized payload
+
+Minimize unnecessary storage of sensitive donor information.
+
+5. Refund
+
+Where refunds are implemented:
+
+* id
+* paymentAttemptId
+* provider refund reference
+* requested amount
+* currency
+* reason
+* status
+* createdAt
+* updatedAt
+* verifiedAt
+
+Do not redesign existing tables blindly. Reuse existing structures if they are already sound.
+
+======================================================================
+PHASE 6 — FINANCIAL DATA TYPES
+==============================
+
+Never use JavaScript floating point arithmetic for financial state.
+
+Do not store financial amounts as arbitrary floating-point values.
+
+Use PostgreSQL NUMERIC/DECIMAL or an equivalent exact-money representation.
+
+Define:
+
+* precision
+* scale
+* minimum donation
+* maximum donation
+* allowed currencies
+
+Amounts must be normalized and validated consistently between frontend, backend, database, and provider.
+
+Never calculate:
+
+amount = parseFloat(userInput)
+
+and then trust the resulting binary floating point value for financial persistence.
+
+Do not add ETB and USD together.
+
+All reporting must remain currency-separated unless an explicit, trusted exchange-rate mechanism is implemented.
+
+Do not invent exchange rates.
+
+======================================================================
+PHASE 7 — DONATION FLOW
+=======================
+
+Implement a clean public donation flow.
+
+Suggested endpoint architecture:
+
+POST /api/donations
+
+Purpose:
+Create a donation and initialize the Chapa payment.
+
+GET /api/donations/:publicId/status
+
+Purpose:
+Return the authoritative donation/payment status.
+
+GET /api/payments/chapa/callback
+
+Purpose:
+Receive Chapa's redirect/callback and perform authoritative server-side verification.
+
+POST /api/webhooks/chapa
+
+Purpose:
+Receive and validate Chapa webhook events.
+
+Admin routes should be implemented according to the site's existing admin/API conventions rather than inventing a second architecture.
+
+Do not expose raw database records directly to the browser.
+
+======================================================================
+PHASE 8 — DONATION CREATION
+===========================
+
+When a donor submits:
+
+1. Validate all data server-side.
+2. Normalize name.
+3. Normalize email.
+4. Normalize phone number.
+5. Validate anonymous mode.
+6. Validate currency.
+7. Validate amount.
+8. Validate optional fund/purpose.
+9. Validate message length.
+10. Apply application-level donation limits.
+11. Apply abuse/rate limits.
+12. Generate a server-side public donation identifier.
+13. Generate a unique server-side payment attempt.
+14. Generate a unique tx_ref.
+
+The tx_ref must NEVER originate directly from the client.
+
+The tx_ref must be unique enough to avoid collisions.
+
+Do not reuse an already-used Chapa tx_ref.
+
+Chapa documents that a transaction reference must be unique, so design the database around this fact.
+
+Create the local records BEFORE the external Chapa initialization request, but DO NOT keep a PostgreSQL transaction open while waiting for Chapa's network response.
+
+Correct architecture:
+
+DB transaction:
+create donation + payment attempt
+COMMIT
+
+Then:
+
+call Chapa
+
+Then:
+
+update payment attempt with initialization result
+
+This prevents long-running external network calls inside database transactions.
+
+======================================================================
+PHASE 9 — CHAPA INITIALIZATION
+==============================
+
+Call:
+
+POST /v1/transaction/initialize
+
+using the official current Chapa documentation.
+
+Use the server-side secret key.
+
+Build the payload from trusted server-side values.
+
+At minimum, consider:
+
+* amount
+* currency
+* email
+* first_name
+* last_name
+* phone_number where appropriate
+* tx_ref
+* callback_url
+* return_url
+* customization
+* metadata
+
+Do not blindly send every field supported by old examples.
+
+Use the fields officially documented and actually required by this website.
+
+Set the payment reason to clearly identify the transaction as a church donation/support payment.
+
+Include useful metadata that allows internal reconciliation without exposing secrets.
+
+Do not put:
+
+* passwords
+* API secrets
+* authentication tokens
+* unnecessary sensitive information
+
+into Chapa metadata.
+
+Persist:
+
+* tx_ref
+* Chapa reference where available
+* checkout_url
+* initialization timestamp
+* provider mode
+* provider status
+* sanitized provider response
+
+Return only the data required by the browser.
+
+======================================================================
+PHASE 10 — INTERNATIONAL + LOCAL PAYMENTS
+=========================================
+
+Do not hardcode the assumption that “international payment” means every country or every card network.
+
+Implement the payment experience based on the payment methods and currencies actually available to the Chapa merchant account.
+
+The current Chapa documentation lists local Ethiopian payment methods and international payment options such as credit/debit cards and PayPal, while standard payment initialization documents ETB and USD.
+
+Therefore:
+
+ETB:
+support the Chapa-supported Ethiopian payment methods exposed through checkout.
+
+USD:
+support USD where the merchant account and Chapa checkout actually permit it.
+
+International:
+allow the donor to use the international methods made available by Chapa.
+
+Do not build a fake country/currency conversion engine.
+
+Do not calculate USD from ETB unless there is an explicit, authoritative exchange-rate source and an actual business requirement.
+
+Do not add “EUR”, “GBP”, “CAD”, etc. merely because international donors exist.
+
+The application must query/validate against the provider's documented current support rather than pretending every currency is supported.
+
+======================================================================
+PHASE 11 — CALLBACK SECURITY
+============================
+
+Chapa may redirect the donor back to the application.
+
+Treat the callback parameters as UNTRUSTED INPUT.
+
+Never do:
+
+if status === "success" => mark donation paid
+
+Instead:
+
+1. Read tx_ref.
+2. Locate the local payment attempt by tx_ref.
+3. Ignore any client-provided amount/status as authoritative.
+4. Call Chapa's transaction verification endpoint using the secret key.
+5. Validate the verification response.
+6. Compare provider data against the local payment attempt:
+
+   * tx_ref
+   * amount
+   * currency
+   * provider status
+   * Chapa reference where applicable
+7. Only then transition the payment state.
+
+If Chapa verification cannot be completed:
+
+DO NOT mark payment successful.
+
+Set the transaction into an appropriate pending/verification-required state.
+
+Show the donor a safe message such as:
+
+“Your payment is being verified. You can check the payment status shortly.”
+
+Do not display internal Chapa errors or secrets.
+
+======================================================================
+PHASE 12 — WEBHOOK IMPLEMENTATION
+=================================
+
+Implement the Chapa webhook exactly according to the current official webhook documentation.
+
+Endpoint:
+
+POST /api/webhooks/chapa
+
+The webhook must support relevant transaction events, including at minimum the successful, failed/cancelled, reversed, and refunded states documented by Chapa.
+
+Verify the webhook signature BEFORE business processing.
+
+Support the documented Chapa signature headers:
+
+* chapa-signature
+* x-chapa-signature
+
+Use HMAC SHA-256 according to the provider documentation.
+
+Use constant-time comparison.
+
+Do not accept a webhook simply because:
+
+* it comes from a known IP
+* the body says “success”
+* the tx_ref exists
+* the user returned from Chapa
+
+Signature validation comes first.
+
+The raw request body must be preserved when required for signature calculation.
+
+Do not verify the signature against a reformatted JSON object if the provider signs the raw event payload.
+
+Do not parse and reserialize JSON before calculating the signature.
+
+======================================================================
+PHASE 13 — WEBHOOK IDEMPOTENCY
+==============================
+
+Webhook delivery is asynchronous and may be repeated.
+
+Design webhook handling so receiving the same event multiple times is safe.
+
+Examples:
+
+Webhook #1:
+charge.success
+
+Webhook #2:
+same charge.success
+
+Webhook #3:
+browser callback
+
+Webhook #4:
+manual verification
+
+All four must converge to the same correct database state.
+
+They must NOT:
+
+* create duplicate donations
+* create duplicate accounting records
+* send duplicate receipts
+* trigger duplicate donor emails unnecessarily
+* issue duplicate refunds
+* corrupt payment state
+
+Use database uniqueness/idempotency mechanisms.
+
+Do not depend solely on in-memory state.
+
+Do not use a JavaScript Set as a webhook deduplication system.
+
+Do not use the frontend to deduplicate webhooks.
+
+======================================================================
+PHASE 14 — CRITICAL PROVIDER DATA VERIFICATION
+==============================================
+
+Follow Chapa's own recommendation:
+
+When a successful webhook arrives, verify the critical transaction data with Chapa before treating the payment as confirmed.
+
+Compare:
+
+local tx_ref
+against
+provider tx_ref
+
+local amount
+against
+provider amount
+
+local currency
+against
+provider currency
+
+local payment attempt
+against
+provider transaction state
+
+If anything important differs:
+
+DO NOT MARK PAID.
+
+Set a discrepancy state or verification-required state.
+
+Generate a high-severity audit record.
+
+Do not silently “fix” the local amount to match Chapa.
+
+The original donation amount represents what the donor requested.
+
+Provider response represents what Chapa reports.
+
+A discrepancy must remain visible.
+
+======================================================================
+PHASE 15 — PAYMENT STATE MACHINE
+================================
+
+Do not use arbitrary status strings throughout the project.
+
+Define a controlled state machine.
+
+A possible model:
+
+CREATED
+INITIALIZING
+PENDING
+SUCCESS
+FAILED
+CANCELLED
+REVERSED
+VERIFICATION_REQUIRED
+REFUND_INITIATED
+REFUNDED
+REFUND_REVERSED
+INITIALIZATION_FAILED
+
+Only use states that are required by the actual business/provider behavior.
+
+Define legal transitions.
+
+For example:
+
+CREATED → INITIALIZING
+INITIALIZING → PENDING
+INITIALIZING → INITIALIZATION_FAILED
+PENDING → SUCCESS
+PENDING → FAILED
+PENDING → CANCELLED
+SUCCESS → REVERSED
+SUCCESS → REFUND_INITIATED
+REFUND_INITIATED → REFUNDED
+REFUND_INITIATED → REFUND_REVERSED
+
+A webhook must never move:
+
+FAILED → SUCCESS
+
+unless an authoritative provider verification establishes that the transaction actually became successful.
+
+Do not make the state machine impossible to reason about.
+
+======================================================================
+PHASE 16 — DATABASE INTEGRITY
+=============================
+
+Add appropriate PostgreSQL constraints.
+
+At minimum evaluate:
+
+UNIQUE(tx_ref)
+
+UNIQUE(provider_reference) where appropriate
+
+CHECK(amount > 0)
+
+CHECK(currency IN (...))
+
+CHECK(status IN (...))
+
+foreign keys between donations/payment attempts
+
+indexes for:
+
+tx_ref
+provider reference
+status
+created_at
+currency
+donation_id
+webhook event lookup
+payment status history
+
+Use proper indexes instead of relying on full table scans.
+
+Do not use database-generated values that can collide with provider references.
+
+Do not allow orphaned payment attempts.
+
+Do not allow deletion of a donation with a financial transaction history unless there is an extremely explicit, safe archival policy.
+
+Financial records should generally be retained and soft-deleted/archived rather than physically deleted.
+
+======================================================================
+PHASE 17 — RACE CONDITIONS
+==========================
+
+Explicitly test and protect against concurrent operations.
+
+Cases:
+
+1. Callback and webhook arrive at the same time.
+2. Two identical webhooks arrive simultaneously.
+3. Callback triggers two verification requests.
+4. Donor double-clicks Pay.
+5. Browser retries the create-donation POST.
+6. Network timeout causes the frontend to retry.
+7. Webhook is replayed hours later.
+8. Admin clicks “verify” while webhook processing is active.
+9. Refund webhook arrives while refund verification runs.
+10. Provider response is successful but database update temporarily fails.
+
+Use:
+
+* unique constraints
+* atomic updates
+* transactions
+* row locking where appropriate
+* idempotency keys
+* deterministic state transitions
+
+Do not rely on:
+
+await sleep(...)
+setTimeout(...)
+in-memory flags
+frontend button disabling alone
+
+======================================================================
+PHASE 18 — AMBIGUOUS CHAPA INITIALIZATION TIMEOUT
+=================================================
+
+Handle one of the nastiest payment cases:
+
+Your server sends the initialization request to Chapa.
+
+The network times out.
+
+You do not know whether Chapa received the request.
+
+DO NOT blindly generate a brand-new payment transaction.
+
+First determine whether the existing tx_ref was accepted.
+
+Use the appropriate official Chapa verification/recovery behavior where available.
+
+The goal is:
+
+UNKNOWN NETWORK RESULT
+
+must NOT become:
+
+DUPLICATE CHARGE
+
+This case must have automated tests.
+
+======================================================================
+PHASE 19 — DONATION RESULT UX
+=============================
+
+Create a professional donation result experience.
+
+Possible states:
+
+Payment Successful
+Payment Pending / Being Verified
+Payment Failed
+Payment Cancelled
+Payment Reversed
+Refund Processing
+Refunded
+Unable to Verify
+
+Never show “Payment Successful” simply because the user returned from Chapa.
+
+The result page must request authoritative payment status from the backend.
+
+Do not expose database IDs unnecessarily.
+
+Use a public donation/payment identifier designed for public display.
+
+The successful page should show, where appropriate:
+
+* donor name
+* amount
+* currency
+* donation purpose/fund
+* transaction reference
+* payment date
+* payment method
+* receipt availability
+* thank-you message
+
+Do not display confidential internal fields.
+
+======================================================================
+PHASE 20 — RECEIPTS
+===================
+
+Use Chapa's documented receipt capability where appropriate.
+
+Also consider generating an application-owned donation receipt.
+
+Do not make the church's receipt dependent exclusively on an external page remaining available forever.
+
+The application receipt should clearly identify:
+
+* church
+* donor
+* donation amount
+* currency
+* date/time
+* donation purpose
+* internal donation reference
+* provider transaction reference where appropriate
+* provider payment method
+* payment status
+
+If email infrastructure already exists, integrate with it.
+
+Do not implement an entirely new email architecture if the project already has a working transactional email system.
+
+======================================================================
+PHASE 21 — DONOR PRIVACY
+========================
+
+Donation data is sensitive financial/personal information.
+
+Minimize collected information.
+
+Support anonymous giving where the business requirements permit it.
+
+Do not expose donor information publicly.
+
+Do not expose the donor list through public APIs.
+
+Do not include unnecessary donor PII in:
+
+* logs
+* analytics
+* URLs
+* frontend source
+* webhook error messages
+* monitoring
+* exception traces
+
+Admin-only access must be enforced.
+
+If storing webhook payloads, minimize and protect donor information.
+
+Implement an appropriate retention policy where practical.
+
+======================================================================
+PHASE 22 — ADMIN DONATION MANAGEMENT
+====================================
+
+Inspect the existing admin architecture and extend it rather than building a second admin application.
+
+Authorized administrators should be able to:
+
+* view donations
+* search donations
+* filter by date
+* filter by amount
+* filter by currency
+* filter by status
+* filter by payment method
+* filter by fund/purpose
+* view donor details according to their permission
+* view payment attempt history
+* see tx_ref
+* see Chapa reference
+* see provider payment method
+* see provider charge
+* see failure reason
+* see verification history
+* inspect webhook history
+* manually trigger verification
+* see payment discrepancies
+* see refund state
+* export donation records where existing authorization permits
+
+Do not allow administrators to simply edit:
+
+status = SUCCESS
+
+from a generic form.
+
+Manual payment operations must use controlled workflows.
+
+An admin should not be able to bypass provider verification just by editing a database field through the UI.
+
+======================================================================
+PHASE 23 — REFUNDS
+==================
+
+Review Chapa's current refund API documentation.
+
+If the church requires administrative refund functionality and the merchant account supports it, implement it as a controlled backend operation.
+
+Never allow the browser to directly call Chapa's refund endpoint.
+
+Refund requests must be:
+
+* authenticated
+* authorized
+* audited
+* idempotent
+* amount-validated
+* currency-validated
+* linked to the original payment attempt
+
+Use a unique refund reference.
+
+Persist the provider refund reference.
+
+Verify refund status using the official provider verification process.
+
+Do not mark the internal refund as completed merely because the refund request API returned successfully.
+
+Represent refund processing states separately.
+
+======================================================================
+PHASE 24 — CANCEL/EXPIRED TRANSACTIONS
+======================================
+
+Review Chapa's cancellation behavior.
+
+Do not confuse:
+
+cancelled
+failed
+pending
+reversed
+refunded
+
+They have different meanings.
+
+Implement accurate state mappings.
+
+If a local transaction needs cancellation, ensure the application calls the appropriate provider operation where required rather than merely changing a local database string.
+
+======================================================================
+PHASE 25 — ERROR HANDLING
+=========================
+
+Build a provider-neutral internal error model.
+
+Do not leak Chapa implementation details to donors.
+
+Map provider errors into safe categories such as:
+
+VALIDATION_ERROR
+AUTHENTICATION_ERROR
+PROVIDER_UNAVAILABLE
+TIMEOUT
+PAYMENT_DECLINED
+PAYMENT_FAILED
+TRANSACTION_NOT_FOUND
+ALREADY_COMPLETED
+RATE_LIMITED
+CONFIGURATION_ERROR
+UNKNOWN_PROVIDER_ERROR
+
+Keep the original provider error details in secure server-side logs/audit records where useful.
+
+Never expose:
+
+* CHAPA_SECRET_KEY
+* authorization headers
+* SQL statements
+* stack traces
+* internal server paths
+* raw provider credentials
+
+======================================================================
+PHASE 26 — SECURITY HARDENING
+=============================
+
+Perform a full security review of the payment surface.
+
+Check:
+
+* authentication
+* authorization
+* CSRF
+* CORS
+* rate limiting
+* request validation
+* body-size limits
+* webhook signature validation
+* timing-safe signature comparison
+* secret management
+* open redirects
+* SSRF
+* injection
+* SQL injection
+* XSS
+* request replay
+* duplicate requests
+* duplicate webhook processing
+* IDOR
+* information disclosure
+* abuse of donation endpoints
+* card/payment testing abuse
+* bot activity
+* brute-force verification endpoints
+
+Do not allow a user to access another user's donation by changing an ID in the URL.
+
+Use unguessable public IDs and server-side authorization.
+
+If Cloudflare or another edge security layer is already in front of the website, inspect it but do not make the application dependent on security that is not guaranteed at every deployment layer.
+
+======================================================================
+PHASE 27 — RATE LIMITING AND PAYMENT ABUSE
+==========================================
+
+The donation endpoint is publicly accessible and can be abused.
+
+Implement rate limiting appropriate to the existing infrastructure.
+
+Protect at least:
+
+POST donation initialization
+status polling
+verification endpoints
+admin verification endpoints
+refund endpoints
+
+Do not make polling so aggressive that the donation page itself becomes a denial-of-service mechanism.
+
+Consider additional anti-bot protections where the existing stack supports them.
+
+Do not permanently block legitimate international donors because of crude IP rules.
+
+======================================================================
+PHASE 28 — CLIENT DUPLICATE SUBMISSION
+======================================
+
+The Pay/Donate button must:
+
+* disable while submission is processing
+* prevent accidental double submission
+* clearly show progress
+* recover correctly if the request fails
+
+But remember:
+
+frontend protection is not the real idempotency mechanism.
+
+Backend idempotency remains mandatory.
+
+======================================================================
+PHASE 29 — DATABASE MIGRATIONS
+==============================
+
+Before migration:
+
+1. Inspect the existing schema.
+2. Determine whether donation/payment records already exist.
+3. Determine whether existing data can be mapped.
+4. Back up production data.
+5. Prepare a migration plan.
+6. Test migration against a production-like database.
+
+Never perform destructive schema changes without evidence that existing records are obsolete.
+
+Never:
+
+DROP TABLE payment_data;
+
+without a verified migration and backup.
+
+Never delete existing financial records merely to make the new schema easier.
+
+Use the project's existing migration framework.
+
+Run:
+
+migration validation
+schema validation
+application tests
+database integration tests
+
+before deployment.
+
+======================================================================
+PHASE 30 — RECONCILIATION SYSTEM
+================================
+
+A professional payment system cannot depend entirely on webhooks.
+
+Implement reconciliation using cPanel-compatible scheduled execution.
+
+Because the target environment is cPanel, do not assume:
+
+* Docker
+* Kubernetes
+* Redis workers
+* BullMQ workers
+* systemd
+* PM2
+* persistent custom daemons
+
+are available.
+
+Prefer architecture compatible with cPanel.
+
+Implement a reconciliation process that periodically finds:
+
+* stale pending transactions
+* transactions awaiting verification
+* initialization ambiguities
+* webhook processing failures
+* provider/local discrepancies
+
+For each candidate, query Chapa using server-side credentials and reconcile the state safely.
+
+Never automatically change a record to successful without provider verification.
+
+Never automatically overwrite the original requested donation amount based on provider data.
+
+Record every reconciliation attempt.
+
+======================================================================
+PHASE 31 — CPANEL DEPLOYMENT ARCHITECTURE
+=========================================
+
+The production target is cPanel.
+
+Inspect the hosting environment before selecting the exact deployment model.
+
+Determine:
+
+* cPanel version
+* Node.js versions available
+* Application Manager availability
+* Passenger availability
+* environment-variable support
+* Git deployment support
+* SSH access
+* terminal access
+* cron support
+* SSL configuration
+* PostgreSQL access
+* process/resource limits
+* available disk/memory
+* maximum application count if relevant
+
+Use the hosting platform's supported Node.js deployment approach.
+
+Current cPanel documentation supports Node.js applications through its Application Manager/Passenger model and newer Web Apps functionality where the hosting provider enables it.
+
+Do NOT blindly assume a generic VPS deployment.
+
+Do NOT introduce Docker if the hosting plan cannot run Docker.
+
+Do NOT introduce PM2 if Passenger is already the process manager unless there is an explicit reason and host support.
+
+Do not hardcode the application's listening port.
+
+Respect the port supplied by the hosting environment/Passenger.
+
+If a startup file is required, ensure the Next.js production application has the exact startup entry expected by the cPanel deployment model.
+
+If Next.js standalone output is used, validate the actual generated server entrypoint and cPanel startup behavior.
+
+Do not claim cPanel compatibility without actually validating the production build.
+
+======================================================================
+PHASE 32 — NEXT.JS PRODUCTION BUILD
+===================================
+
+Inspect whether the application uses:
+
+* next start
+* standalone output
+* custom server
+* API route handlers
+* server actions
+* middleware
+* static generation
+* SSR
+* edge runtime
+
+Ensure the Chapa webhook route executes in a Node-compatible runtime where the cryptographic/signature/database libraries required by the implementation are supported.
+
+Do not move payment/webhook handling to an edge runtime merely because it sounds modern.
+
+Payment correctness comes first.
+
+Build the application in production mode.
+
+Verify:
+
+* build succeeds
+* server starts under the actual cPanel runtime
+* API routes work
+* callback route works
+* webhook route works
+* database connection works
+* environment variables work
+* HTTPS works
+* static assets work
+* redirects work
+
+======================================================================
+PHASE 33 — CPANEL CRON
+======================
+
+Use cPanel cron for reconciliation and other scheduled maintenance that is genuinely required.
+
+Cron jobs must be:
+
+* idempotent
+* safe to run twice
+* bounded
+* observable
+* failure-tolerant
+
+Prevent overlapping cron executions.
+
+Do not run an expensive reconciliation process every minute unless there is a real requirement.
+
+Do not use cron as a substitute for a proper queue if the workload eventually requires a dedicated worker architecture.
+
+For this cPanel deployment, prefer a lightweight PostgreSQL-backed approach unless the actual hosting environment offers a supported job/worker service.
+
+======================================================================
+PHASE 34 — LOGGING
+==================
+
+Implement structured server-side logging.
+
+For every payment flow capture useful correlation information such as:
+
+* request ID
+* donation public ID
+* internal payment attempt ID
+* tx_ref
+* provider reference
+* event type
+* state transition
+* verification result
+* timestamp
+* duration
+
+Do not log:
+
+* secret keys
+* authorization headers
+* card numbers
+* CVV
+* passwords
+* authentication tokens
+* unnecessary donor PII
+
+Use consistent log levels:
+
+INFO
+WARN
+ERROR
+SECURITY
+
+Payment mismatches must be highly visible.
+
+======================================================================
+PHASE 35 — OBSERVABILITY
+========================
+
+Provide enough visibility for church administrators/developers to answer:
+
+“How much has been donated?”
+
+“Which transactions are pending?”
+
+“Which transactions failed?”
+
+“Which payments require verification?”
+
+“Did Chapa webhooks stop arriving?”
+
+“Are payments being reversed?”
+
+“Are refunds stuck?”
+
+“Are initialization calls failing?”
+
+“Are there provider/local discrepancies?”
+
+Useful metrics:
+
+* donation attempts
+* initialized
+* pending
+* successful
+* failed
+* cancelled
+* reversed
+* refunded
+* verification failures
+* webhook failures
+* webhook duplicates
+* provider timeouts
+* initialization failures
+* reconciliation repairs
+
+Separate ETB and USD reporting.
+
+Never present combined ETB+USD totals as if they were meaningful monetary totals.
+
+======================================================================
+PHASE 36 — TESTING STRATEGY
+===========================
+
+Do not stop at unit tests.
+
+Implement:
+
+UNIT TESTS
+INTEGRATION TESTS
+DATABASE TESTS
+API TESTS
+WEBHOOK TESTS
+E2E TESTS
+SECURITY TESTS
+CONCURRENCY/RACE TESTS
+DEPLOYMENT SMOKE TESTS
+
+Test cases must include:
+
+1. Valid ETB donation.
+2. Valid USD donation.
+3. Minimum amount.
+4. Maximum amount.
+5. Invalid amount.
+6. Decimal precision edge cases.
+7. Invalid currency.
+8. Missing donor data.
+9. Invalid email.
+10. Invalid phone.
+11. Anonymous donation.
+12. Non-anonymous donation.
+13. Donation with fund/purpose.
+14. Chapa initialization success.
+15. Chapa initialization validation failure.
+16. Chapa authentication failure.
+17. Chapa timeout.
+18. Chapa network failure.
+19. Chapa duplicate tx_ref response.
+20. Callback says success but verification says failed.
+21. Callback says success and verification confirms success.
+22. Webhook success.
+23. Duplicate webhook.
+24. Webhook with invalid signature.
+25. Webhook with missing signature.
+26. Valid chapa-signature.
+27. Valid x-chapa-signature.
+28. Both headers present with one valid according to provider behavior.
+29. Webhook amount mismatch.
+30. Webhook currency mismatch.
+31. Webhook tx_ref mismatch.
+32. Provider reference mismatch.
+33. Failed/cancelled webhook.
+34. Reversed webhook.
+35. Refund webhook.
+36. Concurrent callback + webhook.
+37. Concurrent duplicate webhook.
+38. Double-click frontend submission.
+39. Replay of an old webhook.
+40. Unauthorized admin verification.
+41. Unauthorized refund.
+42. Partial refund where supported.
+43. Full refund.
+44. Refund verification.
+45. Refund reversal.
+46. Pending reconciliation.
+47. Unknown transaction reconciliation.
+48. Provider temporarily unavailable during reconciliation.
+49. Database failure during webhook processing.
+50. Application restart during pending payment.
+51. Production build.
+52. cPanel startup.
+53. HTTPS callback.
+54. HTTPS webhook.
+
+======================================================================
+PHASE 37 — CHAPA TEST MODE
+==========================
+
+Use Chapa's official test mode.
+
+Do not conduct real-money transactions during automated testing.
+
+Use official test cards and test mobile numbers from the current Chapa documentation.
+
+Do not hardcode test numbers into the production application.
+
+Tests may use fixtures.
+
+Production code must never accidentally switch to test mode.
+
+Production deployment must never run against test credentials.
+
+Test and live configurations must be clearly separated.
+
+======================================================================
+PHASE 38 — PAYMENT SECURITY TESTS
+=================================
+
+Perform adversarial testing.
+
+Attempt:
+
+POST donation with amount changed after frontend validation.
+
+POST donation with currency changed.
+
+POST donation with arbitrary tx_ref.
+
+GET callback with arbitrary tx_ref.
+
+GET callback with status=success.
+
+Webhook with fake success payload.
+
+Webhook with modified amount.
+
+Webhook with modified currency.
+
+Webhook with modified tx_ref.
+
+Webhook with valid JSON but invalid signature.
+
+Webhook replay.
+
+Duplicate payment creation.
+
+Cross-donation status access.
+
+Unauthorized admin refund.
+
+Unauthorized transaction verification.
+
+Open redirect via callback parameters.
+
+Secret exposure through errors.
+
+Secret exposure through browser bundle.
+
+Secret exposure through logs.
+
+Database injection.
+
+XSS through donor message.
+
+Oversized webhook body.
+
+Unexpected JSON fields.
+
+Malformed JSON.
+
+Missing content type.
+
+Slow request abuse.
+
+Automated repeated donation attempts.
+
+Do not declare the integration production-ready until these attack paths are addressed.
+
+======================================================================
+PHASE 39 — FRONTEND DONATION FORM
+=================================
+
+The frontend should provide:
+
+* preset donation amounts
+* custom amount
+* ETB/USD selection where supported
+* donor name
+* email
+* phone where appropriate
+* anonymous option
+* optional donation message
+* optional fund/purpose selection
+* clear payment explanation
+* secure redirect to Chapa
+* loading state
+* error state
+* pending state
+* success state
+
+Do not hardcode an inaccurate list of payment methods.
+
+Where appropriate, explain that payment methods shown at checkout depend on Chapa/account availability.
+
+The UI should make it clear:
+
+“You will be redirected to Chapa to complete your payment.”
+
+Never tell the user that payment is complete before server verification.
+
+======================================================================
+PHASE 40 — ACCESSIBILITY AND UX
+===============================
+
+Do not make the payment experience visually impressive but operationally fragile.
+
+Ensure:
+
+* keyboard accessibility
+* proper labels
+* mobile responsiveness
+* clear errors
+* readable currency formatting
+* disabled states
+* loading indicators
+* accessible status messages
+* no accidental repeated submit
+* no misleading success messaging
+
+International donors may use mobile devices with unstable network connections.
+
+The flow must behave correctly when:
+
+* browser closes
+* connection drops
+* user refreshes
+* user returns later
+* callback happens slowly
+* webhook arrives before browser callback
+* webhook arrives after browser callback
+
+======================================================================
+PHASE 41 — REUSE EXISTING ARCHITECTURE
+======================================
+
+Do not introduce:
+
+* a second database layer
+* a second authentication system
+* a second admin system
+* a second logging framework
+* duplicate environment configuration
+* duplicate API clients
+* duplicate validation libraries
+* unnecessary microservices
+
+Use the current project architecture wherever it is structurally sound.
+
+Refactor existing bad architecture where necessary.
+
+The goal is:
+
+SURGICAL REMEDIATION + PRODUCTION HARDENING
+
+not:
+
+RANDOM REWRITE.
+
+======================================================================
+PHASE 42 — CHAPA SERVICE ABSTRACTION
+====================================
+
+Create a clean provider service boundary.
+
+For example:
+
+ChapaPaymentService
+
+with clear operations such as:
+
+initializeTransaction()
+verifyTransaction()
+cancelTransaction()
+refundTransaction()
+verifyRefund()
+
+and webhook validation/processing helpers.
+
+Do not spread raw Chapa API calls throughout React components and arbitrary API handlers.
+
+Centralize:
+
+* authentication
+* base URL
+* HTTP timeout
+* response validation
+* error mapping
+* logging
+* retries where safe
+* provider reference mapping
+
+Use explicit request/response types.
+
+Validate provider responses rather than blindly trusting `response.data`.
+
+======================================================================
+PHASE 43 — HTTP CLIENT SAFETY
+=============================
+
+Configure reasonable:
+
+* connect timeout
+* request timeout
+* response timeout
+* retry policy
+
+Do NOT blindly retry payment-changing operations.
+
+Initialization retries are potentially dangerous because the first request may have succeeded.
+
+Verification GET requests may have different retry characteristics from state-changing requests.
+
+Refund POST requests require idempotent behavior at the application layer before retrying.
+
+Build retry logic based on operation semantics.
+
+======================================================================
+PHASE 44 — RESPONSE VALIDATION
+==============================
+
+Do not assume Chapa will always respond with the exact shape shown in examples.
+
+Validate provider responses.
+
+Handle:
+
+* missing data
+* unexpected status
+* missing checkout_url
+* missing reference
+* malformed response
+* HTTP non-2xx
+* valid HTTP response containing failure
+* provider schema drift
+
+Use runtime schema validation where appropriate.
+
+======================================================================
+PHASE 45 — DATABASE TRANSACTION BOUNDARIES
+==========================================
+
+Use database transactions around local state transitions.
+
+Do NOT perform:
+
+BEGIN
+→ call Chapa HTTP
+→ wait
+→ COMMIT
+
+Instead:
+
+local transaction:
+create/update authoritative local records
+COMMIT
+
+external provider call
+
+local transaction:
+persist provider result
+COMMIT
+
+This keeps the database responsive and avoids locking resources while waiting on an external payment network.
+
+======================================================================
+PHASE 46 — PAYMENT SUCCESS SEMANTICS
+====================================
+
+Define exactly when the church considers a donation successful.
+
+Recommended rule:
+
+A donation is PAID only when authoritative Chapa verification confirms the appropriate successful provider state AND:
+
+tx_ref matches
+amount matches
+currency matches
+the local payment attempt is the matching transaction
+the event is authenticated when coming from webhook
+
+Never mark:
+
+“success because browser returned”
+
+“success because callback said success”
+
+“success because Chapa checkout URL was generated”
+
+“success because initialization succeeded”
+
+Initialization ≠ payment.
+
+Checkout URL creation ≠ payment.
+
+Callback ≠ payment proof.
+
+Webhook payload alone ≠ payment proof.
+
+Provider verification is required.
+
+======================================================================
+PHASE 47 — REVERSED PAYMENTS
+============================
+
+Handle provider reversal events.
+
+A payment can transition away from an earlier successful state depending on the provider lifecycle.
+
+Do not leave:
+
+Donation = SUCCESS
+
+forever if the provider reports:
+
+REVERSED
+
+Implement an appropriate internal accounting state.
+
+Do not silently delete the previous successful event.
+
+Keep the historical state transition.
+
+======================================================================
+PHASE 48 — FINANCIAL AUDIT TRAIL
+================================
+
+Every significant financial state change must be auditable.
+
+An administrator/developer should be able to answer:
+
+What happened?
+
+When?
+
+Who/what caused it?
+
+Which tx_ref?
+
+Which provider reference?
+
+What did Chapa report?
+
+What did our database contain at the time?
+
+Why did the status change?
+
+Was it from callback, webhook, verification, reconciliation, refund, or admin action?
+
+Use immutable history where practical.
+
+Do not overwrite historical state without retaining evidence of the old state.
+
+======================================================================
+PHASE 49 — REPORTING
+====================
+
+Implement/report accurately:
+
+Total successful donations
+
+Total pending donations
+
+Total failed donations
+
+Total reversed donations
+
+Total refunded amounts
+
+Donation count
+
+Average donation
+
+Donations by day/week/month
+
+Donations by currency
+
+Donations by fund/purpose
+
+Donations by payment method
+
+Do not calculate a grand total by adding ETB + USD.
+
+Do not present estimated totals as actual provider-settled totals.
+
+Clearly distinguish:
+
+Gross donation amount
+Provider fee/charge where available
+Refunded amount
+Net/internal amount if that concept is actually valid for the project
+
+======================================================================
+PHASE 50 — DATA EXPORT
+======================
+
+If an admin export exists or is added:
+
+* enforce authorization
+* filter server-side
+* avoid massive unbounded queries
+* stream large exports where needed
+* sanitize CSV formula injection
+* preserve currency
+* preserve exact decimal values
+* include references needed for reconciliation
+* never include secret credentials
+
+======================================================================
+PHASE 51 — BACKUP AND RECOVERY
+==============================
+
+Before production database migration:
+
+Create a verified backup.
+
+Confirm the backup can actually be restored.
+
+Document:
+
+* PostgreSQL backup method
+* restore method
+* migration rollback limitations
+* payment data preservation policy
+
+Remember:
+
+payment state is financial state.
+
+Do not treat database backup as optional.
+
+======================================================================
+PHASE 52 — PRODUCTION CONFIGURATION VALIDATION
+==============================================
+
+Before deployment, validate:
+
+DATABASE_URL
+site URL
+Chapa secret
+Chapa webhook secret
+Chapa mode
+callback URL
+return URL
+allowed currencies
+application environment
+secure cookie configuration
+HTTPS
+logging configuration
+
+Verify that callback and webhook URLs are publicly reachable over HTTPS.
+
+Do not use localhost URLs in production.
+
+Do not use development callback URLs in production.
+
+Do not expose internal ports.
+
+======================================================================
+PHASE 53 — DOMAIN/CALLBACK SAFETY
+=================================
+
+Use a canonical configured site origin.
+
+Do not allow users to provide arbitrary callback URLs.
+
+Do not construct redirect destinations from untrusted parameters.
+
+Avoid open redirect vulnerabilities.
+
+Validate that the configured callback and return URLs belong to the church's production domain.
+
+======================================================================
+PHASE 54 — CHAPA WEBHOOK AVAILABILITY
+=====================================
+
+The webhook endpoint must be reachable even when:
+
+* the frontend is down
+* the user closes the browser
+* the donor loses connection
+* the browser is never redirected back
+
+The webhook is server-to-server communication.
+
+Do not architect webhook processing around the existence of a browser session.
+
+Do not require an authenticated donor session for Chapa's webhook.
+
+Authenticate the webhook using the provider signature instead.
+
+======================================================================
+PHASE 55 — WEBHOOK RESPONSE BEHAVIOR
+====================================
+
+Handle webhook acknowledgements carefully.
+
+For valid provider events:
+
+* accept
+* persist
+* process safely
+* return HTTP 200 when the event has been accepted into the application's durable processing path
+
+If processing cannot finish immediately but the event has been safely stored for reconciliation/reprocessing, do not create duplicate work.
+
+For invalid signatures:
+
+do not process the event.
+
+Do not allow unauthenticated event data to mutate financial records.
+
+======================================================================
+PHASE 56 — RECONCILIATION FAILURE HANDLING
+==========================================
+
+If webhook processing fails:
+
+store the failure.
+
+If verification fails due to provider timeout:
+
+keep the transaction recoverable.
+
+If Chapa is temporarily unavailable:
+
+do not mark the payment failed merely because our server could not reach Chapa.
+
+The following are NOT equivalent:
+
+provider says failed
+
+provider unreachable
+
+our database unavailable
+
+webhook invalid
+
+verification timeout
+
+Treat them differently.
+
+======================================================================
+PHASE 57 — EXISTING DATA MIGRATION
+==================================
+
+If the existing website has donation/payment records:
+
+Do not discard them.
+
+Inventory them.
+
+Determine:
+
+* old statuses
+* old references
+* old provider fields
+* amounts
+* currencies
+* timestamps
+* donors
+* existing receipts
+
+Create an explicit migration mapping.
+
+Preserve historical records.
+
+If an old transaction cannot be confidently mapped, mark it as:
+
+LEGACY_UNMAPPED
+
+or another clearly defined migration state.
+
+Do not invent payment success states.
+
+======================================================================
+PHASE 58 — CODE QUALITY
+=======================
+
+Use:
+
+* strong typing
+* explicit interfaces/types
+* schema validation
+* clear service boundaries
+* deterministic state transitions
+* meaningful names
+* small testable functions
+* centralized provider integration
+* consistent error handling
+
+Avoid:
+
+* giant API route handlers
+* business logic inside React components
+* direct Prisma/SQL calls scattered throughout UI code
+* `any` everywhere
+* swallowed exceptions
+* `catch {}` with no audit/logging
+* duplicated status mapping
+* hidden magic strings
+* environment variables accessed randomly throughout the application
+
+======================================================================
+PHASE 59 — DOCUMENTATION
+========================
+
+Update:
+
+README
+environment example
+deployment documentation
+database migration notes
+Chapa integration documentation
+webhook setup documentation
+cPanel deployment instructions
+reconciliation instructions
+admin operating instructions
+testing instructions
+production checklist
+
+Document exactly:
+
+1. How to create Chapa credentials.
+2. Which environment variables are required.
+3. How to configure webhook secret.
+4. How to configure webhook URL.
+5. How to switch between test/live safely.
+6. How to configure cPanel Node application.
+7. How to run migrations.
+8. How to restart the app under cPanel.
+9. How to configure cron.
+10. How to diagnose pending payments.
+11. How to reconcile payments.
+12. How to process refunds if implemented.
+13. How to verify a donation manually.
+
+======================================================================
+PHASE 60 — DEPLOYMENT VERIFICATION
+==================================
+
+After implementation:
+
+Run the full test suite.
+
+Run the production build.
+
+Run database migration validation.
+
+Run lint/type checks.
+
+Run security checks.
+
+Start the application in production mode.
+
+Test actual API endpoints.
+
+Test callback.
+
+Test webhook locally with valid and invalid signatures.
+
+Test database integrity.
+
+Test cPanel-compatible startup behavior.
+
+Test cron/reconciliation.
+
+Do not claim deployment readiness because:
+
+npm run build
+
+passed.
+
+Production readiness requires the complete payment path.
+
+======================================================================
+PHASE 61 — LIVE/TEST MODE SAFETY GATE
+=====================================
+
+Before any live-money operation:
+
+Explicitly inspect the configured environment.
+
+If the credentials are live:
+
+DO NOT automatically perform a real-money transaction as part of automated testing.
+
+Perform only non-destructive configuration/API validation unless a deliberate manual live transaction is explicitly authorized.
+
+Use Chapa test mode for functional payment tests whenever available.
+
+Never allow a CI test suite to accidentally charge a real card.
+
+======================================================================
+PHASE 62 — FINAL ACCEPTANCE TEST
+================================
+
+The implementation is not complete until this scenario works end-to-end:
+
+DONOR OPENS WEBSITE
+
+→ selects donation amount
+
+→ selects ETB or USD where supported
+
+→ enters donor information
+
+→ clicks Donate
+
+→ backend validates
+
+→ backend creates donation
+
+→ backend creates unique payment attempt
+
+→ backend generates unique tx_ref
+
+→ backend initializes Chapa
+
+→ checkout URL returned
+
+→ donor redirects to Chapa
+
+→ donor pays
+
+→ Chapa processes transaction
+
+→ donor returns to website
+
+→ backend receives callback
+
+→ backend verifies transaction
+
+→ webhook arrives
+
+→ webhook signature verified
+
+→ webhook is deduplicated
+
+→ critical provider data verified
+
+→ payment state transitions atomically
+
+→ donation marked successful
+
+→ receipt becomes available
+
+→ donor sees authoritative success page
+
+→ admin sees transaction
+
+→ reports include donation
+
+→ reconciliation can independently verify transaction
+
+Everything must remain correct if:
+
+webhook arrives first
+
+callback arrives first
+
+both arrive simultaneously
+
+callback is repeated
+
+webhook is repeated
+
+verification temporarily fails
+
+provider is temporarily unreachable
+
+donor refreshes page
+
+donor closes browser
+
+donor clicks twice
+
+======================================================================
+PHASE 63 — FINAL AUDIT AFTER IMPLEMENTATION
+===========================================
+
+After coding, perform a SECOND independent audit.
+
+Do not simply inspect the files you changed.
+
+Search the entire repository again.
+
+Look specifically for:
+
+* remaining old Chapa code
+* duplicate endpoints
+* duplicate payment clients
+* unsafe secret exposure
+* hardcoded payment data
+* fake success states
+* direct database status edits
+* missing constraints
+* untested callbacks
+* missing webhook validation
+* missing idempotency
+* missing amount verification
+* missing currency verification
+* missing reconciliation
+* unsafe redirects
+* broken cPanel assumptions
+* development-only code
+* console.log containing sensitive data
+* stale documentation
+* dead code
+
+======================================================================
+PHASE 64 — DO NOT DECLARE “COMPLETE” PREMATURELY
+================================================
+
+Do NOT write:
+
+“Payment integration complete.”
+
+unless the acceptance criteria are actually satisfied.
+
+Instead produce a final engineering report containing:
+
+1. Existing architecture findings.
+2. Critical problems discovered.
+3. Changes made.
+4. Database changes.
+5. Chapa integration architecture.
+6. Chapa endpoints implemented.
+7. Webhook behavior.
+8. Verification behavior.
+9. Idempotency mechanism.
+10. Donation state machine.
+11. Refund behavior if implemented.
+12. Security controls.
+13. Test coverage.
+14. Production build result.
+15. cPanel compatibility result.
+16. Cron/reconciliation result.
+17. Remaining limitations.
+18. Remaining external dependencies.
+19. Manual configuration still required.
+20. Exact production deployment steps.
+
+Every claimed success must be supported by actual test/build/runtime evidence.
+
+======================================================================
+NON-NEGOTIABLE RULES
+====================
+
+RULE 1:
+Never trust the frontend for payment success.
+
+RULE 2:
+Never expose the Chapa secret key.
+
+RULE 3:
+Never mark a donation paid without authoritative provider verification.
+
+RULE 4:
+Never process a webhook without signature validation.
+
+RULE 5:
+Never process the same payment event twice.
+
+RULE 6:
+Never use floating-point arithmetic as the authoritative financial representation.
+
+RULE 7:
+Never combine ETB and USD totals.
+
+RULE 8:
+Never perform external Chapa calls inside long-running PostgreSQL transactions.
+
+RULE 9:
+Never blindly retry ambiguous payment initialization.
+
+RULE 10:
+Never allow users to choose the final payment state.
+
+RULE 11:
+Never hardcode undocumented payment methods/currencies.
+
+RULE 12:
+Never destroy existing donation/payment records during the migration merely for convenience.
+
+RULE 13:
+Never assume the hosting server supports Docker, PM2, Redis, workers, or systemd.
+
+RULE 14:
+Never declare cPanel compatibility without validating the actual hosting environment.
+
+RULE 15:
+Never expose raw provider errors to donors.
+
+RULE 16:
+Never allow admin UI to bypass provider verification.
+
+RULE 17:
+Never use browser-session state as the source of truth for webhook processing.
+
+RULE 18:
+Never silently convert an ETB donation into USD or vice versa.
+
+RULE 19:
+Never claim support for a Chapa feature until the current official documentation and merchant account capability confirm it.
+
+RULE 20:
+Do not rewrite healthy architecture merely for stylistic reasons.
+
+======================================================================
+FINAL OBJECTIVE
+===============
+
+Transform the existing church website from a donation feature that merely appears to accept payments into a genuinely production-grade donation/payment subsystem.
+
+The finished architecture must be:
+
+SECURE
+CORRECT
+IDEMPOTENT
+AUDITABLE
+RECONCILABLE
+TYPE-SAFE
+DATABASE-INTEGRITY-SAFE
+MOBILE-FRIENDLY
+INTERNATIONAL-DONOR-FRIENDLY
+CHAPA-COMPLIANT
+CPANEL-COMPATIBLE
+OPERABLE BY ADMINS
+TESTED AGAINST FAILURE CONDITIONS
+AND SAFE FOR REAL FINANCIAL TRANSACTIONS.
+
+Start with the repository audit.
+
+Do not start by writing payment code.
+
+Do not skip the architecture audit.
+
+Do not make assumptions where the repository or current Chapa documentation can provide evidence.
+
+Do not report success until the implementation has been tested end-to-end.

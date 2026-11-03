@@ -1,0 +1,22 @@
+{
+  "name": "hiwot-birhan-church-backend",
+  "version": "1.0.0",
+  "description": "Enterprise Backend API Server for BATU YEHIYWOT BERHAN CHURCH",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node src/server.js",
+    "build": "node -c src/server.js",
+    "reconcile": "node src/scripts/reconcile-chapa.js",
+    "test": "node test/payment-security.test.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.3.1",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.23.0",
+    "sqlite3": "^5.1.7"
+  }
+}

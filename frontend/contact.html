@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us — BATU YEHIYWOT BERHAN CHURCH</title>
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: { DEFAULT: '#0F2742', dark: '#09192C', light: '#1E3A5F' },
+            gold: { DEFAULT: '#C79A45', hover: '#B38634', light: '#F7EEDD' },
+            cream: { DEFAULT: '#F8F6F1', card: '#FAF8F5' },
+            slate: { DEFAULT: '#334155', muted: '#64748B' }
+          },
+          fontFamily: {
+            serif: ['Playfair Display', 'Georgia', 'serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/translations.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-cream text-slate antialiased flex flex-col min-h-screen">
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header id="main-header" class="bg-white sticky top-0 z-40 border-b border-slate-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <a href="index.html" class="flex items-center space-x-3 group focus:outline-none">
+          <img src="images/logo.png" alt="BATU YEHIYWOT BERHAN CHURCH Logo" class="w-11 h-11 rounded-full border-2 border-gold shadow-sm object-cover group-hover:scale-105 transition-transform" />
+          <div class="flex flex-col">
+            <span class="font-serif font-bold text-base md:text-lg text-navy tracking-tight group-hover:text-gold transition-colors" data-i18n="church_name">BATU YEHIYWOT BERHAN CHURCH</span>
+            <span class="text-[10px] md:text-xs tracking-widest text-gold uppercase font-semibold -mt-0.5" data-i18n="church_sub">A Place to Belong. A Faith to Grow.</span>
+          </div>
+        </a>
+
+        <nav class="hidden lg:flex items-center space-x-8" aria-label="Main Navigation">
+          <a href="index.html" data-i18n="nav_home" class="text-sm font-medium text-slate hover:text-gold transition-colors py-2">Home</a>
+          <a href="about.html" data-i18n="nav_about" class="text-sm font-medium text-slate hover:text-gold transition-colors py-2">About</a>
+          <a href="ministries.html" data-i18n="nav_ministries" class="text-sm font-medium text-slate hover:text-gold transition-colors py-2">Ministries</a>
+          <a href="events.html" data-i18n="nav_events" class="text-sm font-medium text-slate hover:text-gold transition-colors py-2">Events</a>
+          <a href="contact.html" data-i18n="nav_contact" class="text-sm font-bold text-navy py-2 border-b-2 border-gold">Contact</a>
+        </nav>
+
+        <div class="hidden lg:flex items-center space-x-4">
+          <!-- Language Switcher EN | አማርኛ -->
+          <div class="flex items-center bg-slate-100 p-1 rounded-lg text-xs border border-slate-200">
+            <button type="button" data-lang-btn="en" onclick="setLanguage('en')" class="px-2.5 py-1 rounded transition-colors focus:outline-none font-bold bg-white text-navy shadow-sm">EN</button>
+            <button type="button" data-lang-btn="am" onclick="setLanguage('am')" class="px-2.5 py-1 rounded transition-colors focus:outline-none text-slate-600 hover:text-navy">አማርኛ</button>
+          </div>
+
+          <a href="building-fund.html" data-i18n="nav_building_fund" class="px-5 py-2.5 bg-navy text-white text-sm font-semibold rounded-lg hover:bg-navy-light">
+            Support Building Fund
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="flex-grow">
+    <section class="bg-navy text-white py-16 text-center space-y-4">
+      <div class="max-w-4xl mx-auto px-4 fade-in-up">
+        <span class="text-xs font-bold text-gold uppercase tracking-widest">Connect With Us</span>
+        <h1 class="font-serif text-4xl sm:text-5xl font-bold mt-2">Contact BATU YEHIYWOT BERHAN CHURCH</h1>
+        <p class="text-base text-slate-300">We are here to serve, pray for, and welcome you.</p>
+      </div>
+    </section>
+
+    <section class="py-20 bg-cream">
+      <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-12">
+        
+        <div class="lg:col-span-5 bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6 fade-in-up">
+          <h2 class="font-serif text-2xl font-bold text-navy">Church Location & Office</h2>
+          
+          <div class="space-y-4 text-sm text-slate-muted">
+            <div class="flex items-start space-x-3">
+              <i data-lucide="map-pin" class="w-5 h-5 text-gold shrink-0 mt-1"></i>
+              <div>
+                <strong class="text-navy block">Address:</strong>
+                Central Avenue, Batu (Ziway), Oromia Region, Ethiopia
+              </div>
+            </div>
+
+            <div class="flex items-start space-x-3">
+              <i data-lucide="phone" class="w-5 h-5 text-gold shrink-0 mt-1"></i>
+              <div>
+                <strong class="text-navy block">Telephone:</strong>
+                +251 46 441 2345
+              </div>
+            </div>
+
+            <div class="flex items-start space-x-3">
+              <i data-lucide="mail" class="w-5 h-5 text-gold shrink-0 mt-1"></i>
+              <div>
+                <strong class="text-navy block">Email:</strong>
+                info@hiwotbirhanchurch.org
+              </div>
+            </div>
+
+            <div class="flex items-start space-x-3">
+              <i data-lucide="clock" class="w-5 h-5 text-gold shrink-0 mt-1"></i>
+              <div>
+                <strong class="text-navy block">Service Schedule:</strong>
+                Sunday (የአምልኮ ጊዜ): 3:00 – 6:00 (9:00 AM – 12:00 PM)<br />
+                Wednesday (የጸሎት እና የትምህርት ጊዜ): 11:00 – 1:00 (5:00 PM – 7:00 PM)<br />
+                Friday (የአምልኮ እና የፈውስ ጊዜ): 11:00 – 1:00 (5:00 PM – 7:00 PM)
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7 bg-white p-8 rounded-3xl border border-slate-200 shadow-sm fade-in-up">
+          <form id="contact-form" class="space-y-6" novalidate>
+            <h2 class="font-serif text-2xl font-bold text-navy mb-4">Send Us a Message</h2>
+            
+            <div>
+              <label for="contact-name" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Your Name *</label>
+              <input type="text" id="contact-name" required placeholder="Full Name" class="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-gold" />
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="contact-email" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Email Address *</label>
+                <input type="email" id="contact-email" required placeholder="Email Address" class="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-gold" />
+              </div>
+              <div>
+                <label for="contact-phone" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Phone Number</label>
+                <input type="tel" id="contact-phone" placeholder="Phone" class="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-gold" />
+              </div>
+            </div>
+
+            <div>
+              <label for="contact-message" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Message or Prayer Request *</label>
+              <textarea id="contact-message" rows="5" required placeholder="Write your message..." class="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-gold"></textarea>
+            </div>
+
+            <button type="submit" class="w-full py-4 bg-navy hover:bg-navy-light text-white font-bold text-sm rounded-xl transition-all shadow-md">
+              Send Message
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-navy-dark text-slate-300 py-8 border-t border-white/10 text-center text-xs">
+    <p>&copy; 2026 BATU YEHIYWOT BERHAN CHURCH. All rights reserved.</p>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/validation.js"></script>
+  <script src="js/main.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

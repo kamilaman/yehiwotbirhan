@@ -1,0 +1,19 @@
+{
+  "name": "hiwot-birhan-church",
+  "version": "2.0.0",
+  "description": "BATU YEHIYWOT BERHAN CHURCH - Next.js Enterprise Web Application & IT Admin Portal",
+  "scripts": {
+    "dev": "npm --prefix frontend dev",
+    "build": "npm --prefix frontend build",
+    "start": "npm --prefix frontend start",
+    "frontend:dev": "npm --prefix frontend dev",
+    "frontend:build": "npm --prefix frontend build",
+    "backend:dev": "npm --prefix backend start",
+    "backend": "npm --prefix backend start",
+    "admin": "node scripts/run-admin.js",
+    "admin:dev": "node scripts/run-admin.js",
+    "admin:only": "npm --prefix frontend run dev:admin",
+    "docker:up": "docker-compose up -d --build",
+    "docker:down": "docker-compose down"
+  }
+}

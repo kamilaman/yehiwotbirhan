@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BATU YEHIYWOT BERHAN CHURCH — A Place to Belong. A Faith to Grow.</title>
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <meta name="description"
+    content="Welcome to BATU YEHIYWOT BERHAN CHURCH in Batu, Ethiopia. Join us for Sunday worship, biblical teaching, discipleship, community outreach, and prayer.">
+  <meta name="keywords"
+    content="BATU YEHIYWOT BERHAN CHURCH, Church in Ziway, Church in Batu, Protestant Church Ethiopia, Hiwot Birhan Church, Ethiopian Evangelical Church, Worship Services Ziway">
+  <meta name="author" content="BATU YEHIYWOT BERHAN CHURCH">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="BATU YEHIYWOT BERHAN CHURCH">
+  <meta property="og:description"
+    content="A welcoming Protestant Christian church focused on biblical teaching, worship, discipleship, and community in Batu, Ethiopia.">
+  <meta property="og:image"
+    content="images/logo.png">
+  <meta property="og:url" content="https://hiwotbirhanchurch.org">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="BATU YEHIYWOT BERHAN CHURCH">
+  <meta name="twitter:description"
+    content="Join our Christ-centered community at BATU YEHIYWOT BERHAN CHURCH. Worship, growth, and fellowship.">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: { DEFAULT: '#0F2742', dark: '#09192C', light: '#1E3A5F' },
+            gold: { DEFAULT: '#C79A45', hover: '#B38634', light: '#F7EEDD' },
+            cream: { DEFAULT: '#F8F6F1', card: '#FAF8F5' },
+            slate: { DEFAULT: '#334155', muted: '#64748B' }
+          },
+          fontFamily: {
+            serif: ['Playfair Display', 'Georgia', 'serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Translation & i18n Scripts -->
+  <script src="js/translations.js"></script>
+  <script src="js/i18n.js"></script>
+
+  <!-- Stripe.js v3 SDK -->
+  <script src="https://js.stripe.com/v3/"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Schema.org JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Church",
+    "name": "BATU YEHIYWOT BERHAN CHURCH",
+    "url": "https://hiwotbirhanchurch.org",
+    "logo": "https://hiwotbirhanchurch.org/images/logo.png",
+    "description": "A welcoming Protestant Christian church focused on biblical teaching, worship, discipleship, and community.",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Central Avenue",
+      "addressLocality": "Ziway / Batu",
+      "addressRegion": "Oromia",
+      "addressCountry": "Ethiopia"
+    },
+    "telephone": "+251 46 441 2345",
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Sunday"],
+        "opens": "09:00",
+        "closes": "13:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Wednesday", "Friday"],
+        "opens": "18:00",
+        "closes": "20:00"
+      }
+    ]
+  }
+  </script>
+</head>
+
+<body class="bg-cream text-slate antialiased flex flex-col min-h-screen">
+
+  <!-- Accessibility Skip Link -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- 1. ANNOUNCEMENT BAR -->
+  <div id="announcement-bar"
+    class="bg-navy text-white text-xs md:text-sm py-2.5 px-4 sticky top-0 z-50 transition-transform duration-300 border-b border-gold/20">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+      <div class="flex items-center space-x-2 mx-auto md:mx-0">
+        <span class="inline-block w-2 h-2 rounded-full bg-gold animate-pulse"></span>
+        <span class="font-medium" data-i18n="announcement_text">You're welcome here. Join us this Sunday in
+          Ziway/Batu.</span>
+        <a href="#services" data-i18n="announcement_cta"
+          class="underline hover:text-gold font-semibold ml-2 transition-colors focus:outline-none focus:text-gold">Plan
+          Your Visit &rarr;</a>
+      </div>
+      <button id="dismiss-announcement"
+        class="hidden md:flex items-center text-slate-300 hover:text-white focus:outline-none p-1 rounded hover:bg-white/10"
+        aria-label="Dismiss announcement">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- 2. STICKY NAVIGATION HEADER -->
+  <header id="main-header" class="bg-white sticky top-0 z-40 transition-all duration-200 border-b border-slate-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+
+        <!-- Logo + Church Name -->
+        <a href="index.html" class="flex items-center space-x-3 group focus:outline-none">
+          <img src="images/logo.png" alt="BATU YEHIYWOT BERHAN CHURCH Logo" class="w-11 h-11 rounded-full border-2 border-gold shadow-sm object-cover group-hover:scale-105 transition-transform" />
+          <div class="flex flex-col">
+            <span
+              class="font-serif font-bold text-base md:text-lg text-navy tracking-tight group-hover:text-gold transition-colors"
+              data-i18n="church_name">BATU YEHIYWOT BERHAN CHURCH</span>
+            <span class="text-[10px] md:text-xs tracking-widest text-gold uppercase font-semibold -mt-0.5"
+              data-i18n="church_sub">A Place to Belong. A Faith to Grow.</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden lg:flex items-center space-x-8" aria-label="Main Navigation">
+          <a href="index.html" data-i18n="nav_home"
+            class="text-sm font-semibold text-navy hover:text-gold transition-colors py-2 border-b-2 border-gold">Home</a>
+          <a href="about.html" data-i18n="nav_about"
+            class="text-sm font-medium text-slate hover:text-gold transition-colors py-2">About</a>
+          <a href="about.html#beliefs" data-i18n="nav_beliefs"
+            class="text-sm font-medium text-slate hover:text-gold transition-colors py-2">Beliefs</a>
+          <a href="ministries.html" data-i18n="nav_ministries"
+            class="text-sm font-medium text-slate hover:text-gold transition-colors py-2">Ministries</a>
+          <a href="#services" data-i18n="nav_services"
+            class="text-sm font-medium text-slate hover:text-gold transition-colors py-2">Services</a>
+          <a href="events.html" data-i18n="nav_events"
+            class="text-sm font-medium text-slate hover:text-gold transition-colors py-2">Events</a>
+          <a href="contact.html" data-i18n="nav_contact"
+            class="text-sm font-medium text-slate hover:text-gold transition-colors py-2">Contact</a>
+        </nav>
+
+        <!-- Desktop Primary CTA & Language Toggle -->
+        <div class="hidden lg:flex items-center space-x-4">
+          <!-- Language Switcher EN | አማርኛ -->
+          <div class="flex items-center bg-slate-100 p-1 rounded-lg text-xs border border-slate-200" role="region"
+            aria-label="Language selection">
+            <button type="button" data-lang-btn="en" onclick="setLanguage('en')"
+              class="px-2.5 py-1 rounded transition-colors focus:outline-none font-bold bg-white text-navy shadow-sm">EN</button>
+            <button type="button" data-lang-btn="am" onclick="setLanguage('am')"
+              class="px-2.5 py-1 rounded transition-colors focus:outline-none text-slate-600 hover:text-navy">አማርኛ</button>
+          </div>
+
+          <a href="building-fund.html" data-i18n="nav_building_fund"
+            class="inline-flex items-center justify-center px-5 py-2.5 border border-transparent text-sm font-semibold rounded-lg text-white bg-navy hover:bg-navy-light focus:outline-none transition-all shadow-sm hover:shadow-md">
+            <i data-lucide="heart" class="w-4 h-4 mr-2 text-gold"></i> Support Building Fund
+          </a>
+        </div>
+
+        <!-- Mobile Hamburger Button -->
+        <div class="lg:hidden flex items-center">
+          <button id="menu-toggle" type="button"
+            class="p-2 rounded-md text-navy hover:text-gold hover:bg-slate-50 focus:outline-none"
+            aria-controls="mobile-menu" aria-expanded="false">
+            <span class="sr-only">Open main menu</span>
+            <i data-lucide="menu" class="w-7 h-7"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Overlay & Nav Menu -->
+    <div id="mobile-menu"
+      class="hidden fixed inset-0 z-50 bg-navy/95 backdrop-blur-lg flex-col justify-between p-6 overflow-y-auto">
+      <div>
+        <div class="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
+          <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-full bg-gold flex items-center justify-center text-navy font-bold">
+              <i data-lucide="cross" class="w-5 h-5"></i>
+            </div>
+            <span class="font-serif font-bold text-white text-lg" data-i18n="church_sub">Hiwot Birhan Church</span>
+          </div>
+          <button id="close-mobile-menu" type="button"
+            class="p-2 text-white hover:text-gold focus:outline-none rounded-lg" aria-label="Close menu">
+            <i data-lucide="x" class="w-7 h-7"></i>
+          </button>
+        </div>
+
+        <nav class="flex flex-col space-y-4 text-left" aria-label="Mobile Navigation">
+          <!-- Mobile Language Selector Switcher -->
+          <div class="flex items-center space-x-2 bg-white/10 p-1.5 rounded-xl mb-2 w-fit border border-white/20">
+            <span class="text-xs text-slate-300 font-semibold px-2">Language / ቋንቋ:</span>
+            <button type="button" data-lang-btn="en" onclick="setLanguage('en')"
+              class="px-3 py-1 rounded-lg text-xs font-bold bg-white text-navy shadow-sm">EN</button>
+            <button type="button" data-lang-btn="am" onclick="setLanguage('am')"
+              class="px-3 py-1 rounded-lg text-xs font-semibold text-white hover:text-gold">አማርኛ</button>
+          </div>
+
+          <a href="index.html" data-i18n="nav_home" class="text-xl font-serif text-gold font-bold py-2">Home</a>
+          <a href="about.html" data-i18n="nav_about" class="text-xl font-serif text-white hover:text-gold py-2">About
+            Us</a>
+          <a href="about.html#beliefs" data-i18n="nav_beliefs"
+            class="text-xl font-serif text-white hover:text-gold py-2">Core Beliefs</a>
+          <a href="ministries.html" data-i18n="nav_ministries"
+            class="text-xl font-serif text-white hover:text-gold py-2">Ministries</a>
+          <a href="#services" data-i18n="nav_services"
+            class="text-xl font-serif text-white hover:text-gold py-2">Service Times</a>
+          <a href="events.html" data-i18n="nav_events"
+            class="text-xl font-serif text-white hover:text-gold py-2">Upcoming Events</a>
+          <a href="contact.html" data-i18n="nav_contact"
+            class="text-xl font-serif text-white hover:text-gold py-2">Contact & Visit</a>
+        </nav>
+      </div>
+
+      <div class="pt-8 border-t border-white/10 flex flex-col space-y-3">
+        <a href="building-fund.html" data-i18n="nav_building_fund"
+          class="w-full text-center py-3.5 px-4 bg-gold hover:bg-gold-hover text-navy font-bold rounded-lg transition-colors shadow-md flex items-center justify-center gap-2">
+          <i data-lucide="heart" class="w-5 h-5"></i> Support Building Fund
+        </a>
+        <p class="text-xs text-center text-slate-400">BATU / ZIWAY, ETHIOPIA</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main id="main-content" class="flex-grow">
+
+    <!-- 3. HERO SECTION -->
+    <section class="relative bg-navy text-white py-20 lg:py-32 overflow-hidden">
+      <!-- Ambient Graphic Accents -->
+      <div
+        class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-navy-light via-navy to-navy-dark opacity-90">
+      </div>
+      <div class="absolute -right-20 -bottom-20 w-96 h-96 bg-gold/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+          <div class="lg:col-span-7 space-y-8 text-center lg:text-left fade-in-up">
+
+            <div
+              class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-gold/15 border border-gold/30 text-gold text-xs font-semibold uppercase tracking-wider">
+              <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
+              <span data-i18n="hero_location_badge">Ziway / Batu, Ethiopia</span>
+            </div>
+
+            <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight"
+              data-i18n="hero_title">
+              A Place to Belong. <br class="hidden sm:inline" /><span class="text-gold italic font-normal">A Faith to
+                Grow.</span>
+            </h1>
+
+            <p class="text-lg sm:text-xl text-slate-200 font-normal max-w-2xl mx-auto lg:mx-0 leading-relaxed"
+              data-i18n="hero_subtitle">
+              Join a Christ-centered community where we worship together, grow in God's Word, and serve our neighbors in
+              Ziway/Batu with authentic love and grace.
+            </p>
+
+            <!-- Prominent Service Info Box -->
+            <div class="glass-card-dark p-6 rounded-2xl max-w-xl mx-auto lg:mx-0 text-left border-l-4 border-l-gold">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-gold uppercase tracking-wider" data-i18n="hero_join_us">Join Us This
+                  Sunday</span>
+                <span class="text-xs text-slate-300 font-medium" data-i18n="hero_weekly_worship">Weekly Worship</span>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-slate-100">
+                <div class="flex items-start space-x-2.5">
+                  <i data-lucide="clock" class="w-5 h-5 text-gold shrink-0 mt-0.5"></i>
+                  <div>
+                    <strong class="block text-white font-semibold" data-i18n="hero_service_times">Sunday 3:00 – 6:00 (9:00 AM – 12:00 PM)</strong>
+                    <span class="text-xs text-slate-300" data-i18n="service_sun_title">የአምልኮ ጊዜ • Sunday Worship Service</span>
+                  </div>
+                </div>
+                <div class="flex items-start space-x-2.5">
+                  <i data-lucide="map-pin" class="w-5 h-5 text-gold shrink-0 mt-0.5"></i>
+                  <div>
+                    <strong class="block text-white font-semibold" data-i18n="hero_address_summary">Central
+                      Avenue</strong>
+                    <span class="text-xs text-slate-300">Batu (Ziway), Oromia</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hero Action Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+              <a href="#services" data-i18n="hero_plan_visit"
+                class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-gold hover:bg-gold-hover text-navy font-bold rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5">
+                Plan Your Visit <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i>
+              </a>
+              <a href="building-fund.html" data-i18n="hero_support_building"
+                class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold rounded-xl backdrop-blur-sm transition-all">
+                Support Our New Building
+              </a>
+            </div>
+
+          </div>
+
+          <!-- Hero Photography Card -->
+          <div class="lg:col-span-5 relative fade-in-up">
+            <div
+              class="relative mx-auto max-w-md lg:max-w-none rounded-3xl overflow-hidden shadow-2xl border-4 border-white/10 group">
+              <img src="images/church_building.jpg"
+                alt="BATU YEHIYWOT BERHAN CHURCH Building — Front View"
+                class="w-full h-[450px] object-cover group-hover:scale-105 transition-transform duration-700">
+              <div class="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/20 to-transparent"></div>
+
+              <div class="absolute bottom-6 left-6 right-6 text-left">
+                <span
+                  class="px-2.5 py-1 rounded bg-gold text-navy font-bold text-[10px] uppercase tracking-wider">Church
+                  Sanctuary & Facade</span>
+                <h3 class="font-serif text-xl font-bold text-white mt-2">BATU YEHIYWOT BERHAN CHURCH</h3>
+                <p class="text-xs text-slate-300 mt-1">Front view & main entrance of our church home in Ziway/Batu</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Subtle Scroll Indicator -->
+      <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-center text-white/50 hidden md:block">
+        <a href="#welcome" class="hover:text-gold transition-colors flex flex-col items-center gap-1 focus:outline-none"
+          aria-label="Scroll down">
+          <span class="text-[10px] uppercase tracking-widest font-semibold">Scroll</span>
+          <i data-lucide="chevron-down" class="w-4 h-4 animate-bounce"></i>
+        </a>
+      </div>
+    </section>
+
+    <!-- 4. WELCOME / ABOUT SECTION -->
+    <section id="welcome" class="py-20 bg-cream">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="text-center max-w-3xl mx-auto mb-16 fade-in-up">
+          <span class="text-xs font-bold uppercase tracking-widest text-gold" data-i18n="welcome_tag">Welcome
+            Home</span>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-navy mt-2" data-i18n="welcome_title">A Community
+            Anchored in Grace</h2>
+          <div class="w-16 h-1 bg-gold mx-auto my-4 rounded-full"></div>
+          <p class="text-base sm:text-lg text-slate-muted leading-relaxed" data-i18n="welcome_desc">
+            BATU/ZIWAY Hiwot Birhan Church exists to honor God by proclaiming Jesus Christ, building vibrant believers,
+            and extending Christ's compassionate love to our city and beyond.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+          <div
+            class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow fade-in-up">
+            <div class="w-12 h-12 rounded-xl bg-gold/10 text-gold flex items-center justify-center mb-6">
+              <i data-lucide="book-open" class="w-6 h-6"></i>
+            </div>
+            <h3 class="font-serif text-xl font-bold text-navy mb-3" data-i18n="welcome_biblical_title">Biblical Teaching
+            </h3>
+            <p class="text-sm text-slate-muted leading-relaxed" data-i18n="welcome_biblical_desc">
+              We are committed to practical, verse-by-verse preaching grounded in God's Holy Word that equips you for
+              daily Christian living.
+            </p>
+          </div>
+
+          <div
+            class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow fade-in-up">
+            <div class="w-12 h-12 rounded-xl bg-gold/10 text-gold flex items-center justify-center mb-6">
+              <i data-lucide="users" class="w-6 h-6"></i>
+            </div>
+            <h3 class="font-serif text-xl font-bold text-navy mb-3" data-i18n="welcome_fellowship_title">Vibrant
+              Fellowship</h3>
+            <p class="text-sm text-slate-muted leading-relaxed" data-i18n="welcome_fellowship_desc">
+              Faith grows best together. Discover meaningful relationships through small groups, youth gatherings, and
+              family fellowships.
+            </p>
+          </div>
+
+          <div
+            class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow fade-in-up">
+            <div class="w-12 h-12 rounded-xl bg-gold/10 text-gold flex items-center justify-center mb-6">
+              <i data-lucide="hand-heart" class="w-6 h-6"></i>
+            </div>
+            <h3 class="font-serif text-xl font-bold text-navy mb-3" data-i18n="welcome_outreach_title">Community
+              Outreach</h3>
+            <p class="text-sm text-slate-muted leading-relaxed" data-i18n="welcome_outreach_desc">
+              We serve the vulnerable, care for families, and share the hope of the Gospel in Ziway/Batu through active
+              mercy ministries.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="mt-12 text-center">
+          <a href="about.html" data-i18n="welcome_learn_more"
+            class="inline-flex items-center text-sm font-bold text-navy hover:text-gold transition-colors">
+            Learn More About Our History & Vision <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- HERITAGE SPOTLIGHT BANNER -->
+    <section class="py-12 bg-navy text-white relative overflow-hidden">
+      <div class="absolute top-0 right-1/4 w-96 h-96 bg-gold/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="bg-navy-dark/80 rounded-3xl p-8 sm:p-12 border border-gold/30 shadow-xl flex flex-col lg:flex-row items-center justify-between gap-8">
+          <div class="space-y-4 max-w-2xl text-center lg:text-left">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold/20 text-gold text-xs font-bold uppercase tracking-wider border border-gold/40">
+              <i data-lucide="flame" class="w-3.5 h-3.5"></i>
+              <span data-i18n="history_tag">A Legacy of Faith & Survival</span>
+            </div>
+            <h2 class="font-serif font-bold text-2xl sm:text-3xl lg:text-4xl text-white" data-i18n="history_title">
+              The Hiwot Birhan Church Story
+            </h2>
+            <p class="text-white/80 text-xs sm:text-sm leading-relaxed" data-i18n="history_subtitle">
+              How Swedish missionaries, nighttime chapels in Chapa, and 17 years underground under the Derg regime blossomed into over 1 million believers across Ethiopia.
+            </p>
+            <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 text-xs font-semibold text-gold">
+              <span>• 1960 Swedish Missionaries</span>
+              <span>• 1962 Chapa Night Chapel</span>
+              <span>• 17 Yrs Underground</span>
+              <span>• 1M+ Members Today</span>
+            </div>
+          </div>
+
+          <div class="shrink-0">
+            <a href="about.html"
+              class="px-7 py-3.5 rounded-xl bg-gold hover:bg-gold-hover text-navy font-bold text-xs uppercase tracking-wider transition-all shadow-lg flex items-center gap-2">
+              <span data-i18n="history_read_more_btn">Explore Our Full Journey</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. PASTOR'S WELCOME SECTION -->
+    <section class="py-20 bg-white border-y border-slate-100">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-cream-card rounded-3xl p-8 sm:p-12 border border-slate-200/80 shadow-sm">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+            <div class="lg:col-span-5 relative fade-in-up">
+              <div class="relative mx-auto max-w-sm rounded-2xl overflow-hidden shadow-xl border-4 border-white">
+                <img src="images/pastor_zerfu.png"
+                  alt="Pastor Zerfu — Lead Pastor of BATU/ZIWAY Hiwot Birhan Church"
+                  class="w-full h-[400px] object-cover object-top">
+                <div class="absolute bottom-0 inset-x-0 bg-navy/90 text-white p-4 text-center">
+                  <h4 class="font-serif font-bold text-lg" data-i18n="pastor_name">Pastor Zerfu</h4>
+                  <p class="text-xs text-gold" data-i18n="pastor_role">Lead Pastor — BATU/ZIWAY Hiwot Birhan Church</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="lg:col-span-7 space-y-6 fade-in-up">
+              <div class="inline-flex items-center space-x-2 text-gold font-bold text-xs uppercase tracking-widest">
+                <i data-lucide="quote" class="w-4 h-4"></i>
+                <span data-i18n="pastor_tag">A Word From Our Pastor</span>
+              </div>
+
+              <h2 class="font-serif text-3xl sm:text-4xl font-bold text-navy" data-i18n="pastor_headline">
+                "Whether You're Exploring Faith or Looking for a Church Family, You Are Welcome."
+              </h2>
+
+              <blockquote
+                class="text-base sm:text-lg text-slate-muted italic leading-relaxed border-l-2 border-gold pl-4"
+                data-i18n="pastor_quote">
+                "At Hiwot Birhan Church, our heart is simple: to see lives transformed by the grace and truth of Jesus
+                Christ. No matter where you come from or where you are on your spiritual journey, our doors and our
+                hearts are open to you."
+              </blockquote>
+
+              <div class="pt-4 flex flex-wrap items-center gap-4">
+                <a href="about.html" data-i18n="pastor_btn_team"
+                  class="inline-flex items-center px-6 py-3 bg-navy hover:bg-navy-light text-white font-semibold text-sm rounded-xl transition-all shadow-sm">
+                  Meet Our Pastoral Team
+                </a>
+                <a href="contact.html" data-i18n="pastor_btn_prayer"
+                  class="inline-flex items-center px-6 py-3 border border-slate-300 text-slate hover:text-navy hover:border-navy text-sm font-semibold rounded-xl transition-all">
+                  Request Pastoral Prayer
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5.5 PASTOR'S DESK & SERMON POSTERS SHOWCASE SECTION -->
+    <section class="py-20 bg-slate-900 text-white relative overflow-hidden">
+      <div class="absolute -top-40 -right-40 w-96 h-96 bg-gold/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+          <div>
+            <div class="inline-flex items-center space-x-2 text-gold font-bold text-xs uppercase tracking-widest mb-2">
+              <i data-lucide="image" class="w-4 h-4"></i>
+              <span>Pastor's Media & Sermon Gallery</span>
+            </div>
+            <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white">Pastor Posters & Sermon Messages</h2>
+            <p class="text-sm text-slate-300 mt-2 max-w-xl">Weekly sermon graphics, pastoral announcements, and ministry
+              posters from Pastor Zerfu.</p>
+          </div>
+        </div>
+
+        <div id="homepage-pastor-posts" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+          <!-- Poster Card 1 -->
+          <div
+            class="bg-navy-dark rounded-2xl border border-gold/30 overflow-hidden shadow-xl hover:border-gold transition-all duration-300 group">
+            <div class="h-64 overflow-hidden relative">
+              <img src="images/pastor_zerfu.png" alt="Pastor Zerfu"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <span
+                class="absolute top-3 right-3 bg-gold text-navy text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Pastor's
+                Desk</span>
+            </div>
+            <div class="p-6">
+              <h3 class="font-serif font-bold text-lg text-white mb-2">Pastor Zerfu — Welcome to Hiwot Birhan
+                Church</h3>
+              <p class="text-xs text-slate-300 leading-relaxed mb-4">Welcome to BATU/ZIWAY Hiwot Birhan Church. We are
+                dedicated to walking in biblical truth, vibrant worship, and serving our community with the love of
+                Christ in Ziway/Batu.</p>
+              <div class="text-[11px] text-gold font-medium">Pastor Zerfu</div>
+            </div>
+          </div>
+
+          <!-- Poster Card 2 -->
+          <div
+            class="bg-navy-dark rounded-2xl border border-gold/30 overflow-hidden shadow-xl hover:border-gold transition-all duration-300 group">
+            <div class="h-64 overflow-hidden relative">
+              <img src="images/sermon_poster.png" alt="Sunday Sermon Series: Walking in the Light"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <span
+                class="absolute top-3 right-3 bg-navy text-gold border border-gold/40 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Sermon
+                Series</span>
+            </div>
+            <div class="p-6">
+              <h3 class="font-serif font-bold text-lg text-white mb-2">Sunday Sermon Series: Walking in the Light
+                (የክርስቶስ ብርሃን)</h3>
+              <p class="text-xs text-slate-300 leading-relaxed mb-4">Join us this Sunday at 3:00 – 6:00 (9:00 AM – 12:00 PM) for Ye Amliko Gize (የአምልኮ ጊዜ) and our sermon series exploring 1 John 1:7.</p>
+              <div class="text-[11px] text-gold font-medium">Sunday 3:00 – 6:00 (9:00 AM – 12:00 PM) • የአምልኮ ጊዜ</div>
+            </div>
+          </div>
+
+          <!-- Poster Card 3 -->
+          <div
+            class="bg-navy-dark rounded-2xl border border-gold/30 overflow-hidden shadow-xl hover:border-gold transition-all duration-300 group">
+            <div class="h-64 overflow-hidden relative">
+              <img src="images/church_building.jpg" alt="Building Fund: Church Building Front View"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <span
+                class="absolute top-3 right-3 bg-emerald-700 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Building
+                Project</span>
+            </div>
+            <div class="p-6">
+              <h3 class="font-serif font-bold text-lg text-white mb-2">Building Fund: Church Building & Front Entrance Views</h3>
+              <p class="text-xs text-slate-300 leading-relaxed mb-4">Praise God! Our new church building front facade and entrance steps. Expanding God’s sanctuary in Ziway to accommodate over 2,500 worshippers.</p>
+              <div class="text-[11px] text-gold font-medium">Church Leadership</div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 6. CORE BELIEFS SECTION -->
+    <section id="beliefs" class="py-20 bg-cream">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="text-center max-w-3xl mx-auto mb-16 fade-in-up">
+          <span class="text-xs font-bold uppercase tracking-widest text-gold" data-i18n="beliefs_tag">Foundation of
+            Faith</span>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-navy mt-2" data-i18n="beliefs_title">What We Believe
+          </h2>
+          <div class="w-16 h-1 bg-gold mx-auto my-4 rounded-full"></div>
+          <p class="text-base text-slate-muted" data-i18n="beliefs_desc">
+            Our doctrines are centered on the timeless truths of Holy Scripture and the historic Gospel of Jesus Christ.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm fade-in-up">
+            <h3 class="font-serif text-lg font-bold text-navy mb-2 flex items-center gap-2">
+              <i data-lucide="book" class="w-5 h-5 text-gold"></i> <span
+                data-i18n="beliefs_scripture_title">Scripture</span>
+            </h3>
+            <p class="text-sm text-slate-muted leading-relaxed" data-i18n="beliefs_scripture_desc">
+              We believe the Holy Bible is the inspired, infallible, and authoritative Word of God, serving as the
+              supreme rule for faith and Christian living.
+            </p>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm fade-in-up">
+            <h3 class="font-serif text-lg font-bold text-navy mb-2 flex items-center gap-2">
+              <i data-lucide="sparkles" class="w-5 h-5 text-gold"></i> <span
+                data-i18n="beliefs_grace_title">Grace</span>
+            </h3>
+            <p class="text-sm text-slate-muted leading-relaxed" data-i18n="beliefs_grace_desc">
+              We believe salvation is God's free gift of grace, received through faith alone in Jesus Christ, and not by
+              human works.
+            </p>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm fade-in-up">
+            <h3 class="font-serif text-lg font-bold text-navy mb-2 flex items-center gap-2">
+              <i data-lucide="cross" class="w-5 h-5 text-gold"></i> <span data-i18n="beliefs_jesus_title">Jesus
+                Christ</span>
+            </h3>
+            <p class="text-sm text-slate-muted leading-relaxed" data-i18n="beliefs_jesus_desc">
+              We believe Jesus Christ is the eternal Son of God, who lived a sinless life, died on the cross for our
+              sins, and rose bodily from the dead.
+            </p>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm fade-in-up">
+            <h3 class="font-serif text-lg font-bold text-navy mb-2 flex items-center gap-2">
+              <i data-lucide="heart" class="w-5 h-5 text-gold"></i> <span data-i18n="beliefs_faith_title">Faith &
+                Justification</span>
+            </h3>
+            <p class="text-sm text-slate-muted leading-relaxed" data-i18n="beliefs_faith_desc">
+              Believers are justified by faith in Christ and called to live transformed, holy lives by the power of the
+              Holy Spirit.
+            </p>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm fade-in-up">
+            <h3 class="font-serif text-lg font-bold text-navy mb-2 flex items-center gap-2">
+              <i data-lucide="flame" class="w-5 h-5 text-gold"></i> <span data-i18n="beliefs_spirit_title">Holy
+                Spirit</span>
+            </h3>
+            <p class="text-sm text-slate-muted leading-relaxed" data-i18n="beliefs_spirit_desc">
+              We believe the Holy Spirit indwells, guides, comforts, and equips every believer with spiritual gifts for
+              Christian service.
+            </p>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm fade-in-up">
+            <h3 class="font-serif text-lg font-bold text-navy mb-2 flex items-center gap-2">
+              <i data-lucide="globe" class="w-5 h-5 text-gold"></i> <span data-i18n="beliefs_church_title">Church
+                Community</span>
+            </h3>
+            <p class="text-sm text-slate-muted leading-relaxed" data-i18n="beliefs_church_desc">
+              The church is the body of Christ called to worship God, nurture disciples, care for the needy, and spread
+              the Gospel locally and globally.
+            </p>
+          </div>
+
+        </div>
+        <div class="mt-12 text-center">
+          <a href="about.html#beliefs" data-i18n="beliefs_btn_statement"
+            class="inline-flex items-center px-6 py-3 bg-white border border-slate-300 text-navy font-semibold text-sm rounded-xl hover:border-gold hover:text-gold transition-all shadow-sm">
+            Read Our Full Statement of Faith <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 7. SERVICES SCHEDULE SECTION -->
+    <section id="services" class="py-20 bg-navy text-white relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="text-center max-w-3xl mx-auto mb-16 fade-in-up">
+          <span class="text-xs font-bold uppercase tracking-widest text-gold" data-i18n="services_tag">Worship With
+            Us</span>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mt-2" data-i18n="services_title">Service Times
+            & Gatherings</h2>
+          <div class="w-16 h-1 bg-gold mx-auto my-4 rounded-full"></div>
+          <p class="text-base text-slate-300" data-i18n="services_desc">
+            We welcome you to worship with us in person in Batu (Ziway).
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+          <!-- Sunday Service -->
+          <div class="glass-card-dark p-8 rounded-2xl border-t-4 border-t-gold text-left fade-in-up flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="text-[10px] font-bold text-gold uppercase tracking-widest bg-gold/15 px-3 py-1 rounded-full border border-gold/30">
+                  Sunday • እሁድ
+                </span>
+                <i data-lucide="sun" class="w-6 h-6 text-gold"></i>
+              </div>
+              <h3 class="font-serif text-2xl font-bold text-white mb-2" data-i18n="service_sun_title">Sunday Worship Service (የአምልኮ ጊዜ)</h3>
+              <div class="inline-block bg-gold/20 border border-gold/40 text-gold font-bold text-sm px-3.5 py-1.5 rounded-xl mb-4" data-i18n="service_sun_time">
+                3:00 – 6:00 (9:00 AM – 12:00 PM)
+              </div>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed" data-i18n="service_sun_desc">
+                Main Worship Service (የአምልኮ ጊዜ) with vibrant praise, preaching of God's Word, and prayer in Amharic & Afaan Oromo.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs text-slate-400">
+              <span>Main Sanctuary</span>
+              <span class="text-gold font-semibold">Amharic & Afaan Oromo</span>
+            </div>
+          </div>
+
+          <!-- Wednesday Service -->
+          <div class="glass-card-dark p-8 rounded-2xl border-t-4 border-t-gold text-left fade-in-up flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="text-[10px] font-bold text-gold uppercase tracking-widest bg-gold/15 px-3 py-1 rounded-full border border-gold/30">
+                  Wednesday • ረቡዕ
+                </span>
+                <i data-lucide="book-open-check" class="w-6 h-6 text-gold"></i>
+              </div>
+              <h3 class="font-serif text-2xl font-bold text-white mb-2" data-i18n="service_wed_title">Wednesday — Prayer & Teaching (የጸሎት እና የትምህርት ጊዜ)</h3>
+              <div class="inline-block bg-gold/20 border border-gold/40 text-gold font-bold text-sm px-3.5 py-1.5 rounded-xl mb-4" data-i18n="service_wed_time">
+                11:00 – 1:00 (5:00 PM – 7:00 PM)
+              </div>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed" data-i18n="service_wed_desc">
+                Mid-week gathering focused on collective prayer, intercession for families and nation, and systematic biblical teaching.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs text-slate-400">
+              <span>Prayer & Teaching</span>
+              <span class="text-gold font-semibold">All Believers Welcome</span>
+            </div>
+          </div>
+
+          <!-- Friday Service -->
+          <div class="glass-card-dark p-8 rounded-2xl border-t-4 border-t-gold text-left fade-in-up flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="text-[10px] font-bold text-gold uppercase tracking-widest bg-gold/15 px-3 py-1 rounded-full border border-gold/30">
+                  Friday • ዓርብ
+                </span>
+                <i data-lucide="flame" class="w-6 h-6 text-gold"></i>
+              </div>
+              <h3 class="font-serif text-2xl font-bold text-white mb-2" data-i18n="service_fri_title">Friday — Worship & Healing (የአምልኮ እና የፈውስ ጊዜ)</h3>
+              <div class="inline-block bg-gold/20 border border-gold/40 text-gold font-bold text-sm px-3.5 py-1.5 rounded-xl mb-4" data-i18n="service_fri_time">
+                11:00 – 1:00 (5:00 PM – 7:00 PM)
+              </div>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed" data-i18n="service_fri_desc">
+                Spirit-empowered service dedicated to heartfelt worship, spiritual breakthrough, deliverance, and prayer for the sick.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs text-slate-400">
+              <span>Worship & Healing</span>
+              <span class="text-gold font-semibold">Spirit-Led Gathering</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- First Time Visitor Box -->
+        <div
+          class="mt-12 bg-white/5 rounded-2xl p-6 sm:p-8 border border-white/10 flex flex-col md:flex-row items-center justify-between gap-6 fade-in-up">
+          <div class="space-y-2 text-center md:text-left">
+            <span class="text-xs font-bold text-gold uppercase tracking-wider"
+              data-i18n="services_visitor_tag">First-Time Visitors</span>
+            <h4 class="font-serif text-xl font-bold text-white" data-i18n="services_visitor_title">What Can I Expect on
+              My First Visit?</h4>
+            <p class="text-xs text-slate-300 max-w-2xl" data-i18n="services_visitor_desc">
+              Free parking is available. Children's ministry classes are provided during services, and our welcoming
+              greeters will help you find your seat!
+            </p>
+          </div>
+          <a href="contact.html" data-i18n="services_visitor_btn"
+            class="px-6 py-3 bg-gold hover:bg-gold-hover text-navy font-bold text-sm rounded-xl transition-all shrink-0">
+            Plan Your First Visit
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 10. BUILDING CAMPAIGN TEASER & ANIMATED PROGRESS BAR -->
+    <section id="building-campaign-section" class="py-20 bg-navy text-white relative overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="bg-navy-light/60 backdrop-blur-md rounded-3xl p-8 sm:p-12 border border-gold/30 shadow-2xl">
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+            <div class="lg:col-span-6 space-y-6 text-left fade-in-up">
+              <span
+                class="px-3 py-1 bg-gold/20 text-gold text-xs font-bold rounded-full uppercase tracking-widest border border-gold/40"
+                data-i18n="building_teaser_tag">Building Vision 2026</span>
+              <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white" data-i18n="building_teaser_title">
+                Building Together. <br /><span class="text-gold italic">Growing Together.</span>
+              </h2>
+              <p class="text-sm sm:text-base text-slate-200 leading-relaxed" data-i18n="building_teaser_desc">
+                God has given our church a vision to create a larger sanctuary, dedicated children's facilities, youth
+                centers, and expanded community outreach space to serve Batu (Ziway).
+              </p>
+
+              <!-- Building Exterior / Front View Preview Badge -->
+              <div class="rounded-2xl overflow-hidden border border-gold/30 shadow-lg relative group">
+                <img src="images/church_building.jpg" alt="BATU Church Building Front View" class="w-full h-44 sm:h-48 object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/30 to-transparent flex items-end p-4">
+                  <div>
+                    <span class="text-[10px] font-bold text-gold uppercase tracking-wider">Sanctuary Architecture</span>
+                    <p class="text-white text-xs font-semibold">Front Entrance & Facade View — Batu (Ziway)</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pt-2">
+                <a href="building-fund.html" data-i18n="building_teaser_btn"
+                  class="inline-flex items-center px-8 py-4 bg-gold hover:bg-gold-hover text-navy font-bold rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5">
+                  Give to the Building Fund <i data-lucide="heart" class="w-5 h-5 ml-2 fill-navy"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Dynamic Animated Campaign Progress Tracker Card with Open Dual-Currency (ETB & USD) -->
+            <div class="lg:col-span-6 fade-in-up">
+              <div class="bg-navy-dark/95 p-6 sm:p-8 rounded-3xl border border-gold/30 shadow-2xl space-y-6">
+
+                <!-- Header with Currency Selector Toggle -->
+                <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-white/10">
+                  <div class="flex items-center space-x-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span class="text-xs font-bold text-gold uppercase tracking-wider" data-i18n="building_view_curr_label">Display Currency:</span>
+                  </div>
+                  
+                  <div class="inline-flex p-1 bg-white/10 rounded-xl border border-white/10 text-xs font-bold" role="tablist">
+                    <button type="button" id="tracker-curr-usd" onclick="setTrackerCurrency('USD')"
+                      class="px-3.5 py-1.5 rounded-lg transition-all bg-gold text-navy font-bold shadow-sm focus:outline-none">
+                      USD ($)
+                    </button>
+                    <button type="button" id="tracker-curr-etb" onclick="setTrackerCurrency('ETB')"
+                      class="px-3.5 py-1.5 rounded-lg transition-all text-slate-300 hover:text-white focus:outline-none">
+                      ETB (ብር)
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Hero Goal Status -->
+                <div class="flex items-center justify-between">
+                  <div>
+                    <span class="text-xs text-slate-400 uppercase tracking-wider block font-medium"
+                      data-i18n="building_raised_label">Goal Status</span>
+                    <h4 class="font-serif text-2xl sm:text-3xl font-bold text-white mt-0.5" id="campaign-raised">$315,000</h4>
+                  </div>
+                  <div class="text-right">
+                    <span class="text-xs text-slate-400 uppercase tracking-wider block font-medium"
+                      data-i18n="building_goal_label">Target Goal</span>
+                    <span class="text-xl sm:text-2xl font-bold text-gold font-serif" id="campaign-goal">$500,000</span>
+                  </div>
+                </div>
+
+                <!-- Animated Progress Bar -->
+                <div class="space-y-2">
+                  <div class="flex justify-between text-xs font-semibold text-slate-300">
+                    <span id="campaign-progress-label">Campaign Progress (<span id="campaign-active-curr">USD</span>)</span>
+                    <span id="campaign-percentage" class="text-gold font-bold text-sm">63%</span>
+                  </div>
+                  <div class="w-full h-4 bg-slate-800 rounded-full overflow-hidden p-0.5 border border-slate-700">
+                    <div id="campaign-progress-bar"
+                      class="h-full bg-gradient-to-r from-gold to-amber-300 rounded-full progress-bar-fill w-0"></div>
+                  </div>
+                  <div class="flex justify-between text-[11px] text-slate-400 pt-1">
+                    <span>Remaining: <strong class="text-white font-semibold" id="campaign-remaining">$185,000</strong></span>
+                    <span class="text-emerald-400 font-medium flex items-center gap-1">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Live Verified
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Open Dual-Currency Summary Cards (Simultaneously Visible to All Viewers) -->
+                <div class="pt-4 border-t border-white/10 space-y-2">
+                  <span class="text-[11px] uppercase tracking-wider font-bold text-slate-400 block mb-2">
+                    Currency Breakdown (ETB & USD Open View)
+                  </span>
+                  
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <!-- ETB Summary Card -->
+                    <div id="dual-card-etb" onclick="setTrackerCurrency('ETB')"
+                      class="p-3.5 rounded-2xl border transition-all cursor-pointer bg-white/5 border-white/10 hover:border-gold/50 hover:bg-white/10 group">
+                      <div class="flex items-center justify-between text-xs mb-1">
+                        <span class="font-bold text-white flex items-center gap-1.5">
+                          <span>🇪🇹</span> <span data-i18n="building_dual_etb_title">Ethiopian Birr (ETB)</span>
+                        </span>
+                        <span id="dual-etb-pct" class="px-2 py-0.5 bg-gold/20 text-gold text-[10px] font-bold rounded-full">63%</span>
+                      </div>
+                      <div class="text-base font-bold text-white font-serif mt-1" id="dual-etb-raised">ብር 37,800,000</div>
+                      <div class="text-[11px] text-slate-400 flex justify-between mt-1">
+                        <span>Goal: <span id="dual-etb-goal">ብር 60,000,000</span></span>
+                        <span class="text-gold group-hover:underline text-[10px] font-semibold">View &rarr;</span>
+                      </div>
+                    </div>
+
+                    <!-- USD Summary Card -->
+                    <div id="dual-card-usd" onclick="setTrackerCurrency('USD')"
+                      class="p-3.5 rounded-2xl border transition-all cursor-pointer bg-white/10 border-gold/40 shadow-sm hover:border-gold hover:bg-white/15 group">
+                      <div class="flex items-center justify-between text-xs mb-1">
+                        <span class="font-bold text-white flex items-center gap-1.5">
+                          <span>🌐</span> <span data-i18n="building_dual_usd_title">US Dollars (USD)</span>
+                        </span>
+                        <span id="dual-usd-pct" class="px-2 py-0.5 bg-gold/20 text-gold text-[10px] font-bold rounded-full">63%</span>
+                      </div>
+                      <div class="text-base font-bold text-white font-serif mt-1" id="dual-usd-raised">$315,000</div>
+                      <div class="text-[11px] text-slate-400 flex justify-between mt-1">
+                        <span>Goal: <span id="dual-usd-goal">$500,000</span></span>
+                        <span class="text-gold group-hover:underline text-[10px] font-semibold">View &rarr;</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. MINISTRIES SECTION -->
+    <section class="py-20 bg-cream">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="text-center max-w-3xl mx-auto mb-16 fade-in-up">
+          <span class="text-xs font-bold uppercase tracking-widest text-gold">Serve & Connect</span>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-navy mt-2">Church Ministries</h2>
+          <div class="w-16 h-1 bg-gold mx-auto my-4 rounded-full"></div>
+          <p class="text-base text-slate-muted">
+            Find your place to serve, grow, and build meaningful relationships within our church family.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+          <div
+            class="bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-sm hover:shadow-md transition-all group fade-in-up">
+            <div class="h-44 bg-slate-100 overflow-hidden relative">
+              <img src="https://images.unsplash.com/photo-1485546246426-74dc88dec4d9?auto=format&fit=crop&w=600&q=80"
+                alt="Children's Ministry"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <span
+                class="absolute top-3 left-3 bg-navy text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Ages
+                2-12</span>
+            </div>
+            <div class="p-6">
+              <h3 class="font-serif text-xl font-bold text-navy mb-2">Children's Ministry</h3>
+              <p class="text-xs text-slate-muted leading-relaxed mb-4">
+                Nurturing young hearts with biblical foundation, creative activities, and joyful worship in a safe
+                environment.
+              </p>
+              <a href="ministries.html#children"
+                class="text-xs font-bold text-navy hover:text-gold transition-colors inline-flex items-center">
+                Learn More <i data-lucide="chevron-right" class="w-4 h-4 ml-0.5"></i>
+              </a>
+            </div>
+          </div>
+
+          <div
+            class="bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-sm hover:shadow-md transition-all group fade-in-up">
+            <div class="h-44 bg-slate-100 overflow-hidden relative">
+              <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80"
+                alt="Youth Ministry"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <span
+                class="absolute top-3 left-3 bg-navy text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Teens
+                & Students</span>
+            </div>
+            <div class="p-6">
+              <h3 class="font-serif text-xl font-bold text-navy mb-2">Youth Ministry</h3>
+              <p class="text-xs text-slate-muted leading-relaxed mb-4">
+                Empowering the next generation to stand firm in faith through Bible study, retreats, and community
+                projects.
+              </p>
+              <a href="ministries.html#youth"
+                class="text-xs font-bold text-navy hover:text-gold transition-colors inline-flex items-center">
+                Learn More <i data-lucide="chevron-right" class="w-4 h-4 ml-0.5"></i>
+              </a>
+            </div>
+          </div>
+
+          <div
+            class="bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-sm hover:shadow-md transition-all group fade-in-up">
+            <div class="h-44 bg-slate-100 overflow-hidden relative">
+              <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80"
+                alt="Women's Ministry"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <span
+                class="absolute top-3 left-3 bg-navy text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Fellowship</span>
+            </div>
+            <div class="p-6">
+              <h3 class="font-serif text-xl font-bold text-navy mb-2">Women's Ministry</h3>
+              <p class="text-xs text-slate-muted leading-relaxed mb-4">
+                Connecting women for spiritual encouragement, prayer, mentorship, and practical support for families.
+              </p>
+              <a href="ministries.html#women"
+                class="text-xs font-bold text-navy hover:text-gold transition-colors inline-flex items-center">
+                Learn More <i data-lucide="chevron-right" class="w-4 h-4 ml-0.5"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="mt-12 text-center">
+          <a href="ministries.html"
+            class="inline-flex items-center px-6 py-3 bg-navy hover:bg-navy-light text-white font-semibold text-sm rounded-xl transition-all shadow-sm">
+            View All Church Ministries <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 9. EVENTS SECTION -->
+    <section class="py-20 bg-white border-y border-slate-100">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 fade-in-up">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-widest text-gold">Stay Connected</span>
+            <h2 class="font-serif text-3xl sm:text-4xl font-bold text-navy mt-1">Upcoming Events</h2>
+          </div>
+          <a href="events.html"
+            class="mt-4 md:mt-0 text-sm font-bold text-navy hover:text-gold transition-colors flex items-center">
+            View Full Calendar <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+          <div
+            class="bg-cream-card rounded-2xl p-6 border border-slate-200/80 shadow-sm flex flex-col justify-between fade-in-up">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="px-3 py-1 bg-gold/15 text-navy font-bold text-xs rounded-md uppercase">Aug 22</span>
+                <span class="text-xs text-slate-400 font-medium">9:00 AM</span>
+              </div>
+              <h3 class="font-serif text-xl font-bold text-navy mb-2">Community Outreach Day</h3>
+              <p class="text-xs text-slate-muted leading-relaxed">
+                Distribution of food baskets, medical care assistance, and encouragement to neighborhood families in
+                Ziway.
+              </p>
+            </div>
+            <div
+              class="mt-6 pt-4 border-t border-slate-200 flex items-center justify-between text-xs font-semibold text-slate">
+              <span><i data-lucide="map-pin" class="w-3.5 h-3.5 inline text-gold"></i> Church Grounds</span>
+              <a href="events.html" class="text-navy hover:text-gold font-bold">Details &rarr;</a>
+            </div>
+          </div>
+
+          <div
+            class="bg-cream-card rounded-2xl p-6 border border-slate-200/80 shadow-sm flex flex-col justify-between fade-in-up">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="px-3 py-1 bg-gold/15 text-navy font-bold text-xs rounded-md uppercase">Aug 28</span>
+                <span class="text-xs text-slate-400 font-medium">5:30 PM</span>
+              </div>
+              <h3 class="font-serif text-xl font-bold text-navy mb-2">Youth Revival Night</h3>
+              <p class="text-xs text-slate-muted leading-relaxed">
+                An evening of passionate worship, testimony sharing, and message designed for high school and college
+                youth.
+              </p>
+            </div>
+            <div
+              class="mt-6 pt-4 border-t border-slate-200 flex items-center justify-between text-xs font-semibold text-slate">
+              <span><i data-lucide="map-pin" class="w-3.5 h-3.5 inline text-gold"></i> Main Sanctuary</span>
+              <a href="events.html" class="text-navy hover:text-gold font-bold">Details &rarr;</a>
+            </div>
+          </div>
+
+          <div
+            class="bg-cream-card rounded-2xl p-6 border border-slate-200/80 shadow-sm flex flex-col justify-between fade-in-up">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="px-3 py-1 bg-gold/15 text-navy font-bold text-xs rounded-md uppercase">Sep 03</span>
+                <span class="text-xs text-slate-400 font-medium">6:00 PM</span>
+              </div>
+              <h3 class="font-serif text-xl font-bold text-navy mb-2">Night of Prayer & Worship</h3>
+              <p class="text-xs text-slate-muted leading-relaxed">
+                A dedicated extended time of seeking God's face, intercession, and songs of praise for our church
+                building vision.
+              </p>
+            </div>
+            <div
+              class="mt-6 pt-4 border-t border-slate-200 flex items-center justify-between text-xs font-semibold text-slate">
+              <span><i data-lucide="map-pin" class="w-3.5 h-3.5 inline text-gold"></i> Prayer Hall</span>
+              <a href="events.html" class="text-navy hover:text-gold font-bold">Details &rarr;</a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 11. LOCATION & VISIT US SECTION -->
+    <section class="py-20 bg-cream">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="text-center max-w-3xl mx-auto mb-16 fade-in-up">
+          <span class="text-xs font-bold uppercase tracking-widest text-gold">Find Us</span>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-navy mt-2">Visit Our Location</h2>
+          <div class="w-16 h-1 bg-gold mx-auto my-4 rounded-full"></div>
+          <p class="text-base text-slate-muted">
+            We are conveniently located in Ziway / Batu, Oromia Region, Ethiopia.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+
+          <div
+            class="lg:col-span-5 bg-white p-8 rounded-2xl border border-slate-200/80 shadow-sm space-y-6 flex flex-col justify-between fade-in-up">
+            <div class="space-y-4">
+              <h3 class="font-serif text-2xl font-bold text-navy">BATU/ZIWAY Hiwot Birhan Church</h3>
+
+              <div class="flex items-start space-x-3 text-sm text-slate-muted">
+                <i data-lucide="map-pin" class="w-5 h-5 text-gold shrink-0 mt-1"></i>
+                <div>
+                  <strong class="text-navy font-semibold block">Address:</strong>
+                  <span>Central Avenue, Batu (Ziway), Oromia Region, Ethiopia</span>
+                </div>
+              </div>
+
+              <div class="flex items-start space-x-3 text-sm text-slate-muted">
+                <i data-lucide="phone" class="w-5 h-5 text-gold shrink-0 mt-1"></i>
+                <div>
+                  <strong class="text-navy font-semibold block">Phone:</strong>
+                  <a href="tel:+251464412345" class="hover:text-gold transition-colors">+251 46 441 2345</a>
+                </div>
+              </div>
+
+              <div class="flex items-start space-x-3 text-sm text-slate-muted">
+                <i data-lucide="mail" class="w-5 h-5 text-gold shrink-0 mt-1"></i>
+                <div>
+                  <strong class="text-navy font-semibold block">Email:</strong>
+                  <a href="mailto:info@hiwotbirhanchurch.org"
+                    class="hover:text-gold transition-colors">info@hiwotbirhanchurch.org</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-6 border-t border-slate-100 space-y-3">
+              <h4 class="font-semibold text-sm text-navy">Parking & Accessibility</h4>
+              <p class="text-xs text-slate-muted leading-relaxed">
+                On-site parking is available. Wheelchair accessible ramps and seating area provided in the main
+                sanctuary.
+              </p>
+              <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer"
+                class="inline-flex items-center justify-center w-full py-3 px-4 bg-navy hover:bg-navy-light text-white font-semibold text-sm rounded-xl transition-all">
+                Get Directions on Google Maps <i data-lucide="external-link" class="w-4 h-4 ml-2"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Google Maps Interactive Container Placeholder -->
+          <div
+            class="lg:col-span-7 bg-slate-200 rounded-2xl overflow-hidden min-h-[350px] relative border border-slate-300 shadow-sm fade-in-up">
+            <iframe title="Map location of BATU/ZIWAY Hiwot Birhan Church"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15800.0!2d38.7167!3d7.9333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zN8KwNTYnMDAuMCJOIDM4wrA0MycAwLjAiRQ!5e0!3m2!1sen!2set!4v1620000000000!5m2!1sen!2set"
+              class="w-full h-full min-h-[380px] border-0" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 12. CONTACT SECTION -->
+    <section id="contact" class="py-20 bg-white border-t border-slate-100">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+
+          <div class="lg:col-span-5 space-y-6 fade-in-up">
+            <span class="text-xs font-bold uppercase tracking-widest text-gold">Get In Touch</span>
+            <h2 class="font-serif text-3xl sm:text-4xl font-bold text-navy">We Would Love to Connect With You</h2>
+            <p class="text-sm sm:text-base text-slate-muted leading-relaxed">
+              Have questions about our church, ministries, or upcoming services? Need prayer? Reach out to us using the
+              form or contact information.
+            </p>
+
+            <div class="space-y-4 pt-4">
+              <div class="flex items-center space-x-3 text-slate-700">
+                <div class="w-10 h-10 rounded-full bg-gold/15 flex items-center justify-center text-gold">
+                  <i data-lucide="clock" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <strong class="block text-sm text-navy">Office Hours:</strong>
+                  <span class="text-xs text-slate-muted">Tuesday – Saturday: 8:30 AM – 5:00 PM</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7 bg-cream-card p-8 rounded-3xl border border-slate-200/80 shadow-sm fade-in-up">
+            <form id="contact-form" class="space-y-6" novalidate>
+              <div>
+                <label for="contact-name"
+                  class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Full Name *</label>
+                <input type="text" id="contact-name" name="name" required placeholder="e.g. Abebe Bikila"
+                  class="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-gold transition-all" />
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <label for="contact-email"
+                    class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Email Address *</label>
+                  <input type="email" id="contact-email" name="email" required placeholder="you@example.com"
+                    class="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-gold transition-all" />
+                </div>
+                <div>
+                  <label for="contact-phone"
+                    class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Phone Number</label>
+                  <input type="tel" id="contact-phone" name="phone" placeholder="+251 91 123 4567"
+                    class="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-gold transition-all" />
+                </div>
+              </div>
+
+              <div>
+                <label for="contact-message"
+                  class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Your Message *</label>
+                <textarea id="contact-message" name="message" rows="4" required
+                  placeholder="How can we help or pray for you?"
+                  class="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-gold transition-all"></textarea>
+              </div>
+
+              <button type="submit"
+                class="w-full py-4 bg-navy hover:bg-navy-light text-white font-bold text-sm rounded-xl transition-all shadow-md">
+                Send Message
+              </button>
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 13. NEWSLETTER SIGNUP SECTION -->
+    <section class="py-16 bg-navy text-white">
+      <div class="max-w-4xl mx-auto px-4 text-center space-y-6 fade-in-up">
+        <i data-lucide="mail-open" class="w-10 h-10 text-gold mx-auto"></i>
+        <h2 class="font-serif text-3xl font-bold">Stay Connected With Our Community</h2>
+        <p class="text-sm text-slate-300 max-w-xl mx-auto">
+          Receive church news, sermon updates, upcoming event announcements, and spiritual devotionals delivered to your
+          inbox.
+        </p>
+
+        <form id="newsletter-form" class="max-w-md mx-auto flex flex-col sm:flex-row gap-3" novalidate>
+          <input type="email" id="newsletter-email" placeholder="Enter your email address" required
+            class="flex-grow px-4 py-3.5 bg-white/10 border border-white/20 rounded-xl text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-gold" />
+          <button type="submit"
+            class="px-6 py-3.5 bg-gold hover:bg-gold-hover text-navy font-bold text-sm rounded-xl transition-all shrink-0">
+            Subscribe
+          </button>
+        </form>
+        <p class="text-[11px] text-slate-400">We respect your privacy. Unsubscribe at any time.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 14. FOOTER -->
+  <footer class="bg-navy-dark text-slate-300 pt-16 pb-12 border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-white/10">
+
+        <!-- Col 1: Church Bio -->
+        <div class="lg:col-span-2 space-y-4">
+          <div class="flex items-center space-x-3">
+            <img src="images/logo.png" alt="BATU YEHIYWOT BERHAN CHURCH Logo" class="w-10 h-10 rounded-full border border-gold object-cover" />
+            <span class="font-serif font-bold text-white text-lg" data-i18n="church_name">BATU YEHIYWOT BERHAN CHURCH</span>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed max-w-sm">
+            A welcoming Protestant Christian church in Ziway/Batu, Ethiopia, committed to biblical teaching, worship,
+            discipleship, community, and serving people.
+          </p>
+          <div class="flex space-x-4 pt-2 text-slate-400">
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"
+              class="hover:text-gold transition-colors" aria-label="Facebook"><i data-lucide="facebook"
+                class="w-5 h-5"></i></a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
+              class="hover:text-gold transition-colors" aria-label="Instagram"><i data-lucide="instagram"
+                class="w-5 h-5"></i></a>
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer"
+              class="hover:text-gold transition-colors" aria-label="YouTube"><i data-lucide="youtube"
+                class="w-5 h-5"></i></a>
+          </div>
+        </div>
+
+        <!-- Col 2: Quick Links -->
+        <div>
+          <h4 class="font-serif text-white font-bold text-sm mb-4">Quick Links</h4>
+          <ul class="space-y-2.5 text-xs">
+            <li><a href="index.html" class="hover:text-gold transition-colors">Home</a></li>
+            <li><a href="about.html" class="hover:text-gold transition-colors">About Us</a></li>
+            <li><a href="about.html#beliefs" class="hover:text-gold transition-colors">Statement of Faith</a></li>
+            <li><a href="ministries.html" class="hover:text-gold transition-colors">Ministries</a></li>
+            <li><a href="events.html" class="hover:text-gold transition-colors">Upcoming Events</a></li>
+            <li><a href="building-fund.html" class="hover:text-gold transition-colors text-gold font-semibold">Building
+                Fund</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Resources & Legal -->
+        <div>
+          <h4 class="font-serif text-white font-bold text-sm mb-4">Resources</h4>
+          <ul class="space-y-2.5 text-xs">
+            <li><a href="privacy.html" class="hover:text-gold transition-colors">Privacy Policy</a></li>
+            <li><a href="terms.html" class="hover:text-gold transition-colors">Terms of Use</a></li>
+            <li><a href="donation-policy.html" class="hover:text-gold transition-colors">Donation Policy</a></li>
+            <li><a href="contact.html" class="hover:text-gold transition-colors">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Contact Info -->
+        <div>
+          <h4 class="font-serif text-white font-bold text-sm mb-4">Contact Info</h4>
+          <ul class="space-y-2 text-xs text-slate-400">
+            <li>Batu (Ziway), Oromia, Ethiopia</li>
+            <li>Phone: +251 46 441 2345</li>
+            <li>Email: info@hiwotbirhanchurch.org</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+        <p>&copy; 2026 BATU YEHIYWOT BERHAN CHURCH. All rights reserved.</p>
+        <p class="text-[11px]">Registered Non-Profit Christian Organization in Ethiopia.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/validation.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/donation.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+
+</html>

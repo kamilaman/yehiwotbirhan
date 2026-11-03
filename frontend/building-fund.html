@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Building Fund — BATU YEHIYWOT BERHAN CHURCH</title>
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <meta name="description" content="Support the BATU YEHIYWOT BERHAN CHURCH Building Fund. Help us build a place to worship, grow, serve, and reach people with Christ's love.">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: { DEFAULT: '#0F2742', dark: '#09192C', light: '#1E3A5F' },
+            gold: { DEFAULT: '#C79A45', hover: '#B38634', light: '#F7EEDD' },
+            cream: { DEFAULT: '#F8F6F1', card: '#FAF8F5' },
+            slate: { DEFAULT: '#334155', muted: '#64748B' }
+          },
+          fontFamily: {
+            serif: ['Playfair Display', 'Georgia', 'serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Translation & i18n Scripts -->
+  <script src="js/translations.js"></script>
+  <script src="js/i18n.js"></script>
+
+  <!-- Stripe.js v3 SDK -->
+  <script src="https://js.stripe.com/v3/"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-cream text-slate antialiased flex flex-col min-h-screen">
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Header & Navigation -->
+  <header id="main-header" class="bg-white sticky top-0 z-40 border-b border-slate-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <a href="index.html" class="flex items-center space-x-3 group focus:outline-none">
+          <img src="images/logo.png" alt="BATU YEHIYWOT BERHAN CHURCH Logo" class="w-11 h-11 rounded-full border-2 border-gold shadow-sm object-cover group-hover:scale-105 transition-transform" />
+          <div class="flex flex-col">
+            <span class="font-serif font-bold text-base md:text-lg text-navy tracking-tight group-hover:text-gold transition-colors" data-i18n="church_name">BATU YEHIYWOT BERHAN CHURCH</span>
+            <span class="text-[10px] md:text-xs tracking-widest text-gold uppercase font-semibold -mt-0.5" data-i18n="church_sub">A Place to Belong. A Faith to Grow.</span>
+          </div>
+        </a>
+
+        <nav class="hidden lg:flex items-center space-x-8" aria-label="Main Navigation">
+          <a href="index.html" data-i18n="nav_home" class="text-sm font-medium text-slate hover:text-gold transition-colors py-2">Home</a>
+          <a href="about.html" data-i18n="nav_about" class="text-sm font-medium text-slate hover:text-gold transition-colors py-2">About</a>
+          <a href="about.html#beliefs" data-i18n="nav_beliefs" class="text-sm font-medium text-slate hover:text-gold transition-colors py-2">Beliefs</a>
+          <a href="ministries.html" data-i18n="nav_ministries" class="text-sm font-medium text-slate hover:text-gold transition-colors py-2">Ministries</a>
+          <a href="index.html#services" data-i18n="nav_services" class="text-sm font-medium text-slate hover:text-gold transition-colors py-2">Services</a>
+          <a href="events.html" data-i18n="nav_events" class="text-sm font-medium text-slate hover:text-gold transition-colors py-2">Events</a>
+          <a href="building-fund.html" data-i18n="nav_building_fund" class="text-sm font-bold text-navy py-2 border-b-2 border-gold">Building Fund</a>
+        </nav>
+
+        <div class="hidden lg:flex items-center space-x-4">
+          <!-- Language Switcher EN | አማርኛ -->
+          <div class="flex items-center bg-slate-100 p-1 rounded-lg text-xs border border-slate-200" role="region" aria-label="Language selection">
+            <button type="button" data-lang-btn="en" onclick="setLanguage('en')" class="px-2.5 py-1 rounded transition-colors focus:outline-none font-bold bg-white text-navy shadow-sm">EN</button>
+            <button type="button" data-lang-btn="am" onclick="setLanguage('am')" class="px-2.5 py-1 rounded transition-colors focus:outline-none text-slate-600 hover:text-navy">አማርኛ</button>
+          </div>
+
+          <a href="index.html#contact" data-i18n="nav_contact" class="inline-flex items-center justify-center px-4 py-2 border border-slate-300 text-sm font-semibold rounded-lg text-navy hover:border-navy transition-all">
+            Contact Church
+          </a>
+        </div>
+
+        <div class="lg:hidden flex items-center">
+          <button id="menu-toggle" type="button" class="p-2 rounded-md text-navy hover:text-gold focus:outline-none" aria-controls="mobile-menu" aria-expanded="false">
+            <i data-lucide="menu" class="w-7 h-7"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Navigation -->
+    <div id="mobile-menu" class="hidden fixed inset-0 z-50 bg-navy/95 backdrop-blur-lg flex-col justify-between p-6 overflow-y-auto">
+      <div>
+        <div class="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
+          <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-full bg-gold flex items-center justify-center text-navy font-bold">
+              <i data-lucide="cross" class="w-5 h-5"></i>
+            </div>
+            <span class="font-serif font-bold text-white text-lg">Hiwot Birhan Church</span>
+          </div>
+          <button id="close-mobile-menu" type="button" class="p-2 text-white hover:text-gold focus:outline-none" aria-label="Close menu">
+            <i data-lucide="x" class="w-7 h-7"></i>
+          </button>
+        </div>
+        <nav class="flex flex-col space-y-4" aria-label="Mobile Navigation">
+          <a href="index.html" class="text-xl font-serif text-white hover:text-gold py-2">Home</a>
+          <a href="about.html" class="text-xl font-serif text-white hover:text-gold py-2">About Us</a>
+          <a href="about.html#beliefs" class="text-xl font-serif text-white hover:text-gold py-2">Core Beliefs</a>
+          <a href="ministries.html" class="text-xl font-serif text-white hover:text-gold py-2">Ministries</a>
+          <a href="building-fund.html" class="text-xl font-serif text-gold font-bold py-2">Building Fund</a>
+          <a href="contact.html" class="text-xl font-serif text-white hover:text-gold py-2">Contact</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="flex-grow">
+
+    <!-- PAGE HERO BANNER -->
+    <section class="bg-navy text-white py-16 lg:py-24 relative overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-4 fade-in-up">
+        <span class="px-3.5 py-1 bg-gold/20 text-gold text-xs font-bold rounded-full uppercase tracking-widest border border-gold/30" data-i18n="fund_hero_tag">Dedicated Campaign</span>
+        <h1 class="font-serif text-4xl sm:text-5xl font-bold tracking-tight" data-i18n="fund_hero_title">Help Build the Future</h1>
+        <p class="text-base sm:text-lg text-slate-200 max-w-2xl mx-auto" data-i18n="fund_hero_sub">
+          Your generosity creates a space where more people can worship God, grow in faith, find community, and experience Christ's love in Ziway/Batu.
+        </p>
+      </div>
+    </section>
+
+    <!-- MAIN DONATION SECTION & GOAL TRACKER -->
+    <section id="donation-form-container" class="py-16 bg-cream">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Goal Overview Banner -->
+        <!-- Goal Overview Banner with Open Dual-Currency (ETB & USD) -->
+        <div id="building-campaign-section" class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-md mb-12 fade-in-up space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-100">
+            <div class="flex items-center space-x-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span class="text-xs font-bold text-slate-700 uppercase tracking-wider" data-i18n="building_view_curr_label">Display Currency:</span>
+            </div>
+            
+            <div class="inline-flex p-1 bg-slate-100 rounded-xl border border-slate-200 text-xs font-bold" role="tablist">
+              <button type="button" id="tracker-curr-usd" onclick="setTrackerCurrency('USD')"
+                class="px-3.5 py-1.5 rounded-lg transition-all bg-slate-900 text-white font-bold shadow-sm focus:outline-none">
+                USD ($)
+              </button>
+              <button type="button" id="tracker-curr-etb" onclick="setTrackerCurrency('ETB')"
+                class="px-3.5 py-1.5 rounded-lg transition-all text-slate-600 hover:text-navy focus:outline-none">
+                ETB (ብር)
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div class="lg:col-span-4 space-y-2">
+              <span class="text-xs font-bold text-gold uppercase tracking-wider" data-i18n="building_raised_label">Current Goal Progress</span>
+              <h2 class="font-serif text-2xl sm:text-3xl font-bold text-navy" id="campaign-raised">$315,000</h2>
+              <p class="text-xs text-slate-muted">Out of <strong id="campaign-goal" class="text-navy">$500,000</strong> goal for our new church facility.</p>
+            </div>
+
+            <div class="lg:col-span-8 space-y-3">
+              <div class="flex items-center justify-between text-xs font-bold">
+                <span class="text-navy">Campaign Goal Completion (<span id="campaign-active-curr">USD</span>)</span>
+                <span id="campaign-percentage" class="text-gold text-sm font-extrabold">63%</span>
+              </div>
+              <div class="w-full h-4 bg-slate-100 rounded-full overflow-hidden p-0.5 border border-slate-200">
+                <div id="campaign-progress-bar" class="h-full bg-gradient-to-r from-gold to-amber-500 rounded-full progress-bar-fill w-0"></div>
+              </div>
+              <div class="flex justify-between text-[11px] text-slate-500">
+                <span>Remaining: <strong id="campaign-remaining" class="text-navy font-semibold">$185,000</strong></span>
+                <span>Batu (Ziway), Ethiopia Project</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Open Dual-Currency Summary Cards (Simultaneously Visible to All Viewers) -->
+          <div class="pt-4 border-t border-slate-100">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <!-- ETB Summary Card -->
+              <div id="dual-card-etb" onclick="setTrackerCurrency('ETB')"
+                class="p-3.5 rounded-2xl border transition-all cursor-pointer bg-slate-50 border-slate-200 hover:border-gold hover:bg-amber-50/40 group">
+                <div class="flex items-center justify-between text-xs mb-1">
+                  <span class="font-bold text-navy flex items-center gap-1.5">
+                    <span>🇪🇹</span> <span data-i18n="building_dual_etb_title">Ethiopian Birr (ETB)</span>
+                  </span>
+                  <span id="dual-etb-pct" class="px-2 py-0.5 bg-amber-100 text-amber-900 text-[10px] font-bold rounded-full">63%</span>
+                </div>
+                <div class="text-base font-bold text-navy font-serif mt-1" id="dual-etb-raised">ብር 37,800,000</div>
+                <div class="text-[11px] text-slate-500 flex justify-between mt-1">
+                  <span>Goal: <span id="dual-etb-goal">ብር 60,000,000</span></span>
+                  <span class="text-gold group-hover:underline text-[10px] font-semibold">View &rarr;</span>
+                </div>
+              </div>
+
+              <!-- USD Summary Card -->
+              <div id="dual-card-usd" onclick="setTrackerCurrency('USD')"
+                class="p-3.5 rounded-2xl border transition-all cursor-pointer bg-amber-50/60 border-gold/40 shadow-sm hover:border-gold hover:bg-amber-50 group">
+                <div class="flex items-center justify-between text-xs mb-1">
+                  <span class="font-bold text-navy flex items-center gap-1.5">
+                    <span>🌐</span> <span data-i18n="building_dual_usd_title">US Dollars (USD)</span>
+                  </span>
+                  <span id="dual-usd-pct" class="px-2 py-0.5 bg-amber-100 text-amber-900 text-[10px] font-bold rounded-full">63%</span>
+                </div>
+                <div class="text-base font-bold text-navy font-serif mt-1" id="dual-usd-raised">$315,000</div>
+                <div class="text-[11px] text-slate-500 flex justify-between mt-1">
+                  <span>Goal: <span id="dual-usd-goal">$500,000</span></span>
+                  <span class="text-gold group-hover:underline text-[10px] font-semibold">View &rarr;</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          
+          <!-- LEFT COL: THE DONATION FORM / SUCCESS / FAILURE CARD -->
+          <div class="lg:col-span-7 bg-white p-8 rounded-3xl border border-slate-200/80 shadow-md relative fade-in-up">
+            
+            <!-- 1. ACTIVE DONATION FORM -->
+            <form id="donation-form" class="space-y-8" novalidate>
+              
+              <!-- Step 1: Giving Frequency -->
+              <div class="space-y-3">
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider" data-i18n="fund_step1">1. Select Giving Frequency</label>
+                <div class="grid grid-cols-2 gap-3 p-1 bg-slate-100 rounded-xl" role="tablist" aria-label="Donation frequency">
+                  <button type="button" id="freq-one-time" role="tab" aria-selected="true" data-i18n="fund_freq_one" class="py-3 px-4 rounded-lg font-bold text-sm bg-slate-900 text-white transition-all shadow-sm focus:outline-none">
+                    One-Time Gift
+                  </button>
+                  <button type="button" id="freq-monthly" role="tab" aria-selected="false" data-i18n="fund_freq_monthly" class="py-3 px-4 rounded-lg font-bold text-sm bg-white text-slate-700 hover:text-slate-900 transition-all focus:outline-none">
+                    Monthly Gift
+                  </button>
+                </div>
+                <p id="recurring-notice" class="hidden text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded-lg p-3">
+                  <i data-lucide="info" class="w-4 h-4 inline mr-1 text-amber-600"></i>
+                  <strong>Monthly Giving:</strong> You will be charged this amount each month. You may update or cancel at any time.
+                </p>
+              </div>
+
+              <!-- Step 2: Currency & Donation Amount Presets -->
+              <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                  <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider" data-i18n="fund_step2">2. Select Gift Amount</label>
+                  
+                  <!-- Currency Switcher: USD ($) vs ETB (ብር) -->
+                  <div class="flex items-center space-x-1 bg-slate-100 p-1 rounded-lg text-xs font-bold border border-slate-200" role="region" aria-label="Currency Selection">
+                    <button type="button" id="curr-usd" onclick="setCurrency('USD')" class="px-2.5 py-1 rounded bg-slate-900 text-white shadow-sm transition-all">USD ($)</button>
+                    <button type="button" id="curr-etb" onclick="setCurrency('ETB')" class="px-2.5 py-1 rounded text-slate-700 hover:text-slate-900 transition-all">ETB (ብር)</button>
+                  </div>
+                </div>
+
+                <!-- Preset Buttons Container (Populated dynamically by donation.js) -->
+                <div id="amount-presets-container" class="grid grid-cols-3 sm:grid-cols-5 gap-3">
+                  <button type="button" data-amount="25" class="amount-preset-btn py-3 px-2 border border-slate-200 rounded-xl font-bold text-sm text-slate-700 hover:border-gold hover:bg-amber-50/50 transition-all">
+                    $25
+                  </button>
+                  <button type="button" data-amount="50" class="amount-preset-btn py-3 px-2 border border-slate-200 rounded-xl font-bold text-sm text-slate-700 hover:border-gold hover:bg-amber-50/50 transition-all">
+                    $50
+                  </button>
+                  <button type="button" data-amount="100" class="amount-preset-btn py-3 px-2 border border-amber-600 bg-amber-50 text-amber-900 ring-2 ring-amber-500 font-bold text-sm transition-all">
+                    $100
+                  </button>
+                  <button type="button" data-amount="250" class="amount-preset-btn py-3 px-2 border border-slate-200 rounded-xl font-bold text-sm text-slate-700 hover:border-gold hover:bg-amber-50/50 transition-all">
+                    $250
+                  </button>
+                  <button type="button" data-amount="500" class="amount-preset-btn py-3 px-2 border border-slate-200 rounded-xl font-bold text-sm text-slate-700 hover:border-gold hover:bg-amber-50/50 transition-all">
+                    $500
+                  </button>
+                </div>
+
+                <div class="pt-2">
+                  <label for="custom-amount-input" class="sr-only">Custom Amount</label>
+                  <div class="relative">
+                    <span id="currency-symbol-addon" class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500 font-bold text-sm">$</span>
+                    <input type="number" id="custom-amount-input" min="1" max="1000000" step="0.01" data-i18n-placeholder="fund_custom_placeholder" placeholder="Enter Custom Amount" class="w-full pl-8 pr-4 py-3 bg-white border border-slate-300 rounded-xl text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-gold" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 3: Designated Fund Selection -->
+              <div class="space-y-2">
+                <label for="designation-select" class="block text-xs font-bold text-slate-700 uppercase tracking-wider" data-i18n="fund_step3">3. Designated Fund</label>
+                <select id="designation-select" class="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-gold">
+                  <option value="building_fund" selected>Building Fund (Default)</option>
+                  <option value="general_fund">General Church Operating Fund</option>
+                  <option value="missions">Outreach & Missions</option>
+                </select>
+              </div>
+
+              <!-- Step 4: Donor Contact Information -->
+              <div class="space-y-4 pt-4 border-t border-slate-100">
+                <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider" data-i18n="fund_step4">4. Donor Information</h4>
+                
+                <div>
+                  <label for="donor-name" class="block text-xs font-semibold text-slate-600 mb-1" data-i18n="fund_name_label">Full Name *</label>
+                  <input type="text" id="donor-name" required placeholder="e.g. Samuel Alemu" class="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-gold" />
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label for="donor-email" class="block text-xs font-semibold text-slate-600 mb-1" data-i18n="fund_email_label">Email Address (for receipt) *</label>
+                    <input type="email" id="donor-email" required placeholder="samuel@example.com" class="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-gold" />
+                  </div>
+                  <div>
+                    <label for="donor-address" class="block text-xs font-semibold text-slate-600 mb-1">Address / City (Optional)</label>
+                    <input type="text" id="donor-address" placeholder="Ziway, Ethiopia" class="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-gold" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 5: Payment Method Tabs (Ethiopian & International) -->
+              <div class="space-y-4 pt-4 border-t border-slate-100">
+                <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider" data-i18n="fund_step5">5. Payment Method</h4>
+                
+                <!-- Ethiopian & Global Payment Method Tabs -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  <button type="button" id="tab-method-telebirr" class="py-2.5 px-2 border border-amber-600 bg-amber-50 text-slate-900 rounded-xl text-xs font-bold flex items-center justify-center gap-1 focus:outline-none">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span> ቴሌብር (Telebirr)
+                  </button>
+                  <button type="button" id="tab-method-cbe" class="py-2.5 px-2 border border-slate-200 bg-white text-slate-600 hover:text-slate-900 rounded-xl text-xs font-bold flex items-center justify-center gap-1 focus:outline-none">
+                    CBE (ንግድ ባንክ)
+                  </button>
+                  <button type="button" id="tab-method-coop" class="py-2.5 px-2 border border-slate-200 bg-white text-slate-600 hover:text-slate-900 rounded-xl text-xs font-bold flex items-center justify-center gap-1 focus:outline-none">
+                    Coopbank (CCOP)
+                  </button>
+                  <button type="button" id="tab-method-awash" class="py-2.5 px-2 border border-slate-200 bg-white text-slate-600 hover:text-slate-900 rounded-xl text-xs font-bold flex items-center justify-center gap-1 focus:outline-none">
+                    Awash Bank
+                  </button>
+                  <button type="button" id="tab-method-birhan" class="py-2.5 px-2 border border-slate-200 bg-white text-slate-600 hover:text-slate-900 rounded-xl text-xs font-bold flex items-center justify-center gap-1 focus:outline-none">
+                    Birhan Bank
+                  </button>
+                  <button type="button" id="tab-method-stripe" class="py-2.5 px-2 border border-slate-200 bg-white text-slate-600 hover:text-slate-900 rounded-xl text-xs font-bold flex items-center justify-center gap-1 focus:outline-none">
+                    <i data-lucide="credit-card" class="w-3.5 h-3.5 text-amber-700"></i> Card (Stripe)
+                  </button>
+                  <button type="button" id="tab-method-paypal" class="py-2.5 px-2 border border-slate-200 bg-white text-slate-600 hover:text-slate-900 rounded-xl text-xs font-bold flex items-center justify-center gap-1 focus:outline-none col-span-2 sm:col-span-2">
+                    PayPal / Venmo
+                  </button>
+                </div>
+
+                <!-- Tab Panels -->
+
+                <!-- 1. Telebirr Panel -->
+                <div id="panel-telebirr" class="p-6 bg-slate-50 border border-slate-200 rounded-2xl space-y-4">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <h4 class="font-bold text-sm text-navy flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-emerald-500"></span> Telebirr Web & Mobile Pay (ቴሌብር)
+                      </h4>
+                      <p class="text-xs text-slate-500 mt-0.5">Pay via Telebirr SuperApp or USSD (*127#)</p>
+                    </div>
+                    <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 text-[10px] font-extrabold rounded-md uppercase">Ethio Telecom</span>
+                  </div>
+
+                  <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs space-y-2">
+                    <div class="flex justify-between items-center">
+                      <span class="text-slate-500">Merchant Code:</span>
+                      <strong class="font-mono text-slate-900">HB-784920</strong>
+                    </div>
+                    <div class="flex justify-between items-center">
+                      <span class="text-slate-500">Short Code:</span>
+                      <strong class="font-mono text-slate-900">8842</strong>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label for="tx-ref-telebirr" class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="tx_ref_label">Bank Transaction Reference Number *</label>
+                    <input type="text" id="tx-ref-telebirr" data-i18n-placeholder="tx_ref_placeholder" placeholder="e.g. Telebirr Tx Ref (optional for web pay)" class="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-sm font-mono text-slate-900 focus:ring-2 focus:ring-gold" />
+                  </div>
+                </div>
+
+                <!-- 2. CBE Panel -->
+                <div id="panel-cbe" class="hidden p-6 bg-slate-50 border border-slate-200 rounded-2xl space-y-4">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <h4 class="font-bold text-sm text-navy">Commercial Bank of Ethiopia (የኢትዮጵያ ንግድ ባንክ)</h4>
+                      <p class="text-xs text-slate-500 mt-0.5">CBE Direct Account Transfer & CBE Birr</p>
+                    </div>
+                    <span class="px-2.5 py-1 bg-purple-100 text-purple-900 text-[10px] font-extrabold rounded-md uppercase">CBE Bank</span>
+                  </div>
+
+                  <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs space-y-3">
+                    <div>
+                      <span class="text-slate-500 block">Account Name:</span>
+                      <strong class="text-navy text-sm font-bold">BATU ZIWAY HIWOT BIRHAN CHURCH</strong>
+                    </div>
+                    <div class="flex items-center justify-between pt-2 border-t border-slate-100">
+                      <div>
+                        <span class="text-slate-500 block">CBE Account Number:</span>
+                        <strong class="font-mono text-base text-slate-900">1000 4829 3019 4</strong>
+                      </div>
+                      <button type="button" onclick="copyAccountNo('1000482930194')" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold rounded-lg transition-colors flex items-center gap-1">
+                        <i data-lucide="copy" class="w-3.5 h-3.5"></i> <span data-i18n="copy_account">Copy</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label for="tx-ref-cbe" class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="tx_ref_label">Bank Transaction Reference Number *</label>
+                    <input type="text" id="tx-ref-cbe" data-i18n-placeholder="tx_ref_placeholder" placeholder="e.g. FT260812XXXX" class="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-sm font-mono text-slate-900 focus:ring-2 focus:ring-gold" />
+                  </div>
+                </div>
+
+                <!-- 3. Coopbank (CCOP) Panel -->
+                <div id="panel-coop" class="hidden p-6 bg-slate-50 border border-slate-200 rounded-2xl space-y-4">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <h4 class="font-bold text-sm text-navy">Cooperative Bank of Oromia (የኦሮሚያ ህብረት ስራ ባንክ)</h4>
+                      <p class="text-xs text-slate-500 mt-0.5">CoopPay & Direct Account Transfer</p>
+                    </div>
+                    <span class="px-2.5 py-1 bg-emerald-100 text-emerald-900 text-[10px] font-extrabold rounded-md uppercase">CCOP Bank</span>
+                  </div>
+
+                  <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs space-y-3">
+                    <div>
+                      <span class="text-slate-500 block">Account Name:</span>
+                      <strong class="text-navy text-sm font-bold">BATU ZIWAY HIWOT BIRHAN CHURCH</strong>
+                    </div>
+                    <div class="flex items-center justify-between pt-2 border-t border-slate-100">
+                      <div>
+                        <span class="text-slate-500 block">Coopbank Account Number:</span>
+                        <strong class="font-mono text-base text-slate-900">1000 1948 2930 1</strong>
+                      </div>
+                      <button type="button" onclick="copyAccountNo('1000194829301')" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold rounded-lg transition-colors flex items-center gap-1">
+                        <i data-lucide="copy" class="w-3.5 h-3.5"></i> <span data-i18n="copy_account">Copy</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label for="tx-ref-coop" class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="tx_ref_label">Bank Transaction Reference Number *</label>
+                    <input type="text" id="tx-ref-coop" data-i18n-placeholder="tx_ref_placeholder" placeholder="e.g. CCOP Ref Number" class="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-sm font-mono text-slate-900 focus:ring-2 focus:ring-gold" />
+                  </div>
+                </div>
+
+                <!-- 4. Awash Bank Panel -->
+                <div id="panel-awash" class="hidden p-6 bg-slate-50 border border-slate-200 rounded-2xl space-y-4">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <h4 class="font-bold text-sm text-navy">Awash Bank (አዋሽ ባንክ)</h4>
+                      <p class="text-xs text-slate-500 mt-0.5">Awash Birhan & Account Deposit</p>
+                    </div>
+                    <span class="px-2.5 py-1 bg-amber-100 text-amber-900 text-[10px] font-extrabold rounded-md uppercase">Awash Bank</span>
+                  </div>
+
+                  <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs space-y-3">
+                    <div>
+                      <span class="text-slate-500 block">Account Name:</span>
+                      <strong class="text-navy text-sm font-bold">BATU ZIWAY HIWOT BIRHAN CHURCH</strong>
+                    </div>
+                    <div class="flex items-center justify-between pt-2 border-t border-slate-100">
+                      <div>
+                        <span class="text-slate-500 block">Awash Account Number:</span>
+                        <strong class="font-mono text-base text-slate-900">0132 0948 2910 00</strong>
+                      </div>
+                      <button type="button" onclick="copyAccountNo('01320948291000')" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold rounded-lg transition-colors flex items-center gap-1">
+                        <i data-lucide="copy" class="w-3.5 h-3.5"></i> <span data-i18n="copy_account">Copy</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label for="tx-ref-awash" class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="tx_ref_label">Bank Transaction Reference Number *</label>
+                    <input type="text" id="tx-ref-awash" data-i18n-placeholder="tx_ref_placeholder" placeholder="e.g. Awash Ref Number" class="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-sm font-mono text-slate-900 focus:ring-2 focus:ring-gold" />
+                  </div>
+                </div>
+
+                <!-- 5. Birhan Bank Panel -->
+                <div id="panel-birhan" class="hidden p-6 bg-slate-50 border border-slate-200 rounded-2xl space-y-4">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <h4 class="font-bold text-sm text-navy">Birhan Bank (ብርሃን ባንክ)</h4>
+                      <p class="text-xs text-slate-500 mt-0.5">Birhan Mobile & Branch Deposit</p>
+                    </div>
+                    <span class="px-2.5 py-1 bg-blue-100 text-blue-900 text-[10px] font-extrabold rounded-md uppercase">Birhan Bank</span>
+                  </div>
+
+                  <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs space-y-3">
+                    <div>
+                      <span class="text-slate-500 block">Account Name:</span>
+                      <strong class="text-navy text-sm font-bold">BATU ZIWAY HIWOT BIRHAN CHURCH</strong>
+                    </div>
+                    <div class="flex items-center justify-between pt-2 border-t border-slate-100">
+                      <div>
+                        <span class="text-slate-500 block">Birhan Account Number:</span>
+                        <strong class="font-mono text-base text-slate-900">2600 1948 2019 3</strong>
+                      </div>
+                      <button type="button" onclick="copyAccountNo('2600194820193')" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold rounded-lg transition-colors flex items-center gap-1">
+                        <i data-lucide="copy" class="w-3.5 h-3.5"></i> <span data-i18n="copy_account">Copy</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label for="tx-ref-birhan" class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="tx_ref_label">Bank Transaction Reference Number *</label>
+                    <input type="text" id="tx-ref-birhan" data-i18n-placeholder="tx_ref_placeholder" placeholder="e.g. Birhan Ref Number" class="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-sm font-mono text-slate-900 focus:ring-2 focus:ring-gold" />
+                  </div>
+                </div>
+
+                <!-- 6. Stripe Panel -->
+                <div id="panel-stripe" class="hidden p-6 bg-slate-50 border border-slate-200 rounded-2xl space-y-4">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <h4 class="font-bold text-sm text-navy flex items-center gap-2">
+                        <i data-lucide="credit-card" class="w-4 h-4 text-indigo-600"></i> Stripe Global Card Checkout
+                      </h4>
+                      <p class="text-xs text-slate-500 mt-0.5">Credit Cards, Debit Cards, Apple Pay & Google Pay (USD)</p>
+                    </div>
+                    <span class="px-2.5 py-1 bg-indigo-100 text-indigo-900 text-[10px] font-extrabold rounded-md uppercase">Stripe Secure</span>
+                  </div>
+                  <p class="text-xs text-slate-600 leading-relaxed">
+                    Clicking donate will securely redirect you to the Stripe payment portal where you can enter card details or complete payment with Apple Pay / Google Pay.
+                  </p>
+                  <div class="flex flex-wrap gap-2 pt-1 text-xs">
+                    <span class="px-2.5 py-1 bg-white border border-slate-200 rounded-lg font-semibold text-slate-700">Visa</span>
+                    <span class="px-2.5 py-1 bg-white border border-slate-200 rounded-lg font-semibold text-slate-700">MasterCard</span>
+                    <span class="px-2.5 py-1 bg-white border border-slate-200 rounded-lg font-semibold text-slate-700">American Express</span>
+                    <span class="px-2.5 py-1 bg-white border border-slate-200 rounded-lg font-semibold text-slate-700">Apple Pay</span>
+                  </div>
+                </div>
+
+                <!-- 7. PayPal / Venmo Panel -->
+                <div id="panel-paypal" class="hidden p-6 bg-slate-50 border border-slate-200 rounded-2xl space-y-4">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <h4 class="font-bold text-sm text-navy flex items-center gap-2">
+                        <i data-lucide="globe" class="w-4 h-4 text-blue-600"></i> PayPal Worldwide Giving
+                      </h4>
+                      <p class="text-xs text-slate-500 mt-0.5">PayPal Balance, Linked Bank or Venmo</p>
+                    </div>
+                    <span class="px-2.5 py-1 bg-blue-100 text-blue-900 text-[10px] font-extrabold rounded-md uppercase">PayPal</span>
+                  </div>
+
+                  <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs space-y-2">
+                    <div class="flex justify-between items-center">
+                      <span class="text-slate-500">Official PayPal Account:</span>
+                      <strong class="font-mono text-slate-900">finance@hiwotbirhan.org</strong>
+                    </div>
+                    <div class="pt-2 flex justify-end gap-2">
+                      <button type="button" onclick="copyAccountNo('finance@hiwotbirhan.org')" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold rounded-lg transition-colors flex items-center gap-1">
+                        <i data-lucide="copy" class="w-3.5 h-3.5"></i> <span>Copy Email</span>
+                      </button>
+                      <a href="https://www.paypal.com" target="_blank" rel="noopener noreferrer" class="px-3.5 py-1.5 bg-yellow-400 hover:bg-yellow-500 text-blue-950 font-bold text-xs rounded-lg transition-colors inline-flex items-center gap-1">
+                        <i data-lucide="external-link" class="w-3.5 h-3.5"></i> <span>Open PayPal</span>
+                      </a>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label for="tx-ref-paypal" class="block text-xs font-semibold text-slate-700 mb-1">PayPal Transaction ID or Payer Email *</label>
+                    <input type="text" id="tx-ref-paypal" placeholder="e.g. 9XY123456AB78901C or your-paypal@email.com" class="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-sm font-mono text-slate-900 focus:ring-2 focus:ring-gold" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 6: Submit Button -->
+              <button type="submit" id="submit-donation-btn" class="w-full py-4 bg-gold hover:bg-gold-hover text-navy font-extrabold text-base rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                <i data-lucide="lock" class="w-4 h-4"></i>
+                <span id="submit-btn-text">Donate $100 to Building Fund</span>
+              </button>
+
+              <p class="text-[11px] text-center text-slate-500 flex items-center justify-center gap-1">
+                <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i>
+                256-Bit SSL Encryption • Secure Bank Grade Processing
+              </p>
+
+            </form>
+
+            <!-- 2. SUCCESS CONFIRMATION STATE (Hidden by Default) -->
+            <div id="donation-success-state" class="hidden space-y-6 text-center py-6">
+              <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
+                <i data-lucide="check-circle" class="w-10 h-10"></i>
+              </div>
+
+              <div class="space-y-2">
+                <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest">Donation Received</span>
+                <h2 class="font-serif text-3xl font-bold text-navy">Thank You for Your Generosity!</h2>
+                <p class="text-sm text-slate-600 max-w-md mx-auto">
+                  Your gift has been processed securely. Thank you for partnering with us to build a place where more people can worship, grow, and serve.
+                </p>
+              </div>
+
+              <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 text-left space-y-3 text-sm">
+                <div class="flex justify-between border-b border-slate-200 pb-2">
+                  <span class="text-slate-500">Donation Amount:</span>
+                  <strong id="res-amount" class="text-navy font-bold">$100.00</strong>
+                </div>
+                <div class="flex justify-between border-b border-slate-200 pb-2">
+                  <span class="text-slate-500">Designated Fund:</span>
+                  <strong id="res-designation" class="text-navy font-semibold">BUILDING FUND</strong>
+                </div>
+                <div class="flex justify-between border-b border-slate-200 pb-2">
+                  <span class="text-slate-500">Transaction Ref:</span>
+                  <span id="res-tx-ref" class="font-mono text-xs text-slate-700">HB-948201</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-200 pb-2">
+                  <span class="text-slate-500">Receipt Sent To:</span>
+                  <span id="res-email" class="text-slate-700">donor@example.com</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-slate-500">Date:</span>
+                  <span id="res-date" class="text-slate-700">August 12, 2026</span>
+                </div>
+              </div>
+
+              <div class="pt-4 flex justify-center gap-4">
+                <a href="index.html" class="px-8 py-3.5 bg-navy hover:bg-navy-light text-white font-bold text-sm rounded-xl transition-all shadow-sm">
+                  Return to Church Website
+                </a>
+              </div>
+            </div>
+
+            <!-- 3. FAILED PAYMENT STATE (Hidden by Default) -->
+            <div id="donation-failure-state" class="hidden space-y-6 text-center py-6">
+              <div class="w-16 h-16 rounded-full bg-red-100 text-red-600 flex items-center justify-center mx-auto">
+                <i data-lucide="alert-triangle" class="w-10 h-10"></i>
+              </div>
+
+              <div class="space-y-2">
+                <span class="text-xs font-bold text-red-600 uppercase tracking-widest">Transaction Issue</span>
+                <h2 class="font-serif text-2xl font-bold text-navy">We Couldn't Complete Your Donation</h2>
+                <p class="text-sm text-slate-600 max-w-md mx-auto">
+                  Your payment details could not be processed at this time. Please double-check your payment information or try using another payment method.
+                </p>
+              </div>
+
+              <div class="flex flex-col sm:flex-row justify-center gap-3 pt-2">
+                <button type="button" onclick="resetDonationForm()" class="px-6 py-3 bg-navy hover:bg-navy-light text-white font-bold text-sm rounded-xl transition-all">
+                  Try Again
+                </button>
+                <button type="button" onclick="resetDonationForm()" class="px-6 py-3 border border-slate-300 text-slate-700 font-semibold text-sm rounded-xl hover:border-navy transition-all">
+                  Use Another Payment Method
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- RIGHT COL: CHURCH BUILDING SHOWCASE, WHY WE ARE BUILDING & TRUST BADGES -->
+          <div class="lg:col-span-5 space-y-8 fade-in-up">
+            
+            <!-- Church Building Front View Showcase -->
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-md space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-gold uppercase tracking-wider">Sanctuary Architecture</span>
+                <span class="text-[10px] font-bold bg-amber-100 text-amber-900 px-2.5 py-0.5 rounded-full">Front Facade</span>
+              </div>
+              <div class="relative rounded-2xl overflow-hidden border-2 border-gold/30 shadow-lg group">
+                <img src="images/church_building.jpg" alt="BATU YEHIYWOT BERHAN CHURCH Building — Front View" class="w-full h-56 sm:h-64 object-cover group-hover:scale-105 transition-transform duration-700">
+                <div class="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/30 to-transparent flex items-end p-4">
+                  <div>
+                    <h4 class="font-serif font-bold text-white text-base">BATU Hiwot Birhan Church</h4>
+                    <p class="text-[11px] text-slate-200">Front entrance view, stone facade & cross spire in Ziway/Batu</p>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Mini Gallery of Views -->
+              <div class="grid grid-cols-2 gap-2.5 pt-1">
+                <div class="relative rounded-xl overflow-hidden border border-slate-200 group h-24">
+                  <img src="images/sanctuary_interior.jpg" alt="2,500 Seat Sanctuary Interior" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                  <div class="absolute inset-0 bg-navy/60 flex items-end p-2">
+                    <span class="text-[10px] font-bold text-white leading-tight">Sanctuary Interior</span>
+                  </div>
+                </div>
+                <div class="relative rounded-xl overflow-hidden border border-slate-200 group h-24">
+                  <img src="images/church_leadership.jpg" alt="Board of Elders & Leadership" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                  <div class="absolute inset-0 bg-navy/60 flex items-end p-2">
+                    <span class="text-[10px] font-bold text-white leading-tight">Leadership Council</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-white p-8 rounded-3xl border border-slate-200/80 shadow-sm space-y-6">
+              <h3 class="font-serif text-xl font-bold text-navy">Why Your Gift Matters</h3>
+              
+              <ul class="space-y-4 text-xs text-slate-600">
+                <li class="flex items-start space-x-3">
+                  <div class="w-6 h-6 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 mt-0.5 font-bold">1</div>
+                  <div>
+                    <strong class="text-navy font-semibold block text-sm">Expanded Worship Sanctuary</strong>
+                    <span>Providing seating for hundreds of growing believers in Batu (Ziway).</span>
+                  </div>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <div class="w-6 h-6 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 mt-0.5 font-bold">2</div>
+                  <div>
+                    <strong class="text-navy font-semibold block text-sm">Children & Youth Classrooms</strong>
+                    <span>Creating safe, inspiring spaces to nurture faith in the next generation.</span>
+                  </div>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <div class="w-6 h-6 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 mt-0.5 font-bold">3</div>
+                  <div>
+                    <strong class="text-navy font-semibold block text-sm">Community Outreach Hub</strong>
+                    <span>Facilities for emergency assistance, medical outreach, and vocational training.</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Trust & Financial Security Card -->
+            <div class="bg-navy text-white p-8 rounded-3xl shadow-md space-y-4">
+              <div class="flex items-center space-x-3">
+                <i data-lucide="shield-check" class="w-8 h-8 text-gold"></i>
+                <div>
+                  <h4 class="font-serif font-bold text-base">Trust & Privacy Commitment</h4>
+                  <span class="text-xs text-gold">Registered Non-Profit Organization</span>
+                </div>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                BATU YEHIYWOT BERHAN CHURCH handles all donations with strict stewardship and integrity. Personal information is protected and never sold.
+              </p>
+              <div class="pt-2 flex flex-wrap gap-4 text-xs font-medium text-gold">
+                <a href="privacy.html" class="underline hover:text-white">Privacy Policy</a>
+                <a href="donation-policy.html" class="underline hover:text-white">Tax Deductibility Info</a>
+                <a href="terms.html" class="underline hover:text-white">Terms</a>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bg-navy-dark text-slate-300 py-8 border-t border-white/10 text-center text-xs">
+    <p>&copy; 2026 BATU YEHIYWOT BERHAN CHURCH. All rights reserved.</p>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/validation.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/donation.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

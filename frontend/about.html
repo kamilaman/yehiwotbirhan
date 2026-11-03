@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Hiwot Birhan Church Story — About BATU YEHIYWOT BERHAN CHURCH</title>
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <meta name="description" content="Discover the deep history of faith, survival, and hope of Hiwot Birhan Church in Ethiopia — from Swedish missionaries and nighttime chapels in Chapa, through 17 years underground under the Derg regime, to over one million believers today.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: { DEFAULT: '#0F2742', dark: '#09192C', light: '#1E3A5F' },
+            gold: { DEFAULT: '#C79A45', hover: '#B38634', light: '#F7EEDD' },
+            cream: { DEFAULT: '#F8F6F1', card: '#FAF8F5' },
+            slate: { DEFAULT: '#334155', muted: '#64748B' }
+          },
+          fontFamily: {
+            serif: ['Playfair Display', 'Georgia', 'serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/translations.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-cream/40 text-slate antialiased flex flex-col min-h-screen">
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Header -->
+  <header id="main-header" class="bg-white sticky top-0 z-40 border-b border-slate-100 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <a href="index.html" class="flex items-center space-x-3 group focus:outline-none">
+          <img src="images/logo.png" alt="BATU YEHIYWOT BERHAN CHURCH Logo" class="w-11 h-11 rounded-full border-2 border-gold shadow-sm object-cover group-hover:scale-105 transition-transform" />
+          <div class="flex flex-col">
+            <span class="font-serif font-bold text-base md:text-lg text-navy tracking-tight group-hover:text-gold transition-colors" data-i18n="church_name">BATU YEHIYWOT BERHAN CHURCH</span>
+            <span class="text-[10px] md:text-xs tracking-widest text-gold uppercase font-semibold -mt-0.5" data-i18n="church_sub">A Place to Belong. A Faith to Grow.</span>
+          </div>
+        </a>
+
+        <nav class="hidden lg:flex items-center space-x-8" aria-label="Main Navigation">
+          <a href="index.html" data-i18n="nav_home" class="text-sm font-medium text-slate hover:text-gold transition-colors py-2">Home</a>
+          <a href="about.html" data-i18n="nav_about" class="text-sm font-bold text-navy py-2 border-b-2 border-gold">About</a>
+          <a href="#timeline-section" class="text-sm font-medium text-slate hover:text-gold transition-colors py-2">History</a>
+          <a href="#beliefs" data-i18n="nav_beliefs" class="text-sm font-medium text-slate hover:text-gold transition-colors py-2">Beliefs</a>
+          <a href="ministries.html" data-i18n="nav_ministries" class="text-sm font-medium text-slate hover:text-gold transition-colors py-2">Ministries</a>
+          <a href="events.html" data-i18n="nav_events" class="text-sm font-medium text-slate hover:text-gold transition-colors py-2">Events</a>
+          <a href="contact.html" data-i18n="nav_contact" class="text-sm font-medium text-slate hover:text-gold transition-colors py-2">Contact</a>
+        </nav>
+
+        <div class="hidden lg:flex items-center space-x-4">
+          <!-- Language Switcher EN | አማርኛ -->
+          <div class="flex items-center bg-slate-100 p-1 rounded-lg text-xs border border-slate-200">
+            <button type="button" data-lang-btn="en" onclick="setLanguage('en')" class="px-2.5 py-1 rounded transition-colors focus:outline-none font-bold bg-white text-navy shadow-sm">EN</button>
+            <button type="button" data-lang-btn="am" onclick="setLanguage('am')" class="px-2.5 py-1 rounded transition-colors focus:outline-none text-slate-600 hover:text-navy">አማርኛ</button>
+          </div>
+          <a href="building-fund.html" class="bg-gold hover:bg-gold-hover text-navy text-xs font-bold px-4 py-2.5 rounded-full transition-colors shadow-sm">
+            Support Building Fund
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="flex-grow">
+    <!-- Hero Banner -->
+    <section class="bg-gradient-to-b from-navy-dark via-navy to-navy-light text-white py-16 lg:py-24 text-center space-y-4 relative overflow-hidden">
+      <div class="absolute top-0 right-1/4 w-96 h-96 bg-gold/15 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 fade-in-up">
+        <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-gold/20 text-gold border border-gold/40 mb-3" data-i18n="history_tag">
+          A Legacy of Faith & Survival
+        </span>
+        <h1 class="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold mt-2 leading-tight" data-i18n="history_title">
+          The Hiwot Birhan Church Story
+        </h1>
+        <p class="text-base sm:text-lg text-white/85 mt-4 leading-relaxed max-w-3xl mx-auto" data-i18n="history_subtitle">
+          How Swedish missionaries, nighttime chapels in Chapa, and 17 years underground under the Derg regime blossomed into over 1 million believers across Ethiopia.
+        </p>
+        
+        <div class="flex flex-wrap items-center justify-center gap-3 pt-6">
+          <a href="#timeline-section" class="px-5 py-2.5 rounded-xl bg-gold hover:bg-gold-hover text-navy font-bold text-xs transition-all shadow-md">
+            Explore Timeline
+          </a>
+          <a href="#batu-connection" class="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs border border-white/20 transition-all">
+            Batu Zeway Church
+          </a>
+          <a href="#leadership-section" class="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs border border-white/20 transition-all">
+            Pastoral Leadership
+          </a>
+          <a href="#beliefs" class="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs border border-white/20 transition-all" data-i18n="nav_beliefs">
+            Beliefs
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats & Key Historical Markers -->
+    <section class="bg-white border-b border-slate-200 py-8 relative -mt-4 shadow-sm z-20 mx-4 sm:mx-8 lg:mx-auto max-w-7xl rounded-2xl">
+      <div class="px-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 text-center divide-y md:divide-y-0 md:divide-x divide-slate-100">
+        <div class="pt-2 md:pt-0">
+          <span class="font-serif font-black text-2xl lg:text-3xl text-navy block">1960</span>
+          <span class="text-[11px] text-slate-muted font-medium mt-1 block" data-i18n="history_stat_1960">Swedish Missionaries Arrive</span>
+        </div>
+        <div class="pt-2 md:pt-0">
+          <span class="font-serif font-black text-2xl lg:text-3xl text-gold block">1962</span>
+          <span class="text-[11px] text-slate-muted font-medium mt-1 block" data-i18n="history_stat_1962">First Church at Chapa (Built by Night)</span>
+        </div>
+        <div class="pt-2 md:pt-0">
+          <span class="font-serif font-black text-2xl lg:text-3xl text-navy block">1964</span>
+          <span class="text-[11px] text-slate-muted font-medium mt-1 block" data-i18n="history_stat_1964">Wondo Genet Clinic Opened</span>
+        </div>
+        <div class="pt-2 md:pt-0">
+          <span class="font-serif font-black text-2xl lg:text-3xl text-amber-600 block">1975</span>
+          <span class="text-[11px] text-slate-muted font-medium mt-1 block" data-i18n="history_stat_1975">Awasa Unified Conference</span>
+        </div>
+        <div class="pt-2 md:pt-0">
+          <span class="font-serif font-black text-2xl lg:text-3xl text-red-600 block">17+ Yrs</span>
+          <span class="text-[11px] text-slate-muted font-medium mt-1 block" data-i18n="history_stat_underground">17 Yrs Underground Faith</span>
+        </div>
+        <div class="pt-2 md:pt-0">
+          <span class="font-serif font-black text-2xl lg:text-3xl text-emerald-600 block">1,000,000+</span>
+          <span class="text-[11px] text-slate-muted font-bold mt-1 block text-navy" data-i18n="history_stat_members">1M+ Believers in Ethiopia</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Historical Journey Timeline -->
+    <section id="timeline-section" class="py-20">
+      <div class="max-w-5xl mx-auto px-4 space-y-12">
+        <div class="text-center max-w-3xl mx-auto space-y-3">
+          <span class="text-xs font-bold uppercase tracking-widest text-gold">Sacred Milestones</span>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-navy">
+            From Chapa’s Night Sanctuary to Nationwide Awakening
+          </h2>
+          <p class="text-sm text-slate-muted leading-relaxed">
+            Witness how God guided the Hiwot Birhan movement through every chapter of trial and triumph.
+          </p>
+        </div>
+
+        <div class="space-y-8">
+          <!-- 1960 -->
+          <div class="bg-white p-7 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-6 hover:shadow-md transition-shadow">
+            <div class="shrink-0 flex items-center justify-center w-16 h-16 rounded-2xl bg-gold/15 text-gold border border-gold/30 font-serif font-black text-xl">
+              1960
+            </div>
+            <div class="space-y-2 flex-grow">
+              <div class="flex items-center gap-2">
+                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">Swedish Pioneers</span>
+                <h3 class="font-serif font-bold text-lg text-navy">Swedish Pentecostal Missionaries Arrive</h3>
+              </div>
+              <p class="text-xs sm:text-sm text-slate leading-relaxed">
+                Swedish Pentecostal missionaries arrived in Ethiopia with a deep passion for the Gospel, dedicating themselves to sowing the seeds of faith and serving local communities.
+              </p>
+            </div>
+          </div>
+
+          <!-- 1962 -->
+          <div class="bg-white p-7 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-6 hover:shadow-md transition-shadow">
+            <div class="shrink-0 flex items-center justify-center w-16 h-16 rounded-2xl bg-amber-50 text-amber-700 border border-amber-200 font-serif font-black text-xl">
+              1962
+            </div>
+            <div class="space-y-2 flex-grow">
+              <div class="flex items-center gap-2">
+                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-300">First Chapel</span>
+                <h3 class="font-serif font-bold text-lg text-navy">Chapa: Built by Night Under Heavy Opposition</h3>
+              </div>
+              <p class="text-xs sm:text-sm text-slate leading-relaxed">
+                Missionary Ababa Dukemo established the first Hiwot Birhan church at Chapa. The first church building was constructed in a traditional style using wood and grass. Because local authorities strongly opposed the work, believers built it secretly under cover of night.
+              </p>
+            </div>
+          </div>
+
+          <!-- 1964 -->
+          <div class="bg-white p-7 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-6 hover:shadow-md transition-shadow">
+            <div class="shrink-0 flex items-center justify-center w-16 h-16 rounded-2xl bg-rose-50 text-rose-700 border border-rose-200 font-serif font-black text-xl">
+              1964
+            </div>
+            <div class="space-y-2 flex-grow">
+              <div class="flex items-center gap-2">
+                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-rose-100 text-rose-800 border border-rose-300">Compassion & Healing</span>
+                <h3 class="font-serif font-bold text-lg text-navy">Wondo Genet: Brite Bergfelt Opens Clinic</h3>
+              </div>
+              <p class="text-xs sm:text-sm text-slate leading-relaxed">
+                Missionary and nurse Brite Bergfelt opened a medical clinic in Wondo Genet, caring for the sick while faithfully preaching the Gospel. A dedicated fellowship of new converts gathered around her selfless medical work.
+              </p>
+            </div>
+          </div>
+
+          <!-- 1974 - 1991 -->
+          <div class="bg-red-50/60 p-7 rounded-2xl border border-red-200 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-6 hover:shadow-md transition-shadow">
+            <div class="shrink-0 flex items-center justify-center w-16 h-16 rounded-2xl bg-red-100 text-red-800 border border-red-300 font-serif font-black text-base text-center leading-tight">
+              1974–<br>1991
+            </div>
+            <div class="space-y-2 flex-grow">
+              <div class="flex items-center gap-2">
+                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-red-200 text-red-900 border border-red-300">Underground Church</span>
+                <h3 class="font-serif font-bold text-lg text-red-950">The Derg Regime: 17 Years Underground</h3>
+              </div>
+              <p class="text-xs sm:text-sm text-red-900/90 leading-relaxed">
+                The Marxist Derg regime came to power and launched brutal persecution against churches. Missionaries were expelled, church buildings closed, Bibles burned, and pastors and evangelists were imprisoned, tortured, and killed. The church was forced underground, meeting secretly for 17 years in homes while faith deepened and prayer multiplied.
+              </p>
+            </div>
+          </div>
+
+          <!-- 1975 -->
+          <div class="bg-white p-7 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-6 hover:shadow-md transition-shadow">
+            <div class="shrink-0 flex items-center justify-center w-16 h-16 rounded-2xl bg-indigo-50 text-indigo-700 border border-indigo-200 font-serif font-black text-xl">
+              1975
+            </div>
+            <div class="space-y-2 flex-grow">
+              <div class="flex items-center gap-2">
+                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-indigo-100 text-indigo-800 border border-indigo-300">Denominational Unity</span>
+                <h3 class="font-serif font-bold text-lg text-navy">Awasa Mission Conference: Unified as One</h3>
+              </div>
+              <p class="text-xs sm:text-sm text-slate leading-relaxed">
+                The church was officially formed in 1975 at an annual mission conference in Awasa, where representatives agreed to establish the Hiwot Berhan Church as a unified body across Ethiopia.
+              </p>
+            </div>
+          </div>
+
+          <!-- 1991 -->
+          <div class="bg-white p-7 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-6 hover:shadow-md transition-shadow">
+            <div class="shrink-0 flex items-center justify-center w-16 h-16 rounded-2xl bg-amber-50 text-amber-800 border border-amber-300 font-serif font-black text-xl">
+              1991
+            </div>
+            <div class="space-y-2 flex-grow">
+              <div class="flex items-center gap-2">
+                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-amber-200 text-amber-900 border border-amber-300">National Revival</span>
+                <h3 class="font-serif font-bold text-lg text-navy">Fall of the Derg: Emerging into the Light</h3>
+              </div>
+              <p class="text-xs sm:text-sm text-slate leading-relaxed">
+                After the Derg regime fell in 1991, the church emerged triumphantly from hiding and began to grow publicly again. Decades of covert prayer ignited nationwide revival, expanding across cities and towns.
+              </p>
+            </div>
+          </div>
+
+          <!-- Present Day -->
+          <div class="bg-emerald-50/50 p-7 rounded-2xl border border-emerald-200 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-6 hover:shadow-md transition-shadow">
+            <div class="shrink-0 flex items-center justify-center w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-800 border border-emerald-300 font-serif font-black text-base text-center leading-tight">
+              1M+<br>Today
+            </div>
+            <div class="space-y-2 flex-grow">
+              <div class="flex items-center gap-2">
+                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-200 text-emerald-900 border border-emerald-300">1 Million Believers</span>
+                <h3 class="font-serif font-bold text-lg text-emerald-950">One of Ethiopia's Largest Pentecostal Denominations</h3>
+              </div>
+              <p class="text-xs sm:text-sm text-emerald-900/90 leading-relaxed">
+                Today, the Hiwot Berhan Church is one of the largest Pentecostal denominations in Ethiopia, with over one million members. Batu Hiwot Birhan Church in Batu Zeway carries this sacred legacy into the future!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Batu Zeway Church Connection -->
+    <section id="batu-connection" class="py-20 bg-white border-y border-slate-200">
+      <div class="max-w-5xl mx-auto px-4">
+        <div class="bg-cream rounded-3xl p-8 sm:p-12 border border-slate-200 shadow-sm">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div class="lg:col-span-7 space-y-4">
+              <span class="text-xs font-bold uppercase tracking-widest text-gold" data-i18n="hero_location_badge">Ziway / Batu, Ethiopia</span>
+              <h2 class="font-serif text-3xl font-bold text-navy" data-i18n="history_batu_connection_title">
+                Batu Hiwot Birhan: Carrying the Sacred Torch
+              </h2>
+              <div class="w-16 h-1 bg-gold rounded-full"></div>
+              <p class="text-sm sm:text-base text-slate leading-relaxed" data-i18n="history_batu_connection_desc">
+                Batu Hiwot Birhan Church in Batu Zeway is part of this movement. It carries the same legacy of faith, perseverance, and hope that started with those early missionaries and survived through years of persecution.
+              </p>
+              <p class="text-xs sm:text-sm text-slate-muted leading-relaxed">
+                Our congregation reflects the rich diversity of our region, praising God together in Amharic, Afaan Oromo, and English. We are dedicated to preaching the uncompromised Gospel, discipling believers of all ages, and reaching our city with God's transforming love.
+              </p>
+              <div class="pt-2">
+                <a href="building-fund.html" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gold hover:bg-gold-hover text-navy font-bold text-xs transition-all shadow-md">
+                  <span>Support Our Sanctuary Expansion</span>
+                  <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+              </div>
+            </div>
+            <div class="lg:col-span-5">
+              <div class="rounded-2xl overflow-hidden border-2 border-gold/40 shadow-xl relative group">
+                <img src="images/church_building.jpg" alt="BATU YEHIYWOT BERHAN CHURCH Building Front View" class="w-full h-72 object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="absolute inset-0 bg-gradient-to-t from-navy/95 via-navy/40 to-transparent flex items-end p-5">
+                  <div>
+                    <span class="text-[10px] font-bold text-gold uppercase tracking-wider">Church Sanctuary</span>
+                    <h4 class="text-white font-serif font-bold text-base">BATU YEHIYWOT BERHAN CHURCH</h4>
+                    <p class="text-white/80 text-xs">Central Avenue, Batu (Ziway), Ethiopia</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pastoral Leadership Showcase -->
+    <section id="leadership-section" class="py-20 bg-cream/50">
+      <div class="max-w-5xl mx-auto px-4 space-y-12">
+        <div class="text-center max-w-2xl mx-auto space-y-3">
+          <span class="text-xs font-bold uppercase tracking-widest text-gold">Spiritual Shepherds</span>
+          <h2 class="font-serif text-3xl font-bold text-navy">Meet Our Pastoral Leadership</h2>
+          <p class="text-slate-muted text-xs sm:text-sm leading-relaxed">
+            Servant leaders dedicated to prayer, pastoral care, and sound biblical teaching in Batu.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm text-center">
+            <div class="relative h-64 w-full bg-navy overflow-hidden">
+              <img src="images/pastor_zerfu.png" alt="Pastor Zerfu" class="w-full h-full object-cover">
+            </div>
+            <div class="p-6">
+              <h3 class="font-serif font-bold text-lg text-navy">Pastor Zerfu</h3>
+              <p class="text-gold text-xs font-semibold uppercase tracking-wider mt-0.5">Lead Pastor</p>
+              <p class="text-slate text-xs mt-3 leading-relaxed">
+                Leading preaching, vision, and pastoral care with a passion for transformative gospel grace and biblical exposition.
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm text-center">
+            <div class="relative h-64 w-full bg-navy-light flex items-center justify-center text-white">
+              <i data-lucide="church" class="w-16 h-16 text-gold/60"></i>
+            </div>
+            <div class="p-6">
+              <h3 class="font-serif font-bold text-lg text-navy">Associate Pastor</h3>
+              <p class="text-gold text-xs font-semibold uppercase tracking-wider mt-0.5">Discipleship & Outreach</p>
+              <p class="text-slate text-xs mt-3 leading-relaxed">
+                Overseeing small group ministries, family mentorship, and evangelism across the surrounding towns.
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm text-center">
+            <div class="relative h-64 w-full bg-navy-light flex items-center justify-center text-white">
+              <i data-lucide="users" class="w-16 h-16 text-gold/60"></i>
+            </div>
+            <div class="p-6">
+              <h3 class="font-serif font-bold text-lg text-navy">Youth & Campus Pastor</h3>
+              <p class="text-gold text-xs font-semibold uppercase tracking-wider mt-0.5">Next Generation Ministry</p>
+              <p class="text-slate text-xs mt-3 leading-relaxed">
+                Engaging youth and college students with apologetics, mentorship, and creative arts in Batu.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Statement of Faith Section -->
+    <section id="beliefs" class="py-20 bg-white">
+      <div class="max-w-5xl mx-auto px-4 space-y-8">
+        <div class="space-y-2">
+          <span class="text-xs font-bold text-gold uppercase tracking-widest" data-i18n="beliefs_tag">Theological Pillars</span>
+          <h2 class="font-serif text-3xl font-bold text-navy" data-i18n="beliefs_title">Full Statement of Faith</h2>
+          <div class="w-16 h-1 bg-gold rounded-full"></div>
+        </div>
+
+        <div class="space-y-6 text-sm text-slate leading-relaxed">
+          <div class="p-5 rounded-2xl bg-cream/60 border border-slate-200">
+            <h3 class="font-serif text-lg font-bold text-navy mb-1" data-i18n="belief_bible_title">1. The Holy Scriptures</h3>
+            <p data-i18n="belief_bible_desc">We believe the Bible, consisting of 66 books of the Old and New Testaments, is the fully inspired, infallible, and authoritative Word of God.</p>
+          </div>
+          <div class="p-5 rounded-2xl bg-cream/60 border border-slate-200">
+            <h3 class="font-serif text-lg font-bold text-navy mb-1" data-i18n="belief_god_title">2. The Triune God</h3>
+            <p data-i18n="belief_god_desc">We believe in one God, eternally existing in three equal Persons: God the Father, God the Son (Jesus Christ), and God the Holy Spirit.</p>
+          </div>
+          <div class="p-5 rounded-2xl bg-cream/60 border border-slate-200">
+            <h3 class="font-serif text-lg font-bold text-navy mb-1" data-i18n="belief_salvation_title">3. Salvation by Grace Through Faith</h3>
+            <p data-i18n="belief_salvation_desc">We believe that all humans need salvation, which is received solely by God's grace through faith in the crucified and risen Lord Jesus Christ alone.</p>
+          </div>
+          <div class="p-5 rounded-2xl bg-cream/60 border border-slate-200">
+            <h3 class="font-serif text-lg font-bold text-navy mb-1" data-i18n="belief_hope_title">4. Living Hope & Eternity</h3>
+            <p data-i18n="belief_hope_desc">We look forward with joy to Christ's return, the resurrection of believers, and eternal fellowship with our Creator in glory.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-navy-dark text-slate-300 py-10 border-t border-white/10 text-center text-xs space-y-2">
+    <p>&copy; 2026 BATU YEHIYWOT BERHAN CHURCH. All rights reserved.</p>
+    <p class="text-slate-500">Central Avenue, Batu (Ziway), Oromia Region, Ethiopia</p>
+  </footer>
+
+  <script>
+    if (window.lucide) {
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>
