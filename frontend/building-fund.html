@@ -314,20 +314,20 @@
                 
                 <!-- Ethiopian & Global Payment Method Tabs -->
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                  <button type="button" id="tab-method-telebirr" class="py-2.5 px-2 border border-amber-600 bg-amber-50 text-slate-900 rounded-xl text-xs font-bold flex items-center justify-center gap-1 focus:outline-none">
+                  <button type="button" id="tab-method-telebirr" class="py-2.5 px-2 border border-amber-600 bg-amber-50 text-slate-900 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 focus:outline-none">
                     <span class="w-2 h-2 rounded-full bg-emerald-500"></span> ቴሌብር (Telebirr)
                   </button>
-                  <button type="button" id="tab-method-cbe" class="py-2.5 px-2 border border-slate-200 bg-white text-slate-600 hover:text-slate-900 rounded-xl text-xs font-bold flex items-center justify-center gap-1 focus:outline-none">
-                    CBE (ንግድ ባንክ)
+                  <button type="button" id="tab-method-cbe" class="py-2.5 px-2 border border-slate-200 bg-white text-slate-600 hover:text-slate-900 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 focus:outline-none">
+                    <span class="w-2 h-2 rounded-full bg-purple-700"></span> CBE (ንግድ ባንክ)
                   </button>
-                  <button type="button" id="tab-method-coop" class="py-2.5 px-2 border border-slate-200 bg-white text-slate-600 hover:text-slate-900 rounded-xl text-xs font-bold flex items-center justify-center gap-1 focus:outline-none">
-                    Coopbank (CCOP)
+                  <button type="button" id="tab-method-coop" class="py-2.5 px-2 border border-slate-200 bg-white text-slate-600 hover:text-slate-900 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 focus:outline-none">
+                    <img src="images/banks/bank_coop.png" alt="Coopbank" class="w-4 h-4 object-contain rounded-xs shrink-0" /> Coopbank
                   </button>
-                  <button type="button" id="tab-method-awash" class="py-2.5 px-2 border border-slate-200 bg-white text-slate-600 hover:text-slate-900 rounded-xl text-xs font-bold flex items-center justify-center gap-1 focus:outline-none">
-                    Awash Bank
+                  <button type="button" id="tab-method-awash" class="py-2.5 px-2 border border-slate-200 bg-white text-slate-600 hover:text-slate-900 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 focus:outline-none">
+                    <img src="images/banks/bank_awash.png" alt="Awash Bank" class="w-4 h-4 object-contain rounded-xs shrink-0" /> Awash Bank
                   </button>
-                  <button type="button" id="tab-method-birhan" class="py-2.5 px-2 border border-slate-200 bg-white text-slate-600 hover:text-slate-900 rounded-xl text-xs font-bold flex items-center justify-center gap-1 focus:outline-none">
-                    Birhan Bank
+                  <button type="button" id="tab-method-birhan" class="py-2.5 px-2 border border-slate-200 bg-white text-slate-600 hover:text-slate-900 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 focus:outline-none">
+                    <img src="images/banks/bank_berhan.png" alt="Birhan Bank" class="w-4 h-4 object-contain rounded-xs shrink-0" /> Birhan Bank
                   </button>
                   <button type="button" id="tab-method-stripe" class="py-2.5 px-2 border border-slate-200 bg-white text-slate-600 hover:text-slate-900 rounded-xl text-xs font-bold flex items-center justify-center gap-1 focus:outline-none">
                     <i data-lucide="credit-card" class="w-3.5 h-3.5 text-amber-700"></i> Card (Stripe)
@@ -403,9 +403,12 @@
                 <!-- 3. Coopbank (CCOP) Panel -->
                 <div id="panel-coop" class="hidden p-6 bg-slate-50 border border-slate-200 rounded-2xl space-y-4">
                   <div class="flex items-center justify-between">
-                    <div>
-                      <h4 class="font-bold text-sm text-navy">Cooperative Bank of Oromia (የኦሮሚያ ህብረት ስራ ባንክ)</h4>
-                      <p class="text-xs text-slate-500 mt-0.5">CoopPay & Direct Account Transfer</p>
+                    <div class="flex items-center gap-3">
+                      <img src="images/banks/bank_coop.png" alt="Coopbank Logo" class="w-10 h-10 object-contain bg-white rounded-lg p-1 border border-slate-200 shadow-xs" />
+                      <div>
+                        <h4 class="font-bold text-sm text-navy">Cooperative Bank of Oromia (የኦሮሚያ ህብረት ስራ ባንክ)</h4>
+                        <p class="text-xs text-slate-500 mt-0.5">CoopPay & Direct Account Transfer</p>
+                      </div>
                     </div>
                     <span class="px-2.5 py-1 bg-emerald-100 text-emerald-900 text-[10px] font-extrabold rounded-md uppercase">CCOP Bank</span>
                   </div>
@@ -435,9 +438,12 @@
                 <!-- 4. Awash Bank Panel -->
                 <div id="panel-awash" class="hidden p-6 bg-slate-50 border border-slate-200 rounded-2xl space-y-4">
                   <div class="flex items-center justify-between">
-                    <div>
-                      <h4 class="font-bold text-sm text-navy">Awash Bank (አዋሽ ባንክ)</h4>
-                      <p class="text-xs text-slate-500 mt-0.5">Awash Birhan & Account Deposit</p>
+                    <div class="flex items-center gap-3">
+                      <img src="images/banks/bank_awash.png" alt="Awash Bank Logo" class="w-10 h-10 object-contain bg-white rounded-lg p-1 border border-slate-200 shadow-xs" />
+                      <div>
+                        <h4 class="font-bold text-sm text-navy">Awash Bank (አዋሽ ባንክ)</h4>
+                        <p class="text-xs text-slate-500 mt-0.5">Awash Birhan & Account Deposit</p>
+                      </div>
                     </div>
                     <span class="px-2.5 py-1 bg-amber-100 text-amber-900 text-[10px] font-extrabold rounded-md uppercase">Awash Bank</span>
                   </div>
@@ -467,9 +473,12 @@
                 <!-- 5. Birhan Bank Panel -->
                 <div id="panel-birhan" class="hidden p-6 bg-slate-50 border border-slate-200 rounded-2xl space-y-4">
                   <div class="flex items-center justify-between">
-                    <div>
-                      <h4 class="font-bold text-sm text-navy">Birhan Bank (ብርሃን ባንክ)</h4>
-                      <p class="text-xs text-slate-500 mt-0.5">Birhan Mobile & Branch Deposit</p>
+                    <div class="flex items-center gap-3">
+                      <img src="images/banks/bank_berhan.png" alt="Birhan Bank Logo" class="w-10 h-10 object-contain bg-white rounded-lg p-1 border border-slate-200 shadow-xs" />
+                      <div>
+                        <h4 class="font-bold text-sm text-navy">Birhan Bank (ብርሃን ባንክ)</h4>
+                        <p class="text-xs text-slate-500 mt-0.5">Birhan Mobile & Branch Deposit</p>
+                      </div>
                     </div>
                     <span class="px-2.5 py-1 bg-blue-100 text-blue-900 text-[10px] font-extrabold rounded-md uppercase">Birhan Bank</span>
                   </div>
@@ -548,6 +557,25 @@
                   <div>
                     <label for="tx-ref-paypal" class="block text-xs font-semibold text-slate-700 mb-1">PayPal Transaction ID or Payer Email *</label>
                     <input type="text" id="tx-ref-paypal" placeholder="e.g. 9XY123456AB78901C or your-paypal@email.com" class="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-sm font-mono text-slate-900 focus:ring-2 focus:ring-gold" />
+                  </div>
+                </div>
+
+                <!-- Ethiopian Bank Network Partner Showcase -->
+                <div class="p-3.5 bg-slate-50/80 border border-slate-200 rounded-xl space-y-2">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Supported Ethiopian Bank Partners
+                    </span>
+                    <span class="text-[10px] bg-white border border-slate-200 text-slate-600 px-2 py-0.5 rounded font-semibold">21+ Licensed Banks</span>
+                  </div>
+                  <div class="grid grid-cols-7 gap-2 pt-1">
+                    <img src="images/banks/bank_abyssinia.png" alt="Bank of Abyssinia" title="Bank of Abyssinia" class="h-6 w-auto object-contain mx-auto" />
+                    <img src="images/banks/bank_awash.png" alt="Awash Bank" title="Awash Bank" class="h-6 w-auto object-contain mx-auto" />
+                    <img src="images/banks/bank_dashen.png" alt="Dashen Bank" title="Dashen Bank" class="h-6 w-auto object-contain mx-auto" />
+                    <img src="images/banks/bank_coop.png" alt="Coopbank" title="Cooperative Bank of Oromia" class="h-6 w-auto object-contain mx-auto" />
+                    <img src="images/banks/bank_berhan.png" alt="Berhan Bank" title="Berhan Bank" class="h-6 w-auto object-contain mx-auto" />
+                    <img src="images/banks/bank_wegagen.png" alt="Wegagen Bank" title="Wegagen Bank" class="h-6 w-auto object-contain mx-auto" />
+                    <img src="images/banks/bank_hibret.png" alt="Hibret Bank" title="Hibret Bank" class="h-6 w-auto object-contain mx-auto" />
                   </div>
                 </div>
               </div>

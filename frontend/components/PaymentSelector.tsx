@@ -24,7 +24,7 @@ import {
   X,
 } from 'lucide-react';
 
-export type ChapaChannelId = 'telebirr' | 'cbebirr' | 'abyssinia' | 'awash' | 'coop' | 'card';
+export type ChapaChannelId = 'telebirr' | 'cbebirr' | 'abyssinia' | 'awash' | 'coop' | 'dashen' | 'berhan' | 'wegagen' | 'card';
 
 export const PaymentSelector: React.FC<{ initialDesignation?: string }> = ({
   initialDesignation = 'building_fund',
@@ -170,63 +170,39 @@ export const PaymentSelector: React.FC<{ initialDesignation?: string }> = ({
   const currentCurrency = region === 'local' ? 'ETB' : 'USD';
   const currentAmount = customAmount ? parseFloat(customAmount) || 0 : amount;
 
-  // Brand-accurate SVG logo components for each Ethiopian bank/wallet
-  const BankLogo: React.FC<{ id: ChapaChannelId; size?: number }> = ({ id, size = 36 }) => {
+  // Brand-authentic logo component for Ethiopian banks and payment channels
+  const BankLogo: React.FC<{ id: ChapaChannelId | string; size?: number; className?: string }> = ({
+    id,
+    size = 36,
+    className = '',
+  }) => {
     const s = size;
     switch (id) {
       case 'telebirr':
-        // Ethio Telecom Telebirr — green circular logo with 'T' mark
+        // Ethio Telecom Telebirr — official green and red colors with brand mark
         return (
-          <svg width={s} height={s} viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="rounded-lg shrink-0">
+          <svg width={s} height={s} viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" className={`rounded-lg shrink-0 ${className}`}>
             <rect width="36" height="36" rx="8" fill="#009A44" />
-            <rect x="0" y="24" width="36" height="12" rx="0" fill="#E30613" />
             <rect x="0" y="24" width="36" height="12" rx="0" fill="#E30613" />
             <path d="M14 10h8v2.5h-2.5v8h-3v-8H14V10z" fill="white" />
             <text x="18" y="34" textAnchor="middle" fontSize="5.5" fontWeight="bold" fill="white" fontFamily="Arial">telebirr</text>
           </svg>
         );
       case 'cbebirr':
-        // CBE Birr — Commercial Bank of Ethiopia blue
+      case 'cbe':
+        // Commercial Bank of Ethiopia (CBE) blue & gold emblem
         return (
-          <svg width={s} height={s} viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="rounded-lg shrink-0">
+          <svg width={s} height={s} viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" className={`rounded-lg shrink-0 ${className}`}>
             <rect width="36" height="36" rx="8" fill="#003D8F" />
             <circle cx="18" cy="14" r="7" fill="none" stroke="#FFD700" strokeWidth="2" />
             <path d="M15 14c0-1.66 1.34-3 3-3 .97 0 1.83.46 2.38 1.18l1.54-1.54A4.97 4.97 0 0018 9c-2.76 0-5 2.24-5 5s2.24 5 5 5c1.38 0 2.63-.56 3.54-1.46l-1.54-1.54A3 3 0 0118 17c-1.66 0-3-1.34-3-3z" fill="#FFD700" />
             <text x="18" y="29" textAnchor="middle" fontSize="5" fontWeight="bold" fill="white" fontFamily="Arial">CBE</text>
           </svg>
         );
-      case 'abyssinia':
-        // Bank of Abyssinia — BoA navy & gold lion
-        return (
-          <svg width={s} height={s} viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="rounded-lg shrink-0">
-            <rect width="36" height="36" rx="8" fill="#1A237E" />
-            <path d="M18 7l2.5 5.5 6 .5-4.5 4 1.5 6L18 20l-5.5 3 1.5-6-4.5-4 6-.5z" fill="#FFD700" />
-            <text x="18" y="31" textAnchor="middle" fontSize="4.5" fontWeight="bold" fill="#FFD700" fontFamily="Arial">ABYSSINIA</text>
-          </svg>
-        );
-      case 'awash':
-        // Awash Bank — orange brand
-        return (
-          <svg width={s} height={s} viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="rounded-lg shrink-0">
-            <rect width="36" height="36" rx="8" fill="#F05A28" />
-            <path d="M9 22 Q14 10 18 18 Q22 26 27 14" stroke="white" strokeWidth="3" strokeLinecap="round" fill="none" />
-            <path d="M9 26 Q14 14 18 22 Q22 30 27 18" stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none" opacity="0.5" />
-            <text x="18" y="33" textAnchor="middle" fontSize="5" fontWeight="bold" fill="white" fontFamily="Arial">AWASH</text>
-          </svg>
-        );
-      case 'coop':
-        // Cooperative Bank of Oromia — CoopPay green
-        return (
-          <svg width={s} height={s} viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="rounded-lg shrink-0">
-            <rect width="36" height="36" rx="8" fill="#00703C" />
-            <path d="M18 8c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10S23.52 8 18 8zm0 3c1.5 0 2.87.49 3.97 1.3L11.3 21.97A7 7 0 0118 11zm0 14a7 7 0 01-3.97-1.3l10.67-10.67A7 7 0 0118 25z" fill="white" />
-            <text x="18" y="34" textAnchor="middle" fontSize="4.5" fontWeight="bold" fill="white" fontFamily="Arial">CoopPay</text>
-          </svg>
-        );
       case 'card':
-        // EthSwitch / ATM Card — professional blue card icon
+        // EthSwitch / ATM Card — professional debit card icon
         return (
-          <svg width={s} height={s} viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="rounded-lg shrink-0">
+          <svg width={s} height={s} viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" className={`rounded-lg shrink-0 ${className}`}>
             <rect width="36" height="36" rx="8" fill="#1565C0" />
             <rect x="6" y="11" width="24" height="16" rx="3" stroke="white" strokeWidth="1.5" fill="none" />
             <rect x="6" y="15" width="24" height="4" fill="white" opacity="0.3" />
@@ -235,8 +211,30 @@ export const PaymentSelector: React.FC<{ initialDesignation?: string }> = ({
             <text x="18" y="34" textAnchor="middle" fontSize="4.5" fontWeight="bold" fill="white" fontFamily="Arial">EthSwitch</text>
           </svg>
         );
-      default:
-        return <span className="text-xl">🏦</span>;
+      default: {
+        // Map aliases (e.g. birhan -> berhan)
+        const fileKey = id === 'birhan' ? 'berhan' : id;
+        return (
+          <div
+            className={`relative inline-flex items-center justify-center bg-white rounded-lg p-0.5 border border-slate-200/90 shadow-2xs overflow-hidden shrink-0 ${className}`}
+            style={{ width: s, height: s }}
+          >
+            <img
+              src={`/images/banks/bank_${fileKey}.png`}
+              alt={`${id} bank logo`}
+              className="max-w-full max-h-full object-contain"
+              loading="lazy"
+              onError={(e) => {
+                const target = e.currentTarget;
+                target.style.display = 'none';
+                if (target.parentElement) {
+                  target.parentElement.innerHTML = '<span class="text-xs font-bold text-slate-500">🏦</span>';
+                }
+              }}
+            />
+          </div>
+        );
+      }
     }
   };
 
@@ -307,6 +305,39 @@ export const PaymentSelector: React.FC<{ initialDesignation?: string }> = ({
         description: 'Pay via CoopPay mobile app, E-Birr wallet, or Coopbank online portal',
       },
       {
+        id: 'dashen',
+        name: 'Dashen Bank',
+        amharic: 'ዳሽን ባንክ (Amole)',
+        type: 'Dashen SuperApp & Amole',
+        badge: 'Dashen / Amole',
+        tagColor: 'bg-indigo-100 text-indigo-800 border-indigo-300',
+        borderColor: 'border-indigo-500',
+        bgColor: 'bg-indigo-50/50',
+        description: 'Authorize transfer securely via Dashen SuperApp or Amole digital wallet',
+      },
+      {
+        id: 'berhan',
+        name: 'Berhan Bank',
+        amharic: 'ብርሃን ባንክ',
+        type: 'Berhan Mobile Banking',
+        badge: 'Berhan Mobile',
+        tagColor: 'bg-amber-100 text-amber-900 border-amber-300',
+        borderColor: 'border-amber-500',
+        bgColor: 'bg-amber-50/50',
+        description: 'Instant account debit authorization using Berhan Mobile Banking app',
+      },
+      {
+        id: 'wegagen',
+        name: 'Wegagen Bank',
+        amharic: 'ወጋገን ባንክ',
+        type: 'Wegagen Mobile Banking',
+        badge: 'Wegagen App',
+        tagColor: 'bg-rose-100 text-rose-800 border-rose-300',
+        borderColor: 'border-rose-500',
+        bgColor: 'bg-rose-50/50',
+        description: 'Authorize transfer securely via Wegagen Mobile Banking or online portal',
+      },
+      {
         id: 'card',
         name: 'Debit & ATM Cards',
         amharic: 'የባንክ ካርዶች (EthSwitch)',
@@ -336,6 +367,9 @@ export const PaymentSelector: React.FC<{ initialDesignation?: string }> = ({
           abyssinia: 'Chapa (Bank of Abyssinia BoA Mobile)',
           awash: 'Chapa (Awash Bank Awash Birr)',
           coop: 'Chapa (CoopPay Cooperative Bank of Oromia)',
+          dashen: 'Chapa (Dashen Bank / Amole SuperApp)',
+          berhan: 'Chapa (Berhan Bank Mobile)',
+          wegagen: 'Chapa (Wegagen Bank Mobile)',
           card: 'Chapa (Debit / ATM Card EthSwitch)',
         };
         setConfirmedData({
@@ -1079,11 +1113,84 @@ export const PaymentSelector: React.FC<{ initialDesignation?: string }> = ({
                           You will authorize through Cooperative Bank of Oromia CoopPay mobile wallet or account.
                         </span>
                       )}
+                      {chapaChannel === 'dashen' && (
+                        <span>
+                          You will authorize via Dashen SuperApp or Amole digital wallet. Please enter your mobile number in Step 5 below.
+                        </span>
+                      )}
+                      {chapaChannel === 'berhan' && (
+                        <span>
+                          You will authorize via Berhan Mobile Banking app or branch deposit. Please enter your mobile number in Step 5 below.
+                        </span>
+                      )}
+                      {chapaChannel === 'wegagen' && (
+                        <span>
+                          You will authorize securely via Wegagen Mobile Banking app or online portal. Please enter your mobile number in Step 5 below.
+                        </span>
+                      )}
                       {chapaChannel === 'card' && (
                         <span>
                           You can pay with any Ethiopian local bank ATM debit card (EthSwitch) or Visa / Mastercard.
                         </span>
                       )}
+                    </div>
+                  </div>
+
+                  {/* Supported Ethiopian Bank Partner Network Showcase */}
+                  <div className="bg-gradient-to-r from-slate-50 via-white to-amber-50/40 border border-slate-200/80 rounded-2xl p-4 sm:p-5 shadow-2xs space-y-3">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                          <h5 className="font-bold text-xs uppercase tracking-wider text-navy">
+                            Supported Ethiopian Bank & Switch Network
+                          </h5>
+                        </div>
+                        <p className="text-[11px] text-slate-500 mt-0.5">
+                          Seamlessly pay through all 21 licensed Ethiopian commercial and cooperative banks via Chapa & EthSwitch
+                        </p>
+                      </div>
+                      <span className="text-[10px] font-bold bg-amber-100 text-amber-900 border border-amber-300 px-2.5 py-1 rounded-full self-start sm:self-auto">
+                        21 Banks Connected
+                      </span>
+                    </div>
+
+                    {/* Partner Bank Badges Grid */}
+                    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-2 pt-1">
+                      {[
+                        { id: 'abyssinia', name: 'Abyssinia' },
+                        { id: 'awash', name: 'Awash' },
+                        { id: 'dashen', name: 'Dashen' },
+                        { id: 'coop', name: 'Coopbank' },
+                        { id: 'berhan', name: 'Berhan' },
+                        { id: 'wegagen', name: 'Wegagen' },
+                        { id: 'hibret', name: 'Hibret' },
+                        { id: 'oromia', name: 'Oromia' },
+                        { id: 'enat', name: 'Enat' },
+                        { id: 'nib', name: 'Nib' },
+                        { id: 'lion', name: 'Lion' },
+                        { id: 'buna', name: 'Buna' },
+                        { id: 'zemen', name: 'Zemen' },
+                        { id: 'amhara', name: 'Amhara' },
+                        { id: 'global', name: 'Global' },
+                        { id: 'tsehay', name: 'Tsehay' },
+                        { id: 'tsedey', name: 'Tsedey' },
+                        { id: 'zamzam', name: 'ZamZam' },
+                        { id: 'ahadu', name: 'Ahadu' },
+                        { id: 'addis', name: 'Addis' },
+                        { id: 'goh', name: 'Goh' },
+                      ].map((bank) => (
+                        <div
+                          key={bank.id}
+                          className="flex flex-col items-center justify-center p-2 rounded-xl bg-white border border-slate-100 hover:border-slate-300 hover:shadow-xs transition-all text-center group"
+                          title={`${bank.name} Bank`}
+                        >
+                          <BankLogo id={bank.id} size={32} className="group-hover:scale-105 transition-transform" />
+                          <span className="text-[9px] font-semibold text-slate-600 mt-1 truncate max-w-full">
+                            {bank.name}
+                          </span>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -1102,8 +1209,11 @@ export const PaymentSelector: React.FC<{ initialDesignation?: string }> = ({
                       className={`p-3.5 rounded-xl border cursor-pointer transition-all ${manualBank === 'cbe' ? 'border-gold bg-white shadow-sm ring-1 ring-gold/40' : 'border-slate-200 bg-white/70 hover:border-slate-300'
                         }`}
                     >
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-[10px] font-bold text-purple-900 bg-purple-100 px-2 py-0.5 rounded">CBE (ንግድ ባንክ)</span>
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <BankLogo id="cbe" size={28} />
+                          <span className="text-[10px] font-bold text-purple-900 bg-purple-100 px-2 py-0.5 rounded">CBE (ንግድ ባንክ)</span>
+                        </div>
                         {manualBank === 'cbe' && <span className="text-[10px] text-gold font-bold uppercase">Selected</span>}
                       </div>
                       <span className="text-[11px] text-slate-muted block">Account:</span>
@@ -1128,8 +1238,11 @@ export const PaymentSelector: React.FC<{ initialDesignation?: string }> = ({
                       className={`p-3.5 rounded-xl border cursor-pointer transition-all ${manualBank === 'coop' ? 'border-gold bg-white shadow-sm ring-1 ring-gold/40' : 'border-slate-200 bg-white/70 hover:border-slate-300'
                         }`}
                     >
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-[10px] font-bold text-emerald-900 bg-emerald-100 px-2 py-0.5 rounded">Coopbank (ህብረት ስራ)</span>
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <BankLogo id="coop" size={28} />
+                          <span className="text-[10px] font-bold text-emerald-900 bg-emerald-100 px-2 py-0.5 rounded">Coopbank (ህብረት ስራ)</span>
+                        </div>
                         {manualBank === 'coop' && <span className="text-[10px] text-gold font-bold uppercase">Selected</span>}
                       </div>
                       <span className="text-[11px] text-slate-muted block">Account:</span>
@@ -1154,8 +1267,11 @@ export const PaymentSelector: React.FC<{ initialDesignation?: string }> = ({
                       className={`p-3.5 rounded-xl border cursor-pointer transition-all ${manualBank === 'awash' ? 'border-gold bg-white shadow-sm ring-1 ring-gold/40' : 'border-slate-200 bg-white/70 hover:border-slate-300'
                         }`}
                     >
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-[10px] font-bold text-amber-900 bg-amber-100 px-2 py-0.5 rounded">Awash Bank (አዋሽ ባንክ)</span>
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <BankLogo id="awash" size={28} />
+                          <span className="text-[10px] font-bold text-amber-900 bg-amber-100 px-2 py-0.5 rounded">Awash Bank (አዋሽ ባንክ)</span>
+                        </div>
                         {manualBank === 'awash' && <span className="text-[10px] text-gold font-bold uppercase">Selected</span>}
                       </div>
                       <span className="text-[11px] text-slate-muted block">Account:</span>
@@ -1180,8 +1296,11 @@ export const PaymentSelector: React.FC<{ initialDesignation?: string }> = ({
                       className={`p-3.5 rounded-xl border cursor-pointer transition-all ${manualBank === 'birhan' ? 'border-gold bg-white shadow-sm ring-1 ring-gold/40' : 'border-slate-200 bg-white/70 hover:border-slate-300'
                         }`}
                     >
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-[10px] font-bold text-blue-900 bg-blue-100 px-2 py-0.5 rounded">Birhan Bank (ብርሃን ባንክ)</span>
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <BankLogo id="berhan" size={28} />
+                          <span className="text-[10px] font-bold text-blue-900 bg-blue-100 px-2 py-0.5 rounded">Birhan Bank (ብርሃን ባንክ)</span>
+                        </div>
                         {manualBank === 'birhan' && <span className="text-[10px] text-gold font-bold uppercase">Selected</span>}
                       </div>
                       <span className="text-[11px] text-slate-muted block">Account:</span>
@@ -1206,8 +1325,11 @@ export const PaymentSelector: React.FC<{ initialDesignation?: string }> = ({
                       className={`p-3.5 rounded-xl border cursor-pointer transition-all ${manualBank === 'telebirr' ? 'border-gold bg-white shadow-sm ring-1 ring-gold/40' : 'border-slate-200 bg-white/70 hover:border-slate-300'
                         }`}
                     >
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-[10px] font-bold text-emerald-900 bg-emerald-100 px-2 py-0.5 rounded">Telebirr Direct / Short Code</span>
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <BankLogo id="telebirr" size={28} />
+                          <span className="text-[10px] font-bold text-emerald-900 bg-emerald-100 px-2 py-0.5 rounded">Telebirr Direct / Short Code</span>
+                        </div>
                         {manualBank === 'telebirr' && <span className="text-[10px] text-gold font-bold uppercase">Selected</span>}
                       </div>
                       <span className="text-[11px] text-slate-muted block">Mobile / Code:</span>
@@ -1629,7 +1751,7 @@ export const PaymentSelector: React.FC<{ initialDesignation?: string }> = ({
                 {simulationModal.selectedChannel === 'coop' && (
                   <>
                     <div className="flex items-center gap-2 text-teal-900 font-bold">
-                      <Building2 className="w-4 h-4 text-teal-700" />
+                      <BankLogo id="coop" size={24} />
                       <span>Cooperative Bank of Oromia (CoopPay E-Birr)</span>
                     </div>
                     <p className="text-slate-600 text-xs">
@@ -1637,6 +1759,54 @@ export const PaymentSelector: React.FC<{ initialDesignation?: string }> = ({
                     </p>
                     <div className="bg-white p-2.5 rounded-xl border border-teal-300 text-[11px] text-teal-900 font-medium">
                       Authorized debit ready for church building fund.
+                    </div>
+                  </>
+                )}
+
+                {simulationModal.selectedChannel === 'dashen' && (
+                  <>
+                    <div className="flex items-center gap-2 text-indigo-900 font-bold">
+                      <BankLogo id="dashen" size={24} />
+                      <span>Dashen Bank (Amole & SuperApp)</span>
+                    </div>
+                    <p className="text-slate-600 text-xs">
+                      Dashen Amole authorization requested for{' '}
+                      <strong className="text-indigo-950 font-mono">{simulationModal.donorPhone}</strong>.
+                    </p>
+                    <div className="bg-white p-2.5 rounded-xl border border-indigo-300 text-[11px] text-indigo-900 font-medium">
+                      Debit authorization ready for {simulationModal.amount.toLocaleString()} ETB.
+                    </div>
+                  </>
+                )}
+
+                {simulationModal.selectedChannel === 'berhan' && (
+                  <>
+                    <div className="flex items-center gap-2 text-amber-900 font-bold">
+                      <BankLogo id="berhan" size={24} />
+                      <span>Berhan Bank (Mobile Banking)</span>
+                    </div>
+                    <p className="text-slate-600 text-xs">
+                      Berhan Bank secure authorization ready for donor{' '}
+                      <strong className="text-navy">{simulationModal.donorName}</strong>.
+                    </p>
+                    <div className="bg-white p-2.5 rounded-xl border border-amber-300 text-[11px] text-amber-900 font-medium">
+                      Account debit ready for {simulationModal.amount.toLocaleString()} ETB.
+                    </div>
+                  </>
+                )}
+
+                {simulationModal.selectedChannel === 'wegagen' && (
+                  <>
+                    <div className="flex items-center gap-2 text-rose-900 font-bold">
+                      <BankLogo id="wegagen" size={24} />
+                      <span>Wegagen Bank (Mobile Banking)</span>
+                    </div>
+                    <p className="text-slate-600 text-xs">
+                      Wegagen Bank mobile session connected for{' '}
+                      <strong className="text-rose-950 font-mono">{simulationModal.donorPhone}</strong>.
+                    </p>
+                    <div className="bg-white p-2.5 rounded-xl border border-rose-300 text-[11px] text-rose-900 font-medium">
+                      Authorization code prepared for {simulationModal.amount.toLocaleString()} ETB.
                     </div>
                   </>
                 )}

@@ -202,7 +202,7 @@ exports.initializeChapaDonation = async (req, res) => {
       return res.status(400).json({ error: 'Please provide a valid email address.' });
     }
 
-    const validMethods = ['telebirr', 'cbebirr', 'abyssinia', 'awash', 'coop', 'card'];
+    const validMethods = ['telebirr', 'cbebirr', 'abyssinia', 'awash', 'coop', 'dashen', 'berhan', 'wegagen', 'card'];
     const selectedMethod = (payment_method && validMethods.includes(payment_method.toLowerCase()))
       ? payment_method.toLowerCase()
       : 'telebirr';
