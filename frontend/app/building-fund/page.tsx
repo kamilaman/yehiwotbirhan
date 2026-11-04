@@ -21,7 +21,7 @@ export default function BuildingFundPage() {
   return (
     <div>
       {/* Hero Banner */}
-      <section className="bg-navy-dark text-white py-16 lg:py-24 relative overflow-hidden">
+      <section className="bg-navy-dark text-white py-16 lg:py-24 relative overflow-hidden print:hidden">
         <div className="absolute top-0 right-10 w-96 h-96 bg-gold/15 rounded-full blur-3xl pointer-events-none"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <span className="text-xs font-bold uppercase tracking-widest text-gold bg-gold/20 px-3.5 py-1.5 rounded-full inline-block mb-3 border border-gold/40">
@@ -37,7 +37,7 @@ export default function BuildingFundPage() {
       </section>
 
       {/* Sanctuary Showcase & Live Progress */}
-      <section className="py-16 bg-cream">
+      <section className="py-16 bg-cream print:hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           {/* Architectural Poster & Overview */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
@@ -124,9 +124,9 @@ export default function BuildingFundPage() {
       </section>
 
       {/* Giving Form & Payment Section */}
-      <section className="py-16 bg-white border-t border-slate-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10 space-y-2">
+      <section className="py-16 bg-white border-t border-slate-200 receipt-print-section print:py-0 print:border-none print:m-0 print:p-0">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 print:max-w-none print:p-0 print:m-0">
+          <div className="text-center mb-10 space-y-2 print:hidden">
             <span className="text-xs font-bold uppercase tracking-widest text-gold">
               Faithful Stewardship
             </span>
@@ -145,7 +145,7 @@ export default function BuildingFundPage() {
       </section>
 
       {/* Construction Phases & Timeline */}
-      <section className="py-16 bg-cream border-t border-slate-200">
+      <section className="py-16 bg-cream border-t border-slate-200 print:hidden">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <span className="text-xs font-bold uppercase tracking-widest text-gold">

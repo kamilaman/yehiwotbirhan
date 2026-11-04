@@ -60,3 +60,60 @@
 .skip-link:focus {
   top: 0;
 }
+
+/* Print Engine Optimization - Clean Single-Page Official Church Receipt */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 8mm 10mm;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  html, body {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: auto !important;
+  }
+
+  /* Force hide all navigation, headers, announcements, footers, and skip-link */
+  header,
+  nav,
+  footer,
+  aside,
+  .skip-link,
+  .print\:hidden,
+  [data-no-print] {
+    display: none !important;
+  }
+
+  /* Hide any parent background decorative artifacts */
+  main {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+  }
+
+  /* Official church receipt strictly contained to 1 clean single page */
+  #official-church-receipt {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    padding: 20px 24px !important;
+    border: 1.5px solid #0f2742 !important;
+    border-radius: 12px !important;
+    background: #ffffff !important;
+    box-shadow: none !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    page-break-after: avoid !important;
+  }
+}

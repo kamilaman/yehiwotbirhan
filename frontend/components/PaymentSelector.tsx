@@ -688,93 +688,189 @@ export const PaymentSelector: React.FC<{ initialDesignation?: string }> = ({
 
   // 3. SUCCESS CONFIRMATION & OFFICIAL RECEIPT
   if (submitSuccess && confirmedData) {
+    const formattedAmount =
+      confirmedData.currency === 'ETB'
+        ? `${confirmedData.amount.toLocaleString()} Br (ETB)`
+        : `$${confirmedData.amount.toLocaleString()} USD`;
+
+    const receiptDate = new Date().toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+
+    const receiptTime = new Date().toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+
+    const receiptNumber = `RCP-${confirmedData.txRef.replace(/[^a-zA-Z0-9]/g, '').slice(-8).toUpperCase()}`;
+
     return (
-      <div className="bg-white p-8 md:p-12 rounded-3xl shadow-xl border-2 border-gold/40 text-center max-w-2xl mx-auto animate-in fade-in zoom-in-95 duration-300 print:shadow-none print:border-none">
-        <div
-          className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5 print:hidden ${confirmedData.isPendingVerification
-              ? 'bg-amber-100 text-amber-600'
-              : 'bg-emerald-100 text-emerald-600'
-            }`}
-        >
-          {confirmedData.isPendingVerification ? (
-            <AlertCircle className="w-10 h-10" />
-          ) : (
-            <CheckCircle className="w-10 h-10" />
-          )}
+      <div
+        id="official-church-receipt"
+        className="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border-2 border-gold/40 text-left max-w-2xl mx-auto animate-in fade-in zoom-in-95 duration-300 print:max-w-none print:w-full print:border-2 print:border-slate-800 print:rounded-2xl print:p-5 print:shadow-none print:m-0"
+      >
+        {/* Official Letterhead Header */}
+        <div className="flex items-center justify-between border-b-2 border-navy/15 pb-3.5 mb-3.5">
+          <div className="flex items-center gap-3">
+            <div className="relative w-12 h-12 rounded-full border-2 border-gold overflow-hidden bg-white shrink-0 p-0.5">
+              <img
+                src="/images/logo.png"
+                alt="BATU YEHIYWOT BERHAN CHURCH Logo"
+                className="w-full h-full object-contain rounded-full"
+              />
+            </div>
+            <div>
+              <span className="text-[10px] font-bold text-gold uppercase tracking-wider block">
+                ባቱ የሕይወት ብርሃን ቤተክርስቲያን
+              </span>
+              <h2 className="font-serif font-bold text-base sm:text-lg text-navy leading-tight">
+                BATU YEHIYWOT BERHAN CHURCH
+              </h2>
+              <p className="text-[10px] text-slate-500 italic">
+                A Place to Belong. A Faith to Grow.
+              </p>
+            </div>
+          </div>
+
+          <div className="text-right shrink-0">
+            <span className="inline-block px-2.5 py-0.5 bg-navy text-white text-[9px] font-bold uppercase tracking-wider rounded">
+              Official Receipt
+            </span>
+            <span className="block font-mono text-xs font-bold text-navy mt-1">
+              {receiptNumber}
+            </span>
+            <span className="block text-[10px] text-slate-500">
+              {receiptDate} • {receiptTime}
+            </span>
+          </div>
         </div>
-        <span
-          className={`text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full inline-block mb-3 print:hidden ${confirmedData.isPendingVerification
-              ? 'text-amber-800 bg-amber-100 border border-amber-300'
-              : 'text-gold bg-gold/10'
-            }`}
-        >
-          {confirmedData.isPendingVerification
-            ? 'Deposit Slip Registered — Pending Treasury Verification'
-            : 'God Bless Your Faithful Giving'}
-        </span>
-        <h3 className="font-serif font-bold text-2xl md:text-3xl text-navy mb-2">
-          Thank You, {confirmedData.name}!
-        </h3>
-        <p className="text-slate text-sm leading-relaxed mb-6">
-          {confirmedData.isPendingVerification ? (
-            <>
-              Your contribution of{' '}
-              <strong className="text-navy">
-                {confirmedData.currency === 'ETB'
-                  ? `${confirmedData.amount.toLocaleString()} Br (ETB)`
-                  : `$${confirmedData.amount.toLocaleString()} USD`}
-              </strong>{' '}
-              with reference <strong className="font-mono text-navy">{confirmedData.txRef}</strong> has been logged in the church registry. Our treasury team will verify the transfer against the church bank statement and email your final receipt.
-            </>
-          ) : (
-            <>
-              Your gift of{' '}
-              <strong className="text-navy">
-                {confirmedData.currency === 'ETB'
-                  ? `${confirmedData.amount.toLocaleString()} Br (ETB)`
-                  : `$${confirmedData.amount.toLocaleString()} USD`}
-              </strong>{' '}
-              has been authoritatively verified and securely registered in the BATU Church Building Fund registry.
-            </>
-          )}
+
+        {/* Acknowledgment & Gift Banner */}
+        <div className="bg-gradient-to-r from-cream via-amber-50/50 to-cream border border-gold/30 rounded-xl p-3 sm:p-4 mb-3.5 text-center">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-gold block mb-0.5">
+            {confirmedData.isPendingVerification
+              ? 'Official Deposit Slip Registration'
+              : 'Verified Donation Acknowledgment'}
+          </span>
+          <h3 className="font-serif font-bold text-xl sm:text-2xl text-navy">
+            Thank You, {confirmedData.name}!
+          </h3>
+          <p className="text-xs text-slate-600 mt-1 max-w-lg mx-auto leading-relaxed">
+            {confirmedData.isPendingVerification ? (
+              <>
+                Your contribution of <strong className="text-navy">{formattedAmount}</strong> with reference <strong className="font-mono text-navy">{confirmedData.txRef}</strong> has been logged in the church registry.
+              </>
+            ) : (
+              <>
+                Your gift of <strong className="text-emerald-900 font-bold">{formattedAmount}</strong> has been authoritatively verified and securely registered in the church registry.
+              </>
+            )}
+          </p>
+        </div>
+
+        {/* Gift & Transaction Audit Summary Table */}
+        <div className="border border-slate-200 rounded-xl overflow-hidden mb-3 text-xs">
+          <div className="bg-slate-50 px-3.5 py-1.5 border-b border-slate-200 font-bold text-[10px] uppercase tracking-wider text-slate-600 flex justify-between items-center">
+            <span>Gift & Transaction Audit Summary</span>
+            <span className="text-emerald-700 font-semibold text-[10px] flex items-center gap-1 normal-case">
+              <Check className="w-3 h-3 text-emerald-600" /> Treasury Registered
+            </span>
+          </div>
+
+          <div className="divide-y divide-slate-100">
+            <div className="flex justify-between px-3.5 py-1.5">
+              <span className="text-slate-500">Beneficiary Organization:</span>
+              <strong className="text-navy font-semibold">BATU YEHIYWOT BERHAN CHURCH</strong>
+            </div>
+            <div className="flex justify-between px-3.5 py-1.5 bg-slate-50/40">
+              <span className="text-slate-500">Contributor / Donor Name:</span>
+              <strong className="text-navy font-bold">{confirmedData.name}</strong>
+            </div>
+            <div className="flex justify-between px-3.5 py-1.5">
+              <span className="text-slate-500">Total Gift Amount:</span>
+              <strong className="text-emerald-900 font-mono text-sm font-bold">{formattedAmount}</strong>
+            </div>
+            <div className="flex justify-between px-3.5 py-1.5 bg-slate-50/40">
+              <span className="text-slate-500">Payment Channel / Bank:</span>
+              <strong className="text-navy">{confirmedData.provider}</strong>
+            </div>
+            <div className="flex justify-between px-3.5 py-1.5">
+              <span className="text-slate-500">Transaction Reference Code:</span>
+              <strong className="text-navy font-mono text-[11px]">{confirmedData.txRef}</strong>
+            </div>
+            <div className="flex justify-between px-3.5 py-1.5 bg-slate-50/40">
+              <span className="text-slate-500">Designated Ministry Fund:</span>
+              <strong className="text-navy capitalize">
+                {designation.replace('_', ' ')} (2,500-Seat Sanctuary Project)
+              </strong>
+            </div>
+            <div className="flex justify-between px-3.5 py-1.5">
+              <span className="text-slate-500">Audit Verification Status:</span>
+              {confirmedData.isPendingVerification ? (
+                <span className="text-amber-800 font-bold flex items-center gap-1">
+                  <AlertCircle className="w-3.5 h-3.5" /> Pending Treasury Clearance
+                </span>
+              ) : (
+                <span className="text-emerald-700 font-bold flex items-center gap-1">
+                  <Check className="w-3.5 h-3.5 text-emerald-600" /> Authoritatively Verified & Receipted
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Scripture Verse */}
+        <p className="text-[10px] text-center italic text-slate-500 mb-3 px-2">
+          "Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver." — 2 Corinthians 9:7
         </p>
 
-        <div className="bg-cream p-5 rounded-2xl text-left border border-slate-200 text-xs space-y-2 mb-6">
-          <div className="flex justify-between border-b border-slate-200/60 pb-2">
-            <span className="text-slate-muted">Organization:</span>
-            <strong className="text-navy">BATU YEHIYWOT BERHAN CHURCH</strong>
-          </div>
-          <div className="flex justify-between border-b border-slate-200/60 pb-2">
-            <span className="text-slate-muted">Payment Channel:</span>
-            <strong className="text-navy">{confirmedData.provider}</strong>
-          </div>
-          <div className="flex justify-between border-b border-slate-200/60 pb-2">
-            <span className="text-slate-muted">Transaction Reference:</span>
-            <strong className="text-navy font-mono">{confirmedData.txRef}</strong>
-          </div>
-          <div className="flex justify-between border-b border-slate-200/60 pb-2">
-            <span className="text-slate-muted">Designation:</span>
-            <strong className="text-navy capitalize">{designation.replace('_', ' ')}</strong>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-slate-muted">Verification Status:</span>
-            {confirmedData.isPendingVerification ? (
-              <span className="text-amber-700 font-bold flex items-center gap-1">
-                <AlertCircle className="w-3.5 h-3.5" /> Pending Treasury Reconcile
+        {/* Official Church Address & Contacts Section */}
+        <div className="border-t border-slate-200 pt-3 text-[10px] text-slate-600 space-y-2">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-left">
+            <div>
+              <strong className="text-navy text-[10px] uppercase tracking-wider block font-bold mb-0.5">
+                Sanctuary & Office Address:
+              </strong>
+              <span className="block leading-snug">Central Avenue, Kebele 02</span>
+              <span className="block leading-snug">Batu (Ziway), East Shewa, Oromia, Ethiopia</span>
+              <span className="block text-slate-400">P.O. Box: 142, Batu, Ethiopia</span>
+            </div>
+            <div>
+              <strong className="text-navy text-[10px] uppercase tracking-wider block font-bold mb-0.5">
+                Direct Contacts:
+              </strong>
+              <span className="block leading-snug">Phone: +251 46 441 2345</span>
+              <span className="block leading-snug">Mobile: +251 91 123 4567</span>
+              <span className="block leading-snug">Email: finance@hiwotbirhan.org</span>
+              <span className="block text-slate-400">Web: www.hiwotbirhan.org</span>
+            </div>
+            <div>
+              <strong className="text-navy text-[10px] uppercase tracking-wider block font-bold mb-0.5">
+                Non-Profit Registry & Seal:
+              </strong>
+              <span className="block leading-snug">TIN Number: 0092847192</span>
+              <span className="block leading-snug">Fellowship Reg: EECF-HB-4829</span>
+              <span className="block text-emerald-800 font-semibold mt-0.5">
+                ✓ Official Treasury Record
               </span>
-            ) : (
-              <span className="text-emerald-700 font-bold flex items-center gap-1">
-                <Check className="w-3.5 h-3.5" /> Authoritatively Verified & Receipted
-              </span>
-            )}
+            </div>
+          </div>
+
+          {/* Bottom sign-off */}
+          <div className="border-t border-slate-100 pt-1.5 flex items-center justify-between text-[9px] text-slate-400">
+            <span>Official Electronic Receipt • Batu Yehiywot Berhan Church Treasury</span>
+            <span>Authorized Signatory: Treasury & Finance Committee</span>
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-3 justify-center print:hidden">
+        {/* Action Buttons (Screen only) */}
+        <div className="flex flex-col sm:flex-row gap-3 justify-center mt-5 print:hidden">
           <button
             type="button"
             onClick={() => window.print()}
-            className="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-navy font-bold text-xs rounded-xl transition-all shadow-sm flex items-center justify-center gap-2"
+            className="px-6 py-3 bg-navy hover:bg-gold hover:text-navy text-white font-bold text-xs rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
           >
             <Printer className="w-4 h-4" /> Print Official Slip / Receipt
           </button>
@@ -788,7 +884,7 @@ export const PaymentSelector: React.FC<{ initialDesignation?: string }> = ({
               setPaypalRef('');
               window.history.replaceState({}, '', window.location.pathname);
             }}
-            className="px-7 py-3 bg-navy hover:bg-gold text-white hover:text-navy font-bold text-xs rounded-xl transition-all shadow-md"
+            className="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition-all shadow-xs cursor-pointer"
           >
             Make Another Contribution
           </button>

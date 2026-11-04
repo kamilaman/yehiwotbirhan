@@ -43,7 +43,7 @@ export const Navbar: React.FC = () => {
   return (
     <>
       {/* Announcement Bar */}
-      <div className="bg-navy-dark text-white text-xs py-2 px-4 border-b border-navy-light/30">
+      <div className="bg-navy-dark text-white text-xs py-2 px-4 border-b border-navy-light/30 print:hidden">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1 text-center sm:text-left">
           <div className="flex items-center gap-2">
             <span className="inline-block w-2 h-2 rounded-full bg-gold animate-pulse"></span>
@@ -60,7 +60,7 @@ export const Navbar: React.FC = () => {
 
       {/* Main Header */}
       <header
-        className={`sticky top-0 z-40 transition-all duration-300 ${
+        className={`sticky top-0 z-40 transition-all duration-300 print:hidden ${
           scrolled ? 'bg-white/95 backdrop-blur-md shadow-md py-2.5' : 'bg-white py-4'
         } border-b border-slate-100`}
       >
